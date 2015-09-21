@@ -1,29 +1,40 @@
-%global github_owner     fkooman
-%global github_name      vpn-cert-service
+%global composer_vendor         fkooman
+%global composer_project        vpn-cert-service
+%global composer_namespace      %{composer_vendor}/VPN
+
+%global github_owner            fkooman
+%global github_name             vpn-cert-service
+%global github_commit           d8ef47ca169ce5ca56bfcd2962c326db6262f530
+%global github_short            %(c=%{github_commit}; echo ${c:0:7})
+%if 0%{?rhel} == 5
+%global with_tests              0%{?_with_tests:1}
+%else
+%global with_tests              0%{!?_without_tests:1}
+%endif
 
 Name:       vpn-cert-service
 Version:    1.0.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
 Group:      Applications/Internet
 License:    ASL-2.0
+
 URL:        https://github.com/%{github_owner}/%{github_name}
-Source0:    https://github.com/%{github_owner}/%{github_name}/archive/%{version}.tar.gz
-Source1:    vpn-cert-service-httpd-conf
-Source2:    vpn-cert-service-autoload.php
+Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
+Source1:    %{name}-autoload.php
+Source2:    %{name}-httpd.conf
 
 BuildArch:  noarch
-
-Requires:   php(language) >= 5.4
-Requires:   php-date
-Requires:   php-pcre
-Requires:   php-pdo
+BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 Requires:   httpd
 Requires:   easy-rsa >= 2.0.0
 Requires:   openvpn
-
+Requires:   php(language) >= 5.4
+Requires:   php-date
+Requires:   php-pcre
+Requires:   php-pdo
 Requires:   php-composer(fkooman/ini) >= 1.0.0
 Requires:   php-composer(fkooman/ini) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
@@ -32,9 +43,7 @@ Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 1.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 2.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
-
-Requires:   php-pear(pear.symfony.com/ClassLoader) >= 2.3.9
-Requires:   php-pear(pear.symfony.com/ClassLoader) < 3.0
+Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
@@ -45,65 +54,61 @@ that makes it easy to manage client configuration files. It is possible to
 generate a configuration and revoke a configuration.
 
 %prep
-%setup -qn %{github_name}-%{version}
+%setup -qn %{github_name}-%{github_commit} 
+cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
-sed -i "s|dirname(__DIR__)|'%{_datadir}/vpn-cert-service'|" bin/vpn-cert-service-init
-sed -i "s|dirname(__DIR__)|'%{_datadir}/vpn-cert-service'|" bin/vpn-cert-service-generate-server-config
-sed -i "s|dirname(__DIR__)|'%{_datadir}/vpn-cert-service'|" bin/vpn-cert-service-generate-password-hash
+sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
+sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
 
 %build
 
 %install
 # Apache configuration
-install -m 0644 -D -p %{SOURCE1} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/vpn-cert-service.conf
+install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 # Application
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service
-cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service
-
-# use our own class loader
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service/vendor
-cp -pr %{SOURCE2} ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service/vendor/autoload.php
+mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
 cp -pr bin/* ${RPM_BUILD_ROOT}%{_bindir}
 
 # Config
-mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/vpn-cert-service
-cp -p config/config.ini.defaults ${RPM_BUILD_ROOT}%{_sysconfdir}/vpn-cert-service/config.ini
-ln -s ../../../etc/vpn-cert-service ${RPM_BUILD_ROOT}%{_datadir}/vpn-cert-service/config
+mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
+cp -p config/config.ini.defaults ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
+ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
-mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/vpn-cert-service
+mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
 
 %post
-semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/vpn-cert-service(/.*)?' 2>/dev/null || :
-restorecon -R %{_localstatedir}/lib/vpn-cert-service || :
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
+restorecon -R %{_localstatedir}/lib/%{name} || :
 
 %postun
 if [ $1 -eq 0 ] ; then  # final removal
-semanage fcontext -d -t httpd_sys_rw_content_t '%{_localstatedir}/lib/vpn-cert-service(/.*)?' 2>/dev/null || :
+semanage fcontext -d -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
 fi
 
 %files
 %defattr(-,root,root,-)
-%config(noreplace) %{_sysconfdir}/httpd/conf.d/vpn-cert-service.conf
-%dir %attr(-,apache,apache) %{_sysconfdir}/vpn-cert-service
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/vpn-cert-service/config.ini
-%{_bindir}/vpn-cert-service-init
-%{_bindir}/vpn-cert-service-generate-server-config
-%{_bindir}/vpn-cert-service-generate-password-hash
-%dir %{_datadir}/vpn-cert-service
-%{_datadir}/vpn-cert-service/src
-%{_datadir}/vpn-cert-service/vendor
-%{_datadir}/vpn-cert-service/web
-%{_datadir}/vpn-cert-service/views
-%{_datadir}/vpn-cert-service/config
-%dir %attr(0700,apache,apache) %{_localstatedir}/lib/vpn-cert-service
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
+%dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
+%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.ini
+%{_bindir}/*
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/src
+%{_datadir}/%{name}/web
+%{_datadir}/%{name}/views
+%{_datadir}/%{name}/config
+%dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
 %doc README.md composer.json config/config.ini.defaults
 %license COPYING
 
 %changelog
+* Mon Sep 21 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-2
+- use new style autoloader, major rework on spec
+
 * Mon Aug 10 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-1
 - update to 1.0.2
 

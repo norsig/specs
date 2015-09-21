@@ -23,3 +23,6 @@ require_once $vendorDir.'/fkooman/Rest/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Mellon/autoload.php';
 require_once $vendorDir.'/fkooman/Tpl/Twig/autoload.php';
 require_once $vendorDir.'/GuzzleHttp/autoload.php';
+
+// https://bugzilla.redhat.com/show_bug.cgi?id=1264987
+require_once $vendorDir.'/React/Promise/autoload.php';

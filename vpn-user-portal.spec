@@ -14,7 +14,7 @@
 
 Name:       vpn-user-portal
 Version:    1.0.2
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
 Group:      Applications/Internet
@@ -28,11 +28,11 @@ Source2:    %{name}-httpd.conf
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
+Requires:   httpd
 Requires:   php(language) >= 5.4
 Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-zip
-Requires:   httpd
 Requires:   php-composer(fkooman/ini) >= 1.0.0
 Requires:   php-composer(fkooman/ini) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
@@ -105,6 +105,9 @@ fi
 %license COPYING
 
 %changelog
+* Mon Sep 21 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-3
+- autoload React/Promise as Guzzle does not load it
+
 * Fri Sep 04 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-2
 - use new style autoloader
 

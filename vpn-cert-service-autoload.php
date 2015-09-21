@@ -1,29 +1,24 @@
 <?php
 
+/**
+ * Autoloader for fkooman/vpn-cert-service.
+ */
 $vendorDir = '/usr/share/php';
-$pearDir = '/usr/share/pear';
-$baseDir = dirname(__DIR__);
 
-require_once $vendorDir.'/password_compat/password.php';
-require_once $vendorDir.'/Symfony/Component/ClassLoader/UniversalClassLoader.php';
+// Use Symfony autoloader
+if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Component\ClassLoader\ClassLoader)) {
+    if (!class_exists('Symfony\\Component\\ClassLoader\\ClassLoader', false)) {
+        require_once $vendorDir.'/Symfony/Component/ClassLoader/ClassLoader.php';
+    }
 
-use Symfony\Component\ClassLoader\UniversalClassLoader;
+    $fedoraClassLoader = new \Symfony\Component\ClassLoader\ClassLoader();
+    $fedoraClassLoader->register();
+}
+$fedoraClassLoader->addPrefixes(array(
+    'fkooman\\VpnPortal' => dirname(dirname(__DIR__)),
+));
 
-$loader = new UniversalClassLoader();
-$loader->registerNamespaces(
-    array(
-        'fkooman\\VPN' => $baseDir.'/src',
-        'fkooman\\Rest' => $vendorDir,
-        'fkooman\\Json' => $vendorDir,
-        'fkooman\\Http' => $vendorDir,
-        'fkooman\\Ini' => $vendorDir,
-        'fkooman\\Tpl' => $vendorDir,
-    )
-);
-$loader->registerPrefixes(
-    array(
-        'Twig_' => array($pearDir, $vendorDir),
-    )
-);
-
-$loader->register();
+require_once $vendorDir.'/fkooman/Ini/autoload.php';
+require_once $vendorDir.'/fkooman/Rest/autoload.php';
+require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Basic/autoload.php';
+require_once $vendorDir.'/fkooman/Tpl/Twig/autoload.php';
