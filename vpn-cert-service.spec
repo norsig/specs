@@ -14,7 +14,7 @@
 
 Name:       vpn-cert-service
 Version:    1.0.2
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
 Group:      Applications/Internet
@@ -106,6 +106,9 @@ fi
 %license COPYING
 
 %changelog
+* Mon Sep 21 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-3
+- fix autoloader path
+
 * Mon Sep 21 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-2
 - use new style autoloader, major rework on spec
 
