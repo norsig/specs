@@ -2,7 +2,7 @@
 %global composer_project        vpn-cert-service
 %global composer_namespace      %{composer_vendor}/VPN
 
-%global github_owner            fkooman
+%global github_owner            eduVPN
 %global github_name             vpn-cert-service
 %global github_commit           ef8fc5433ef0fe01025617b17e83c994fc60f1fa
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})

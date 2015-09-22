@@ -2,7 +2,7 @@
 %global composer_project        vpn-user-portal
 %global composer_namespace      %{composer_vendor}/VpnPortal
 
-%global github_owner            fkooman
+%global github_owner            eduVPN
 %global github_name             vpn-user-portal
 %global github_commit           5bb674466d631712e70a80318884ed8ab4d53e50
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
