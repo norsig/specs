@@ -4,7 +4,7 @@
 
 %global github_owner            fkooman
 %global github_name             vpn-cert-service
-%global github_commit           d8ef47ca169ce5ca56bfcd2962c326db6262f530
+%global github_commit           ef8fc5433ef0fe01025617b17e83c994fc60f1fa
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,8 +13,8 @@
 %endif
 
 Name:       vpn-cert-service
-Version:    1.0.2
-Release:    3%{?dist}
+Version:    1.0.3
+Release:    2%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
 Group:      Applications/Internet
@@ -59,6 +59,7 @@ cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
 sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
+sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
 
@@ -106,6 +107,13 @@ fi
 %license COPYING
 
 %changelog
+* Tue Sep 22 2015 François Kooman <fkooman@tuxed.net> - 1.0.3-2
+- fix the path in bin scripts
+- update tag
+
+* Tue Sep 22 2015 François Kooman <fkooman@tuxed.net> - 1.0.3-1
+- update to 1.0.3
+
 * Mon Sep 21 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-3
 - fix autoloader path
 

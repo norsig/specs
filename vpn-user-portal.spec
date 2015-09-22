@@ -14,7 +14,7 @@
 
 Name:       vpn-user-portal
 Version:    1.0.2
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
 Group:      Applications/Internet
@@ -58,6 +58,7 @@ cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
 sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
+sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
 
@@ -105,6 +106,9 @@ fi
 %license COPYING
 
 %changelog
+* Tue Sep 22 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-4
+- fix the path in bin scripts
+
 * Mon Sep 21 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-3
 - autoload React/Promise as Guzzle does not load it
 
