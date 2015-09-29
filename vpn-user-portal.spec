@@ -13,8 +13,8 @@
 %endif
 
 Name:       vpn-user-portal
-Version:    1.0.2
-Release:    4%{?dist}
+Version:    1.0.3
+Release:    1%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
 Group:      Applications/Internet
@@ -37,6 +37,8 @@ Requires:   php-composer(fkooman/ini) >= 1.0.0
 Requires:   php-composer(fkooman/ini) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 1.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 1.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 2.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
@@ -75,7 +77,7 @@ cp -pr bin/* ${RPM_BUILD_ROOT}%{_bindir}
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-cp -p config/config.ini.defaults ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
+cp -p config/config.ini.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
@@ -102,10 +104,18 @@ fi
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md composer.json config/config.ini.defaults
+%doc README.md composer.json config/config.ini.example
 %license COPYING
 
 %changelog
+* Tue Sep 29 2015 François Kooman <fkooman@tuxed.net> - 1.0.3-1
+- update requires
+- update default configuration file name
+- add Authorization header to httpd config snippet to support 
+  BasicAuthentication
+- update autoloader
+- update to 1.0.3
+
 * Tue Sep 22 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-4
 - fix the path in bin scripts
 
