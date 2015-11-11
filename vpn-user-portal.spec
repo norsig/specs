@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-user-portal
-%global github_commit           5bb674466d631712e70a80318884ed8ab4d53e50
+%global github_commit           358553dff4992b2151b6149db0f8c38e14a5aff0
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
