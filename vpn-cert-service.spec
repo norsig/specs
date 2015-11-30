@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-cert-service
-%global github_commit           ef8fc5433ef0fe01025617b17e83c994fc60f1fa
+%global github_commit           3af5e7a0244ed0f93153493e2f052c435acbd046
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,8 +13,8 @@
 %endif
 
 Name:       vpn-cert-service
-Version:    1.0.3
-Release:    2%{?dist}
+Version:    2.0.0
+Release:    1%{?dist}
 Summary:    OpenVPN configuration manager written in PHP
 
 Group:      Applications/Internet
@@ -29,18 +29,26 @@ BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 Requires:   httpd
+
 Requires:   easy-rsa >= 2.0.0
+Requires:   easy-rsa < 3.0.0
 Requires:   openvpn
 Requires:   php(language) >= 5.4
 Requires:   php-date
 Requires:   php-pcre
-Requires:   php-pdo
+Requires:   php-spl
 Requires:   php-composer(fkooman/ini) >= 1.0.0
 Requires:   php-composer(fkooman/ini) < 2.0.0
+Requires:   php-composer(fkooman/http) >= 1.0.0
+Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 1.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+Requires:   php-composer(fkooman/tpl) >= 2.0.0
+Requires:   php-composer(fkooman/tpl) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(symfony/class-loader)
@@ -77,6 +85,9 @@ cp -pr bin/* ${RPM_BUILD_ROOT}%{_bindir}
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 cp -p config/config.ini.defaults ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
+# point to correct targetPath
+sed -i "s|;targetPath|targetPath|" ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
+
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
@@ -107,6 +118,9 @@ fi
 %license COPYING
 
 %changelog
+* Sun Nov 29 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-1
+- update to 2.0.0
+
 * Tue Sep 22 2015 François Kooman <fkooman@tuxed.net> - 1.0.3-2
 - fix the path in bin scripts
 - update tag

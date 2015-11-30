@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-user-portal
-%global github_commit           9d41bbb2bb04f295fe1ce686cd111271e9d28a04
+%global github_commit           297e66f83c929a5fb2a65533a69bd2698a7bcda7
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-user-portal
-Version:    1.0.4
+Version:    1.0.5
 Release:    1%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
@@ -37,10 +37,12 @@ Requires:   php-composer(fkooman/ini) >= 1.0.0
 Requires:   php-composer(fkooman/ini) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 1.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 1.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
@@ -108,6 +110,9 @@ fi
 %license COPYING
 
 %changelog
+* Sun Nov 29 2015 François Kooman <fkooman@tuxed.net> - 1.0.5-1
+- update to 1.0.5
+
 * Mon Nov 16 2015 François Kooman <fkooman@tuxed.net> - 1.0.4-1
 - update to 1.0.4
 
