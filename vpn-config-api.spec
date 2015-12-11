@@ -1,10 +1,10 @@
 %global composer_vendor         fkooman
-%global composer_project        vpn-cert-service
-%global composer_namespace      %{composer_vendor}/VPN
+%global composer_project        vpn-config-api
+%global composer_namespace      %{composer_vendor}/VPN/Config
 
 %global github_owner            eduVPN
-%global github_name             vpn-cert-service
-%global github_commit           3af5e7a0244ed0f93153493e2f052c435acbd046
+%global github_name             vpn-config-api
+%global github_commit           870f01cd41ef76e55562ae2447695c36820844ab
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -12,10 +12,10 @@
 %global with_tests              0%{!?_without_tests:1}
 %endif
 
-Name:       vpn-cert-service
-Version:    2.0.0
+Name:       vpn-config-api
+Version:    3.0.0
 Release:    1%{?dist}
-Summary:    OpenVPN configuration manager written in PHP
+Summary:    REST service to manage OpenVPN client configurations    
 
 Group:      Applications/Internet
 License:    ASL-2.0
@@ -57,9 +57,9 @@ Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
 
 %description
-This is a configuration generator for OpenVPN. It aims at providing a REST API
-that makes it easy to manage client configuration files. It is possible to
-generate a configuration and revoke a configuration.
+This is a configuration generator for OpenVPN. It aims at providing a REST 
+API that makes it easy to manage client configuration files. It is possible 
+to generate a configuration and revoke a configuration.
 
 %prep
 %setup -qn %{github_name}-%{github_commit} 
@@ -80,7 +80,13 @@ mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
-cp -pr bin/* ${RPM_BUILD_ROOT}%{_bindir}
+(
+cd bin
+for f in `ls *`
+do
+    cp -pr ${f} ${RPM_BUILD_ROOT}%{_bindir}/%{name}-${f}
+done
+)
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
@@ -114,10 +120,13 @@ fi
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md composer.json config/config.ini.defaults
+%doc README.md CHANGES.md composer.json config/config.ini.defaults
 %license COPYING
 
 %changelog
+* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 3.0.0-1
+- update to 3.0.0
+
 * Sun Nov 29 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-1
 - update to 2.0.0
 

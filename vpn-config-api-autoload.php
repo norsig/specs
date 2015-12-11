@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Autoloader for fkooman/vpn-cert-service.
+ * Autoloader for eduVPN/vpn-config-api.
  */
 $vendorDir = '/usr/share/php';
 
@@ -15,7 +15,7 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
     $fedoraClassLoader->register();
 }
 $fedoraClassLoader->addPrefixes(array(
-    'fkooman\\VPN' => dirname(dirname(__DIR__)),
+    'fkooman\\VPN\\Config' => dirname(dirname(__DIR__)),
 ));
 
 require_once $vendorDir.'/fkooman/Ini/autoload.php';
