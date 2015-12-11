@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
 Group:      Applications/Internet
@@ -98,11 +98,14 @@ fi
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/config
-%dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
+%dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
 %doc README.md CHANGES.md composer.json config/config.ini.defaults
 %license COPYING
 
 %changelog
+* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-4
+- give access to libdir
+
 * Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-3
 - fix autoloader
 
