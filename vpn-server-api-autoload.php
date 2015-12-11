@@ -15,10 +15,10 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
     $fedoraClassLoader->register();
 }
 $fedoraClassLoader->addPrefixes(array(
-    'fkooman\\VPN\\Server' => dirname(dirname(__DIR__)),
+    'fkooman\\VPN\\Server' => dirname(dirname(dirname(__DIR__))),
 ));
 
-require_once $vendorDir.'/clue/socket-raw/autoload.php';
+require_once $vendorDir.'/Socket/Raw/autoload.php';
 require_once $vendorDir.'/fkooman/Http/autoload.php';
 require_once $vendorDir.'/fkooman/Ini/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/autoload.php';

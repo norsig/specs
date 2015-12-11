@@ -14,7 +14,7 @@
 
 Name:       vpn-config-api
 Version:    3.0.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    REST service to manage OpenVPN client configurations    
 
 Group:      Applications/Internet
@@ -124,6 +124,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 3.0.0-2
+- fix autoloader
+
 * Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 3.0.0-1
 - update to 3.0.0
 

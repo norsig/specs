@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
 Group:      Applications/Internet
@@ -103,6 +103,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-3
+- fix autoloader
+
 * Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-2
 - fix socket-raw requirement, update autoloader
 

@@ -15,7 +15,7 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
     $fedoraClassLoader->register();
 }
 $fedoraClassLoader->addPrefixes(array(
-    'fkooman\\VPN\\Config' => dirname(dirname(__DIR__)),
+    'fkooman\\VPN\\Config' => dirname(dirname(dirname(__DIR__))),
 ));
 
 require_once $vendorDir.'/fkooman/Ini/autoload.php';

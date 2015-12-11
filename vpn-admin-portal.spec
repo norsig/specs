@@ -14,7 +14,7 @@
 
 Name:       vpn-admin-portal
 Version:    1.0.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -101,6 +101,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.1-2
+- fix autoloader
+
 * Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.1-1
 - update to 1.0.1
 

@@ -14,7 +14,7 @@
 
 Name:       vpn-user-portal
 Version:    2.0.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
 Group:      Applications/Internet
@@ -121,6 +121,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-2
+- fix autoloader
+
 * Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-1
 - update to 2.0.0
 
