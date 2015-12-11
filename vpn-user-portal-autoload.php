@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Autoloader for fkooman/vpn-user-portal.
+ * Autoloader for eduVPN/vpn-user-portal.
  */
 $vendorDir = '/usr/share/php';
 
@@ -15,15 +15,16 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
     $fedoraClassLoader->register();
 }
 $fedoraClassLoader->addPrefixes(array(
-    'fkooman\\VpnPortal' => dirname(dirname(__DIR__)),
+    'fkooman\\VPN\\UserPortal' => dirname(dirname(__DIR__)),
 ));
+
+require_once $vendorDir.'/fkooman/Http/autoload.php';
 
 require_once $vendorDir.'/fkooman/Ini/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/autoload.php';
+require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Mellon/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Basic/autoload.php';
+require_once $vendorDir.'/fkooman/Tpl/autoload.php';
 require_once $vendorDir.'/fkooman/Tpl/Twig/autoload.php';
 require_once $vendorDir.'/GuzzleHttp/autoload.php';
-
-// https://bugzilla.redhat.com/show_bug.cgi?id=1264987
-require_once $vendorDir.'/React/Promise/autoload.php';

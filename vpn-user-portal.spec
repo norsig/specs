@@ -1,10 +1,10 @@
 %global composer_vendor         fkooman
 %global composer_project        vpn-user-portal
-%global composer_namespace      %{composer_vendor}/VpnPortal
+%global composer_namespace      %{composer_vendor}/VPN/UserPortal
 
 %global github_owner            eduVPN
 %global github_name             vpn-user-portal
-%global github_commit           297e66f83c929a5fb2a65533a69bd2698a7bcda7
+%global github_commit           a5618af528f3d45bc4956efcd3cdd9e15fd8b3c8
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-user-portal
-Version:    1.0.5
+Version:    2.0.0
 Release:    1%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
@@ -33,6 +33,9 @@ Requires:   php(language) >= 5.4
 Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-zip
+Requires:   php-spl
+Requires:   php-composer(fkooman/http) >= 1.0.0
+Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/ini) >= 1.0.0
 Requires:   php-composer(fkooman/ini) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
@@ -43,6 +46,8 @@ Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
+Requires:   php-composer(fkooman/tpl) >= 2.0.0
+Requires:   php-composer(fkooman/tpl) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
@@ -75,7 +80,13 @@ mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
-cp -pr bin/* ${RPM_BUILD_ROOT}%{_bindir}
+(
+cd bin
+for f in `ls *`
+do
+    cp -pr ${f} ${RPM_BUILD_ROOT}%{_bindir}/%{name}-${f}
+done
+)
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
@@ -106,10 +117,13 @@ fi
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md composer.json config/config.ini.example
+%doc README.md CHANGES.md composer.json config/config.ini.example
 %license COPYING
 
 %changelog
+* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-1
+- update to 2.0.0
+
 * Sun Nov 29 2015 François Kooman <fkooman@tuxed.net> - 1.0.5-1
 - update to 1.0.5
 
