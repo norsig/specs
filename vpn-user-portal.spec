@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-user-portal
-%global github_commit           a5618af528f3d45bc4956efcd3cdd9e15fd8b3c8
+%global github_commit           199910c5048c1c4ddffec2435faeeef17ad4b20f
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-user-portal
-Version:    2.0.0
+Version:    3.0.1
 Release:    2%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
@@ -121,6 +121,18 @@ fi
 %license COPYING
 
 %changelog
+* Wed Dec 16 2015 François Kooman <fkooman@tuxed.net> - 3.0.1-2
+- update httpd config to protect api.php
+
+* Wed Dec 16 2015 François Kooman <fkooman@tuxed.net> - 3.0.1-1
+- update to 3.0.1
+
+* Tue Dec 15 2015 François Kooman <fkooman@tuxed.net> - 3.0.0-1
+- update to 3.0.0
+
+* Tue Dec 15 2015 François Kooman <fkooman@tuxed.net> - 2.0.1-1
+- update to 2.0.1
+
 * Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-2
 - fix autoloader
 
