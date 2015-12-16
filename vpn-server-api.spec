@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-server-api
-%global github_commit           e1bd5ee7c1419582d0868c8a7db3277af186d07d
+%global github_commit           e668e6a74bb8e2c87a392035b474e56ccb522d70
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,8 +13,8 @@
 %endif
 
 Name:       vpn-server-api
-Version:    1.0.0
-Release:    4%{?dist}
+Version:    1.0.1
+Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
 Group:      Applications/Internet
@@ -103,6 +103,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Dec 16 2015 François Kooman <fkooman@tuxed.net> - 1.0.1-1
+- update to 1.0.1
+
 * Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-4
 - give access to libdir
 
