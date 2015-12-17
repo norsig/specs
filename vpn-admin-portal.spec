@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-admin-portal
-%global github_commit           4171f0c1901f410691ec2cac6b59b48362ea2d4c
+%global github_commit           6dd910cfb082ebe9d50f3557e4800501e5b32767
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-admin-portal
-Version:    1.0.3
+Version:    2.0.1
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -73,7 +73,7 @@ cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-cp -p config/manage.ini.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/manage.ini
+cp -p config/config.ini.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
@@ -92,17 +92,23 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/manage.ini
+%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.ini
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/manage.ini.example
+%doc README.md CHANGES.md composer.json config/config.ini.example
 %license COPYING
 
 %changelog
+* Thu Dec 17 2015 François Kooman <fkooman@tuxed.net> - 2.0.1-1
+- update to 2.0.1
+
+* Wed Dec 16 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-1
+- update to 2.0.0
+
 * Tue Dec 15 2015 François Kooman <fkooman@tuxed.net> - 1.0.3-1
 - update to 1.0.3
 
