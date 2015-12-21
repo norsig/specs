@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-admin-portal
-%global github_commit           be4cc91e7e5531895185a2b4268930dbf6f9216a
+%global github_commit           a104e267a8abe4926d384fb19c2bc212ddbf4d4e
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-admin-portal
-Version:    2.0.2
+Version:    2.0.4
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -42,7 +42,7 @@ Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
-Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
+Requires:   php-composer(fkooman/tpl-twig) >= 1.1.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0
@@ -103,6 +103,12 @@ fi
 %license COPYING
 
 %changelog
+* Mon Dec 21 2015 François Kooman <fkooman@tuxed.net> - 2.0.4-1
+- update to 2.0.4
+
+* Thu Dec 17 2015 François Kooman <fkooman@tuxed.net> - 2.0.3-1
+- update to 2.0.3
+
 * Thu Dec 17 2015 François Kooman <fkooman@tuxed.net> - 2.0.2-1
 - update to 2.0.2
 
