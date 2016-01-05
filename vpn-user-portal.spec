@@ -4,11 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-user-portal
-%global github_commit           6bdfed5830d0f009e657fc3a3825cb2c41f10dda
+%global github_commit           fae25116e0ccfb72f4d1ccdf50e62f4a28da84f2
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    5.0.0
+Version:    5.0.1
 Release:    1%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
@@ -116,6 +116,9 @@ fi
 %license COPYING
 
 %changelog
+* Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 5.0.1-1
+- update to 5.0.1
+
 * Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 5.0.0-1
 - update to 5.0.0
 
