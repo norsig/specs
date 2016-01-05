@@ -4,16 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-config-api
-%global github_commit           cb71ebaed1ebb19312ff1be109d900fda8d13d84
+%global github_commit           17a5269a5b8a69bca1c32830090c5cbb54288965
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
-%if 0%{?rhel} == 5
-%global with_tests              0%{?_with_tests:1}
-%else
-%global with_tests              0%{!?_without_tests:1}
-%endif
 
 Name:       vpn-config-api
-Version:    3.0.4
+Version:    4.0.0
 Release:    1%{?dist}
 Summary:    REST service to manage OpenVPN client configurations    
 
@@ -37,10 +32,12 @@ Requires:   php(language) >= 5.4
 Requires:   php-date
 Requires:   php-pcre
 Requires:   php-spl
-Requires:   php-composer(fkooman/ini) >= 1.0.0
-Requires:   php-composer(fkooman/ini) < 2.0.0
+Requires:   php-composer(fkooman/config) >= 1.0.0
+Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
+Requires:   php-composer(fkooman/io) >= 1.0.0
+Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
@@ -90,9 +87,9 @@ done
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-cp -p config/config.ini.defaults ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
+cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
 # point to correct targetPath
-sed -i "s|;targetPath|targetPath|" ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
+sed -i "s|;targetPath|targetPath|" ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
 
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
@@ -112,7 +109,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.ini
+%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
@@ -120,10 +117,13 @@ fi
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.ini.defaults
+%doc README.md CHANGES.md composer.json config/config.yaml.example
 %license COPYING
 
 %changelog
+* Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 4.0.0-1
+- update to 4.0.0
+
 * Wed Dec 23 2015 François Kooman <fkooman@tuxed.net> - 3.0.4-1
 - update to 3.0.4
 
