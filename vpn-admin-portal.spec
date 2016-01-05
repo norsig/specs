@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-admin-portal
-%global github_commit           87f1d38b93b38e8bf1910c13395c5e6056e6b423
+%global github_commit           e83ed504c4ffa78dd6537b471e0acd801cd8aa2b
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-admin-portal
-Version:    2.1.0
+Version:    3.0.0
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -32,8 +32,8 @@ Requires:   httpd
 Requires:   php(language) >= 5.4
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/ini) >= 1.0.0
-Requires:   php-composer(fkooman/ini) < 2.0.0
+Requires:   php-composer(fkooman/config) >= 1.0.0
+Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
@@ -73,7 +73,7 @@ cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-cp -p config/config.ini.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
+cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
@@ -92,17 +92,20 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.ini
+%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.ini.example
+%doc README.md CHANGES.md composer.json config/config.yaml.example
 %license COPYING
 
 %changelog
+* Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 3.0.0-1
+- update to 3.0.0
+
 * Tue Dec 22 2015 François Kooman <fkooman@tuxed.net> - 2.1.0-1
 - update to 2.1.0
 
