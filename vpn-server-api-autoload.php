@@ -18,9 +18,8 @@ $fedoraClassLoader->addPrefixes(array(
     'fkooman\\VPN\\Server' => dirname(dirname(dirname(__DIR__))),
 ));
 
-require_once $vendorDir.'/Socket/Raw/autoload.php';
 require_once $vendorDir.'/fkooman/Http/autoload.php';
-require_once $vendorDir.'/fkooman/Ini/autoload.php';
+require_once $vendorDir.'/fkooman/Config/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Basic/autoload.php';

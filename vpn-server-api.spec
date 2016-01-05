@@ -4,16 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-server-api
-%global github_commit           c2c34787dcb8c9a197c6c8cb9318b38bc3ce58a4
+%global github_commit           a660d171122ee8a95d3701f5c473dcffef5704a5
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
-%if 0%{?rhel} == 5
-%global with_tests              0%{?_with_tests:1}
-%else
-%global with_tests              0%{!?_without_tests:1}
-%endif
 
 Name:       vpn-server-api
-Version:    1.1.0
+Version:    2.0.0
 Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
@@ -30,15 +25,12 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:   httpd
 Requires:   php(language) >= 5.4
-Requires:   php-date
-Requires:   php-sockets
+Requires:   php-pcre
 Requires:   php-spl
-Requires:   php-composer(clue/socket-raw) >= 1.2.0
-Requires:   php-composer(clue/socket-raw) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/ini) >= 1.0.0
-Requires:   php-composer(fkooman/ini) < 2.0.0
+Requires:   php-composer(fkooman/config) >= 1.0.0
+Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
@@ -73,7 +65,7 @@ cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-cp -p config/config.ini.defaults ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.ini
+cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
 
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
@@ -93,16 +85,19 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.ini
+%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/config
 %dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.ini.defaults
+%doc README.md CHANGES.md composer.json config/config.yaml.example
 %license COPYING
 
 %changelog
+* Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 2.0.0-1
+- update to 2.0.0
+
 * Tue Dec 22 2015 François Kooman <fkooman@tuxed.net> - 1.1.0-1
 - update to 1.1.0
 
