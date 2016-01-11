@@ -4,11 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-server-api
-%global github_commit           a660d171122ee8a95d3701f5c473dcffef5704a5
+%global github_commit           5ab4ca6fc17f64c7b08969ced2afd09d30c9a4e6
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
-Version:    2.0.0
+Version:    2.0.2
 Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
@@ -37,6 +37,8 @@ Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+Requires:   php-composer(monolog/monolog) >= 1.17
+Requires:   php-composer(monolog/monolog) < 2.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0
 Requires:   php-composer(symfony/class-loader)
@@ -51,6 +53,7 @@ This service runs on the OpenVPN instances to control their behavior.
 %setup -qn %{github_name}-%{github_commit} 
 cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
+sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
 
 %build
@@ -62,6 +65,15 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 # Application
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+
+mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
+(
+cd bin
+for f in `ls *`
+do
+    cp -pr ${f} ${RPM_BUILD_ROOT}%{_bindir}/%{name}-${f}
+done
+)
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
@@ -86,6 +98,7 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
 %config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
+%{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
@@ -95,6 +108,13 @@ fi
 %license COPYING
 
 %changelog
+* Mon Jan 11 2016 François Kooman <fkooman@tuxed.net> - 2.0.2-1
+- update to 2.0.2
+- add client-connect and client-disconnect scripts
+
+* Mon Jan 11 2016 François Kooman <fkooman@tuxed.net> - 2.0.1-1
+- update to 2.0.1
+
 * Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 2.0.0-1
 - update to 2.0.0
 
