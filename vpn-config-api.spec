@@ -4,12 +4,12 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-config-api
-%global github_commit           706789874a5c39fe71b5e2a593a667442dd09f37
+%global github_commit           77ac225192d6750186b41d2994885e877bf4b754
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-config-api
-Version:    4.0.1
-Release:    1%{?dist}
+Version:    4.0.2
+Release:    2%{?dist}
 Summary:    REST service to manage OpenVPN client configurations    
 
 Group:      Applications/Internet
@@ -48,6 +48,8 @@ Requires:   php-composer(fkooman/tpl) >= 2.0.0
 Requires:   php-composer(fkooman/tpl) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
+Requires:   php-composer(monolog/monolog) >= 1.17
+Requires:   php-composer(monolog/monolog) < 2.0
 Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
@@ -121,6 +123,12 @@ fi
 %license COPYING
 
 %changelog
+* Wed Jan 13 2016 François Kooman <fkooman@tuxed.net> - 4.0.2-2
+- require Monolog
+
+* Wed Jan 13 2016 François Kooman <fkooman@tuxed.net> - 4.0.2-1
+- update to 4.0.2
+
 * Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 4.0.1-1
 - update to 4.0.1
 
