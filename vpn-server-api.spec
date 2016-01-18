@@ -4,11 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-server-api
-%global github_commit           5ab4ca6fc17f64c7b08969ced2afd09d30c9a4e6
+%global github_commit           d1e15aea230bfa381f2d764cf7b376633aa1a9ad
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
-Version:    2.0.2
+Version:    2.1.1
 Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
@@ -23,6 +23,7 @@ Source2:    %{name}-httpd.conf
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
+Requires:   openvpn
 Requires:   httpd
 Requires:   php(language) >= 5.4
 Requires:   php-pcre
@@ -33,6 +34,8 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
+Requires:   php-composer(fkooman/io) >= 1.0.0
+Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
@@ -55,6 +58,7 @@ cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
 sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
+sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
 
@@ -78,6 +82,7 @@ done
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
+cp -p config/log.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/log.yaml
 
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
@@ -98,6 +103,7 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
 %config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
+%config(noreplace) %attr(0600,openvpn,openvpn) %{_sysconfdir}/%{name}/log.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
@@ -108,6 +114,12 @@ fi
 %license COPYING
 
 %changelog
+* Mon Jan 18 2016 François Kooman <fkooman@tuxed.net> - 2.1.1-1
+- update to 2.1.1
+
+* Mon Jan 18 2016 François Kooman <fkooman@tuxed.net> - 2.1.0-1
+- update to 2.1.0
+
 * Mon Jan 11 2016 François Kooman <fkooman@tuxed.net> - 2.0.2-1
 - update to 2.0.2
 - add client-connect and client-disconnect scripts
