@@ -9,7 +9,7 @@
 
 Name:       vpn-server-api
 Version:    2.1.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
 Group:      Applications/Internet
@@ -102,18 +102,21 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
-%config(noreplace) %attr(0600,openvpn,openvpn) %{_sysconfdir}/%{name}/log.yaml
+%config(noreplace) %attr(0440,apache,apache) %{_sysconfdir}/%{name}/config.yaml
+%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/log.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/config
 %dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.yaml.example
+%doc README.md CHANGES.md composer.json config/config.yaml.example config/log.yaml.example
 %license COPYING
 
 %changelog
+* Wed Jan 20 2016 François Kooman <fkooman@tuxed.net> - 2.1.2-2
+- fix file permissions for the log.yaml file on installation
+
 * Wed Jan 20 2016 François Kooman <fkooman@tuxed.net> - 2.1.2-1
 - update to 2.1.2
 
