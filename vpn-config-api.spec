@@ -4,11 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-config-api
-%global github_commit           ad61239493960d5eb04194a07fa5607fe7ae69fc
+%global github_commit           800ec51d51265b729e2582714fbf168d699ed96c
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-config-api
-Version:    4.0.4
+Version:    4.1.0
 Release:    1%{?dist}
 Summary:    REST service to manage OpenVPN client configurations    
 
@@ -25,13 +25,14 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:   httpd
 
-Requires:   easy-rsa >= 2.0.0
-Requires:   easy-rsa < 3.0.0
+Requires:   easy-rsa >= 3.0.0
+Requires:   easy-rsa < 4.0.0
 Requires:   openvpn
 Requires:   php(language) >= 5.4
 Requires:   php-date
 Requires:   php-pcre
 Requires:   php-spl
+Requires:   php-openssl
 Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
@@ -123,6 +124,10 @@ fi
 %license COPYING
 
 %changelog
+* Wed Feb 03 2016 François Kooman <fkooman@tuxed.net> - 4.1.0-1
+- update to 4.1.0
+- update easy-rsa version dependency >= 3.0.0
+
 * Thu Jan 21 2016 François Kooman <fkooman@tuxed.net> - 4.0.4-1
 - update to 4.0.4
 
