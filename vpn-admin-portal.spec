@@ -38,11 +38,11 @@ Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-form) >= 3.0.1
+Requires:   php-composer(fkooman/rest-plugin-authentication-form) < 4.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
-Requires:   php-composer(fkooman/tpl-twig) >= 1.1.0
+Requires:   php-composer(fkooman/tpl-twig) >= 1.2.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0

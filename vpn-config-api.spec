@@ -4,12 +4,12 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-config-api
-%global github_commit           800ec51d51265b729e2582714fbf168d699ed96c
+%global github_commit           f522f37f17a6e6104a0da791062bb3a8e3e963a0
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-config-api
-Version:    4.1.0
-Release:    1%{?dist}
+Version:    4.2.1
+Release:    2%{?dist}
 Summary:    REST service to manage OpenVPN client configurations    
 
 Group:      Applications/Internet
@@ -124,6 +124,12 @@ fi
 %license COPYING
 
 %changelog
+* Sat Feb 13 2016 François Kooman <fkooman@tuxed.net> - 4.2.1-1
+- update to 4.2.1
+
+* Wed Feb 10 2016 François Kooman <fkooman@tuxed.net> - 4.2.0-1
+- update to 4.2.0
+
 * Wed Feb 03 2016 François Kooman <fkooman@tuxed.net> - 4.1.0-1
 - update to 4.1.0
 - update easy-rsa version dependency >= 3.0.0
