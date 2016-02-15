@@ -4,11 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-user-portal
-%global github_commit           19bf7200df1b081ca25138e92d5a404e96a08c50
+%global github_commit           0bcc82962dd2ef29ee09aeae07d60fea6f5b1bcf
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    5.1.2
+Version:    5.2.1
 Release:    1%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
@@ -29,18 +29,24 @@ Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-zip
 Requires:   php-spl
+Requires:   php-composer(bacon/bacon-qr-code) >= 1.0.0
+Requires:   php-composer(bacon/bacon-qr-code) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
+Requires:   php-composer(fkooman/io) >= 1.0.0
+Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-form) >= 3.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-form) < 4.0.0
 Requires:   php-composer(fkooman/tpl) >= 2.0.0
 Requires:   php-composer(fkooman/tpl) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
@@ -116,6 +122,12 @@ fi
 %license COPYING
 
 %changelog
+* Mon Feb 15 2016 François Kooman <fkooman@tuxed.net> - 5.2.1-1
+- update to 5.2.1
+
+* Mon Feb 15 2016 François Kooman <fkooman@tuxed.net> - 5.2.0-1
+- update to 5.2.0
+
 * Wed Feb 03 2016 François Kooman <fkooman@tuxed.net> - 5.1.2-1
 - update to 5.1.2
 
