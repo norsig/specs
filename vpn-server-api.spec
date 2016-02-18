@@ -4,12 +4,12 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-server-api
-%global github_commit           e2c7fef68b4b3d4f4937bb1372e2f18a146e602d
+%global github_commit           b2a6dd18eff273b997d4485f9a4fee56cf6ba0cf
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
-Version:    2.1.2
-Release:    2%{?dist}
+Version:    2.2.0
+Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
 Group:      Applications/Internet
@@ -34,6 +34,8 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
+Requires:   php-composer(fkooman/json) >= 1.0.0
+Requires:   php-composer(fkooman/json) < 2.0.0
 Requires:   php-composer(fkooman/io) >= 1.0.0
 Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
@@ -82,7 +84,7 @@ done
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
-cp -p config/log.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/log.yaml
+cp -p config/client.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/client.yaml
 
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
@@ -103,19 +105,22 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
 %config(noreplace) %attr(0440,apache,apache) %{_sysconfdir}/%{name}/config.yaml
-%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/log.yaml
+%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/client.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/config
 %dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.yaml.example config/log.yaml.example
+%doc README.md CHANGES.md composer.json config/config.yaml.example config/client.yaml.example
 %license COPYING
 
 %changelog
+* Thu Feb 18 2016 François Kooman <fkooman@tuxed.net> - 2.2.0-1
+- update to 2.2.0
+
 * Wed Jan 20 2016 François Kooman <fkooman@tuxed.net> - 2.1.2-2
-- fix file permissions for the log.yaml file on installation
+- fix file permissions for the client.yaml file on installation
 
 * Wed Jan 20 2016 François Kooman <fkooman@tuxed.net> - 2.1.2-1
 - update to 2.1.2
