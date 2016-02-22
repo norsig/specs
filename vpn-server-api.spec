@@ -4,11 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-server-api
-%global github_commit           6c3f8a4c8af3fa93a867d0e1939754d852901863
+%global github_commit           404aec068d494b661d10fb90c1f5871e85a16461
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
-Version:    2.3.1
+Version:    2.4.0
 Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
@@ -28,7 +28,7 @@ Requires:   httpd
 Requires:   php(language) >= 5.4
 Requires:   php-pcre
 Requires:   php-spl
-Requires:   php-composer(fkooman/http) >= 1.0.0
+Requires:   php-composer(fkooman/http) >= 1.6.0
 Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
@@ -116,6 +116,9 @@ fi
 %license COPYING
 
 %changelog
+* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.0-1
+- update to 2.4.0
+
 * Sat Feb 20 2016 François Kooman <fkooman@tuxed.net> - 2.3.1-1
 - update to 2.3.1
 
