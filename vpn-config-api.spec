@@ -4,11 +4,16 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-config-api
-%global github_commit           4bdc85af21e3fa736b44da813f788cfe942dfab4
+%global github_commit           fcc565144095d5940f51c880df8748d5ac2502df
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
+%if 0%{?rhel} == 5
+%global with_tests              0%{?_with_tests:1}
+%else
+%global with_tests              0%{!?_without_tests:1}
+%endif
 
 Name:       vpn-config-api
-Version:    4.3.0
+Version:    4.3.1
 Release:    1%{?dist}
 Summary:    REST service to manage OpenVPN client configurations    
 
@@ -23,8 +28,36 @@ Source2:    %{name}-httpd.conf
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
-Requires:   httpd
+%if %{with_tests}
+BuildRequires:  %{_bindir}/phpunit
+BuildRequires:  %{_bindir}/phpab
+BuildRequires:  php(language) >= 5.4
+BuildRequires:  php-date
+BuildRequires:  php-pcre
+BuildRequires:  php-spl
+BuildRequires:  php-openssl
+BuildRequires:  php-composer(fkooman/config) >= 1.0.0
+BuildRequires:  php-composer(fkooman/config) < 2.0.0
+BuildRequires:  php-composer(fkooman/http) >= 1.0.0
+BuildRequires:  php-composer(fkooman/http) < 2.0.0
+BuildRequires:  php-composer(fkooman/io) >= 1.0.0
+BuildRequires:  php-composer(fkooman/io) < 2.0.0
+BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
+BuildRequires:  php-composer(fkooman/rest) < 2.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+BuildRequires:  php-composer(fkooman/tpl) >= 2.0.0
+BuildRequires:  php-composer(fkooman/tpl) < 3.0.0
+BuildRequires:  php-composer(fkooman/tpl-twig) >= 1.0.0
+BuildRequires:  php-composer(fkooman/tpl-twig) < 2.0.0
+BuildRequires:  php-composer(monolog/monolog) >= 1.17
+BuildRequires:  php-composer(monolog/monolog) < 2.0
+BuildRequires:  php-composer(symfony/class-loader)
+%endif
 
+Requires:   httpd
 Requires:   easy-rsa >= 3.0.0
 Requires:   easy-rsa < 4.0.0
 Requires:   openvpn
@@ -99,6 +132,14 @@ ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 # Data
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
 
+%if %{with_tests} 
+%check
+%{_bindir}/phpab --output tests/bootstrap.php tests
+echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
+%{_bindir}/phpunit \
+    --bootstrap tests/bootstrap.php
+%endif
+
 %post
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
 restorecon -R %{_localstatedir}/lib/%{name} || :
@@ -124,6 +165,10 @@ fi
 %license COPYING
 
 %changelog
+* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 4.3.1-1
+- update to 4.3.1
+- run tests on build
+
 * Thu Feb 18 2016 François Kooman <fkooman@tuxed.net> - 4.3.0-1
 - update to 4.3.0
 
