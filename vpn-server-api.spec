@@ -6,10 +6,15 @@
 %global github_name             vpn-server-api
 %global github_commit           404aec068d494b661d10fb90c1f5871e85a16461
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
+%if 0%{?rhel} == 5
+%global with_tests              0%{?_with_tests:1}
+%else
+%global with_tests              0%{!?_without_tests:1}
+%endif
 
 Name:       vpn-server-api
 Version:    2.4.0
-Release:    1%{?dist}
+Release:    3%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
 Group:      Applications/Internet
@@ -23,11 +28,50 @@ Source2:    %{name}-httpd.conf
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
+%if %{with_tests}
+BuildRequires:  %{_bindir}/phpunit
+BuildRequires:  %{_bindir}/phpab
+BuildRequires:  php(language) >= 5.4
+BuildRequires:  php-date
+BuildRequires:  php-filter
+BuildRequires:  php-pcre
+BuildRequires:  php-pdo
+BuildRequires:  php-spl
+BuildRequires:  php-standard
+BuildRequires:  php-composer(psr/log) >= 1.0.0
+BuildRequires:  php-composer(psr/log) < 2.0.0
+BuildRequires:  php-composer(fkooman/http) >= 1.6.0
+BuildRequires:  php-composer(fkooman/http) < 2.0.0
+BuildRequires:  php-composer(fkooman/config) >= 1.0.0
+BuildRequires:  php-composer(fkooman/config) < 2.0.0
+BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
+BuildRequires:  php-composer(fkooman/rest) < 2.0.0
+BuildRequires:  php-composer(fkooman/json) >= 1.0.0
+BuildRequires:  php-composer(fkooman/json) < 2.0.0
+BuildRequires:  php-composer(fkooman/io) >= 1.0.0
+BuildRequires:  php-composer(fkooman/io) < 2.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+BuildRequires:  php-composer(monolog/monolog) >= 1.17
+BuildRequires:  php-composer(monolog/monolog) < 2.0
+BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3
+BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0
+BuildRequires:  php-composer(symfony/class-loader)
+%endif
+
 Requires:   openvpn
 Requires:   httpd
 Requires:   php(language) >= 5.4
+Requires:   php-date
+Requires:   php-filter
 Requires:   php-pcre
+Requires:   php-pdo
 Requires:   php-spl
+Requires:   php-standard
+Requires:   php-composer(psr/log) >= 1.0.0
+Requires:   php-composer(psr/log) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.6.0
 Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/config) >= 1.0.0
@@ -91,6 +135,14 @@ ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 # Data
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
 
+%if %{with_tests} 
+%check
+%{_bindir}/phpab --output tests/bootstrap.php tests
+echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
+%{_bindir}/phpunit \
+    --bootstrap tests/bootstrap.php
+%endif
+
 %post
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
 restorecon -R %{_localstatedir}/lib/%{name} || :
@@ -116,6 +168,12 @@ fi
 %license COPYING
 
 %changelog
+* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.0-3
+- add some missing dependencies
+
+* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.0-2
+- run unit tests during build
+
 * Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.0-1
 - update to 2.4.0
 

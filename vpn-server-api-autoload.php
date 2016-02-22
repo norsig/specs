@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Autoloader for eduVPN/vpn-server-api.
+ * Autoloader for eduvpn/vpn-server-api.
  */
 $vendorDir = '/usr/share/php';
 
@@ -27,3 +27,4 @@ require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Basic/autoload.php';
 require_once $vendorDir.'/GuzzleHttp/autoload.php';
 require_once $vendorDir.'/Monolog/autoload.php';
+require_once $vendorDir.'/Psr/Log/autoload.php';
