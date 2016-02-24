@@ -4,11 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-admin-portal
-%global github_commit           a54d04679a9eb56e2e13b4bfab809a1f33f5ffef
+%global github_commit           38a6e76506193c1dca54c8eb79441f4cb0e40d28
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    3.3.2
+Version:    3.3.3
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -72,6 +72,18 @@ mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
+# Data
+mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
+
+%post
+semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
+restorecon -R %{_localstatedir}/lib/%{name} || :
+
+%postun
+if [ $1 -eq 0 ] ; then  # final removal
+semanage fcontext -d -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
+fi
+
 %files
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
@@ -81,10 +93,14 @@ ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
+%dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
 %doc README.md CHANGES.md composer.json config/config.yaml.example
 %license COPYING
 
 %changelog
+* Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 3.3.3-1
+- update to 3.3.3
+
 * Tue Feb 23 2016 François Kooman <fkooman@tuxed.net> - 3.3.2-1
 - update to 3.3.2
 
