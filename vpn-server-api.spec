@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-server-api
-%global github_commit           fccc1cfc1ccd524227650a3a0bbbbce0e9ca215a
+%global github_commit           73d4159daaf842a90e21f50d192cce35df600495
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    2.4.2
+Version:    2.5.0
 Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
@@ -52,8 +52,8 @@ BuildRequires:  php-composer(fkooman/io) >= 1.0.0
 BuildRequires:  php-composer(fkooman/io) < 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 BuildRequires:  php-composer(monolog/monolog) >= 1.17
 BuildRequires:  php-composer(monolog/monolog) < 2.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3
@@ -84,8 +84,8 @@ Requires:   php-composer(fkooman/io) >= 1.0.0
 Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 Requires:   php-composer(monolog/monolog) >= 1.17
 Requires:   php-composer(monolog/monolog) < 2.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
@@ -168,6 +168,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 2.5.0-1
+- update to 2.5.0
+
 * Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.2-1
 - update to 2.4.2
 

@@ -4,11 +4,11 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-admin-portal
-%global github_commit           38a6e76506193c1dca54c8eb79441f4cb0e40d28
+%global github_commit           e59da614cd3a7d8a6f21c2dad429d0480bb9cb4f
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    3.3.3
+Version:    3.4.0
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -98,6 +98,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 3.4.0-1
+- update to 3.4.0
+
 * Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 3.3.3-1
 - update to 3.3.3
 

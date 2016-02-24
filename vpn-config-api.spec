@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-config-api
-%global github_commit           fcc565144095d5940f51c880df8748d5ac2502df
+%global github_commit           371bc3aae01e4e4e0c784698aa656dc184a9ace1
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-config-api
-Version:    4.3.1
+Version:    4.4.0
 Release:    1%{?dist}
 Summary:    REST service to manage OpenVPN client configurations    
 
@@ -46,8 +46,8 @@ BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
 BuildRequires:  php-composer(fkooman/rest) < 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 BuildRequires:  php-composer(fkooman/tpl) >= 2.0.0
 BuildRequires:  php-composer(fkooman/tpl) < 3.0.0
 BuildRequires:  php-composer(fkooman/tpl-twig) >= 1.0.0
@@ -76,8 +76,8 @@ Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 Requires:   php-composer(fkooman/tpl) >= 2.0.0
 Requires:   php-composer(fkooman/tpl) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
@@ -165,6 +165,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 4.4.0-1
+- update to 4.4.0
+
 * Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 4.3.1-1
 - update to 4.3.1
 - run tests on build
