@@ -4,7 +4,7 @@
 
 %global github_owner            eduVPN
 %global github_name             vpn-server-api
-%global github_commit           6c4cdfc3a42e39e730fb8e283a4db5ad0f4eece3
+%global github_commit           ae3cd07de9173e6589531e4ad5ce938143d36dac
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    2.5.1
+Version:    2.5.2
 Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
@@ -52,7 +52,7 @@ BuildRequires:  php-composer(fkooman/io) >= 1.0.0
 BuildRequires:  php-composer(fkooman/io) < 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 BuildRequires:  php-composer(monolog/monolog) >= 1.17
 BuildRequires:  php-composer(monolog/monolog) < 2.0
@@ -84,7 +84,7 @@ Requires:   php-composer(fkooman/io) >= 1.0.0
 Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 Requires:   php-composer(monolog/monolog) >= 1.17
 Requires:   php-composer(monolog/monolog) < 2.0
@@ -168,6 +168,9 @@ fi
 %license COPYING
 
 %changelog
+* Thu Feb 25 2016 François Kooman <fkooman@tuxed.net> - 2.5.2-1
+- update to 2.5.2
+
 * Thu Feb 25 2016 François Kooman <fkooman@tuxed.net> - 2.5.1-1
 - update to 2.5.1
 
