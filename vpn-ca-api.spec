@@ -1,10 +1,10 @@
 %global composer_vendor         fkooman
-%global composer_project        vpn-config-api
-%global composer_namespace      %{composer_vendor}/VPN/Config
+%global composer_project        vpn-ca-api
+%global composer_namespace      %{composer_vendor}/VPN/CA
 
-%global github_owner            eduVPN
-%global github_name             vpn-config-api
-%global github_commit           38f1ad5298cb847c1f8770fd3f832edd658ad18e
+%global github_owner            eduvpn
+%global github_name             vpn-ca-api
+%global github_commit           97a294cb253b98173244822151164ea6c6c83773
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -12,8 +12,8 @@
 %global with_tests              0%{!?_without_tests:1}
 %endif
 
-Name:       vpn-config-api
-Version:    4.4.2
+Name:       vpn-ca-api
+Version:    5.0.0
 Release:    1%{?dist}
 Summary:    REST service to manage OpenVPN client configurations    
 
@@ -40,20 +40,16 @@ BuildRequires:  php-composer(fkooman/config) >= 1.0.0
 BuildRequires:  php-composer(fkooman/config) < 2.0.0
 BuildRequires:  php-composer(fkooman/http) >= 1.0.0
 BuildRequires:  php-composer(fkooman/http) < 2.0.0
-BuildRequires:  php-composer(fkooman/io) >= 1.0.0
-BuildRequires:  php-composer(fkooman/io) < 2.0.0
 BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
 BuildRequires:  php-composer(fkooman/rest) < 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-BuildRequires:  php-composer(fkooman/tpl) >= 2.0.0
-BuildRequires:  php-composer(fkooman/tpl) < 3.0.0
-BuildRequires:  php-composer(fkooman/tpl-twig) >= 1.0.0
-BuildRequires:  php-composer(fkooman/tpl-twig) < 2.0.0
 BuildRequires:  php-composer(monolog/monolog) >= 1.17
 BuildRequires:  php-composer(monolog/monolog) < 2.0
+BuildRequires:  php-composer(psr/log) >= 1.0.0
+BuildRequires:  php-composer(psr/log) < 2.0.0
 BuildRequires:  php-composer(symfony/class-loader)
 %endif
 
@@ -70,20 +66,16 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/io) >= 1.0.0
-Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-Requires:   php-composer(fkooman/tpl) >= 2.0.0
-Requires:   php-composer(fkooman/tpl) < 3.0.0
-Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
-Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(monolog/monolog) >= 1.17
 Requires:   php-composer(monolog/monolog) < 2.0
+Requires:   php-composer(psr/log) >= 1.0.0
+Requires:   php-composer(psr/log) < 2.0.0
 Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
@@ -110,7 +102,7 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 
 # Application
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
 (
@@ -124,9 +116,6 @@ done
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
-# point to correct targetPath
-sed -i "s|;targetPath|targetPath|" ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
-
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
@@ -158,13 +147,16 @@ fi
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
-%{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
 %doc README.md CHANGES.md composer.json config/config.yaml.example
 %license COPYING
 
 %changelog
+* Thu Mar 03 2016 François Kooman <fkooman@tuxed.net> - 5.0.0-1
+- update to 5.0.0
+- rename to vpn-ca-api
+
 * Thu Feb 25 2016 François Kooman <fkooman@tuxed.net> - 4.4.2-1
 - update to 4.4.2
 
