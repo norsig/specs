@@ -2,9 +2,9 @@
 %global composer_project        vpn-server-api
 %global composer_namespace      %{composer_vendor}/VPN/Server
 
-%global github_owner            eduVPN
+%global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           6cbd463da610a1b13f0a9a6a321890b6f0ae27f8
+%global github_commit           8dafb8c978a15ecb91721858c9a0da6e12aae87f
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    2.5.3
+Version:    3.0.0
 Release:    1%{?dist}
 Summary:    REST service to control OpenVPN instances  
 
@@ -38,26 +38,28 @@ BuildRequires:  php-pcre
 BuildRequires:  php-pdo
 BuildRequires:  php-spl
 BuildRequires:  php-standard
-BuildRequires:  php-composer(psr/log) >= 1.0.0
-BuildRequires:  php-composer(psr/log) < 2.0.0
-BuildRequires:  php-composer(fkooman/http) >= 1.6.0
-BuildRequires:  php-composer(fkooman/http) < 2.0.0
 BuildRequires:  php-composer(fkooman/config) >= 1.0.0
 BuildRequires:  php-composer(fkooman/config) < 2.0.0
-BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
-BuildRequires:  php-composer(fkooman/rest) < 2.0.0
-BuildRequires:  php-composer(fkooman/json) >= 1.0.0
-BuildRequires:  php-composer(fkooman/json) < 2.0.0
+BuildRequires:  php-composer(fkooman/http) >= 1.6.0
+BuildRequires:  php-composer(fkooman/http) < 2.0.0
 BuildRequires:  php-composer(fkooman/io) >= 1.0.0
 BuildRequires:  php-composer(fkooman/io) < 2.0.0
+BuildRequires:  php-composer(fkooman/json) >= 1.0.0
+BuildRequires:  php-composer(fkooman/json) < 2.0.0
+BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
+BuildRequires:  php-composer(fkooman/rest) < 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-BuildRequires:  php-composer(monolog/monolog) >= 1.17
-BuildRequires:  php-composer(monolog/monolog) < 2.0
+BuildRequires:  php-composer(fkooman/tpl-twig) >= 1.0.0
+BuildRequires:  php-composer(fkooman/tpl-twig) < 2.0.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0
+BuildRequires:  php-composer(monolog/monolog) >= 1.17
+BuildRequires:  php-composer(monolog/monolog) < 2.0
+BuildRequires:  php-composer(psr/log) >= 1.0.0
+BuildRequires:  php-composer(psr/log) < 2.0.0
 BuildRequires:  php-composer(symfony/class-loader)
 %endif
 
@@ -70,26 +72,28 @@ Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
 Requires:   php-standard
-Requires:   php-composer(psr/log) >= 1.0.0
-Requires:   php-composer(psr/log) < 2.0.0
-Requires:   php-composer(fkooman/http) >= 1.6.0
-Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
-Requires:   php-composer(fkooman/rest) >= 1.0.0
-Requires:   php-composer(fkooman/rest) < 2.0.0
-Requires:   php-composer(fkooman/json) >= 1.0.0
-Requires:   php-composer(fkooman/json) < 2.0.0
+Requires:   php-composer(fkooman/http) >= 1.6.0
+Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/io) >= 1.0.0
 Requires:   php-composer(fkooman/io) < 2.0.0
+Requires:   php-composer(fkooman/json) >= 1.0.0
+Requires:   php-composer(fkooman/json) < 2.0.0
+Requires:   php-composer(fkooman/rest) >= 1.0.0
+Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-Requires:   php-composer(monolog/monolog) >= 1.17
-Requires:   php-composer(monolog/monolog) < 2.0
+Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
+Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0
+Requires:   php-composer(monolog/monolog) >= 1.17
+Requires:   php-composer(monolog/monolog) < 2.0
+Requires:   php-composer(psr/log) >= 1.0.0
+Requires:   php-composer(psr/log) < 2.0.0
 Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
@@ -114,7 +118,7 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 
 # Application
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
 (
@@ -128,8 +132,8 @@ done
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
-cp -p config/client.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/client.yaml
-
+cp -p config/ip.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/ip.yaml
+cp -p config/log.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/log.yaml
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
@@ -157,17 +161,22 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
 %config(noreplace) %attr(0440,apache,apache) %{_sysconfdir}/%{name}/config.yaml
-%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/client.yaml
+%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/ip.yaml
+%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/log.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
+%{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.yaml.example config/client.yaml.example
+%doc README.md CHANGES.md composer.json config/config.yaml.example config/ip.yaml.example config/log.yaml.example
 %license COPYING
 
 %changelog
+* Thu Mar 03 2016 François Kooman <fkooman@tuxed.net> - 3.0.0-1
+- update to 3.0.0
+
 * Mon Feb 29 2016 François Kooman <fkooman@tuxed.net> - 2.5.3-1
 - update to 2.5.3
 
