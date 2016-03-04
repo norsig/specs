@@ -15,7 +15,7 @@
 Name:       vpn-server-api
 Version:    3.0.0
 Release:    1%{?dist}
-Summary:    REST service to control OpenVPN instances  
+Summary:    VPN Server API
 
 Group:      Applications/Internet
 License:    ASL-2.0
@@ -100,7 +100,7 @@ Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
 
 %description
-This service runs on the OpenVPN instances to control their behavior.
+VPN Server API.
 
 %prep
 %setup -qn %{github_name}-%{github_commit} 

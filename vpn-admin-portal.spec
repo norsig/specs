@@ -2,13 +2,13 @@
 %global composer_project        vpn-admin-portal
 %global composer_namespace      %{composer_vendor}/VPN/AdminPortal
 
-%global github_owner            eduVPN
+%global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           e59da614cd3a7d8a6f21c2dad429d0480bb9cb4f
+%global github_commit           c54ddac94189b0df619235f0997f90c385e21857
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    3.4.0
+Version:    4.0.0
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -31,6 +31,8 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
+Requires:   php-composer(fkooman/json) >= 1.0.0
+Requires:   php-composer(fkooman/json) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
@@ -48,8 +50,7 @@ Requires:   php-pear(pear.twig-project.org/Twig) < 2.0
 Requires:   php-composer(symfony/class-loader)
 
 %description
-Manage OpenVPN connections and configurations. Connects to vpn-user-portal 
-and vpn-server-api.
+VPN Admin Portal.
 
 %prep
 %setup -qn %{github_name}-%{github_commit} 
@@ -98,6 +99,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Mar 04 2016 François Kooman <fkooman@tuxed.net> - 4.0.0-1
+- update to 4.0.0
+
 * Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 3.4.0-1
 - update to 3.4.0
 

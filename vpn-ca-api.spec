@@ -15,7 +15,7 @@
 Name:       vpn-ca-api
 Version:    5.0.0
 Release:    1%{?dist}
-Summary:    REST service to manage OpenVPN client configurations    
+Summary:    VPN CA API
 
 Group:      Applications/Internet
 License:    ASL-2.0
@@ -82,9 +82,7 @@ Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
 
 %description
-This is a configuration generator for OpenVPN. It aims at providing a REST 
-API that makes it easy to manage client configuration files. It is possible 
-to generate a configuration and revoke a configuration.
+VPN CA API.
 
 %prep
 %setup -qn %{github_name}-%{github_commit} 

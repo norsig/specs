@@ -10,7 +10,7 @@
 Name:       vpn-user-portal
 Version:    6.0.0
 Release:    1%{?dist}
-Summary:    Portal to manage OpenVPN client configurations
+Summary:    VPN User Portal
 
 Group:      Applications/Internet
 License:    ASL-2.0
@@ -59,8 +59,7 @@ Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
 
 %description
-This project provides a user interface for managing OpenVPN configurations 
-using the vpn-cert-service software.
+VPN User Portal.
 
 %prep
 %setup -qn %{github_name}-%{github_commit} 
