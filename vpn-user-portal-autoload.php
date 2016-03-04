@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Autoloader for eduVPN/vpn-user-portal.
+ * Autoloader for eduvpn/vpn-user-portal.
  */
 $vendorDir = '/usr/share/php';
 

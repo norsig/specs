@@ -2,13 +2,13 @@
 %global composer_project        vpn-user-portal
 %global composer_namespace      %{composer_vendor}/VPN/UserPortal
 
-%global github_owner            eduVPN
+%global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           b01a91899561a502a98f12f20832d29b393e1ab1
+%global github_commit           abdfe7eaf34459cfc26cffa6476b9e49c2a58551
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    5.4.0
+Version:    6.0.0
 Release:    1%{?dist}
 Summary:    Portal to manage OpenVPN client configurations
 
@@ -31,22 +31,22 @@ Requires:   php-zip
 Requires:   php-spl
 Requires:   php-composer(bacon/bacon-qr-code) >= 1.0.0
 Requires:   php-composer(bacon/bacon-qr-code) < 2.0.0
-Requires:   php-composer(fkooman/http) >= 1.0.0
-Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
-Requires:   php-composer(fkooman/rest) >= 1.0.0
-Requires:   php-composer(fkooman/rest) < 2.0.0
+Requires:   php-composer(fkooman/http) >= 1.0.0
+Requires:   php-composer(fkooman/http) < 2.0.0
 Requires:   php-composer(fkooman/io) >= 1.0.0
 Requires:   php-composer(fkooman/io) < 2.0.0
+Requires:   php-composer(fkooman/rest) >= 1.0.0
+Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-form) >= 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-form) < 4.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
 Requires:   php-composer(fkooman/tpl) >= 2.0.0
 Requires:   php-composer(fkooman/tpl) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
@@ -122,6 +122,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Mar 04 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-1
+- update to 6.0.0
+
 * Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 5.4.0-1
 - update to 5.4.0
 
