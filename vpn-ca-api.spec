@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           97a294cb253b98173244822151164ea6c6c83773
+%global github_commit           d8416d555877b01a3cbc9f36255fb2e93d991753
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-ca-api
-Version:    5.0.0
+Version:    5.1.0
 Release:    1%{?dist}
 Summary:    VPN CA API
 
@@ -151,6 +151,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Mar 04 2016 François Kooman <fkooman@tuxed.net> - 5.1.0-1
+- update to 5.1.0
+
 * Thu Mar 03 2016 François Kooman <fkooman@tuxed.net> - 5.0.0-1
 - update to 5.0.0
 - rename to vpn-ca-api
