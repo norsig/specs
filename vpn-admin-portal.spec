@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           c54ddac94189b0df619235f0997f90c385e21857
+%global github_commit           9b8f4330dea87aa52c6d96b9309cb946445e6a17
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    4.0.0
+Version:    4.1.0
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -99,6 +99,9 @@ fi
 %license COPYING
 
 %changelog
+* Mon Mar 07 2016 François Kooman <fkooman@tuxed.net> - 4.1.0-1
+- update to 4.1.0
+
 * Fri Mar 04 2016 François Kooman <fkooman@tuxed.net> - 4.0.0-1
 - update to 4.0.0
 
