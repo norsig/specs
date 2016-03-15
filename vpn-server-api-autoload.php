@@ -25,7 +25,6 @@ require_once $vendorDir.'/fkooman/Json/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Bearer/autoload.php';
-require_once $vendorDir.'/fkooman/Tpl/Twig/autoload.php';
 require_once $vendorDir.'/GuzzleHttp/autoload.php';
 require_once $vendorDir.'/Monolog/autoload.php';
 require_once $vendorDir.'/Psr/Log/autoload.php';

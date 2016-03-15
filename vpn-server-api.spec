@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           32526faa74dcf6e450c9de9c3e53aac69d5dc31c
+%global github_commit           919e17b84281b72b4570140599e4bedb9e7e05ac
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    3.2.0
+Version:    3.4.0
 Release:    1%{?dist}
 Summary:    VPN Server API
 
@@ -52,8 +52,6 @@ BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-BuildRequires:  php-composer(fkooman/tpl-twig) >= 1.0.0
-BuildRequires:  php-composer(fkooman/tpl-twig) < 2.0.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0
 BuildRequires:  php-composer(monolog/monolog) >= 1.17
@@ -86,8 +84,6 @@ Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
-Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0
 Requires:   php-composer(monolog/monolog) >= 1.17
@@ -118,7 +114,7 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 
 # Application
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
 (
@@ -167,13 +163,18 @@ fi
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
-%{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
 %doc README.md CHANGES.md composer.json config/config.yaml.example config/ip.yaml.example config/log.yaml.example
 %license COPYING
 
 %changelog
+* Tue Mar 15 2016 François Kooman <fkooman@tuxed.net> - 3.4.0-1
+- update to 3.4.0
+
+* Mon Mar 14 2016 François Kooman <fkooman@tuxed.net> - 3.3.0-1
+- update to 3.3.0
+
 * Mon Mar 07 2016 François Kooman <fkooman@tuxed.net> - 3.2.0-1
 - update to 3.2.0
 
