@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           9b8f4330dea87aa52c6d96b9309cb946445e6a17
+%global github_commit           c9b334fc25536876d62d94ded336b8b071adee5c
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    4.1.0
+Version:    4.1.1
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -56,7 +56,9 @@ VPN Admin Portal.
 %setup -qn %{github_name}-%{github_commit} 
 cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
+sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
+sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
 
@@ -67,6 +69,15 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 # Application
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+
+mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
+(
+cd bin
+for f in `ls *`
+do
+    cp -pr ${f} ${RPM_BUILD_ROOT}%{_bindir}/%{name}-${f}
+done
+)
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
@@ -90,6 +101,7 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
 %config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
+%{_bindir}/*
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/views
@@ -99,6 +111,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Mar 18 2016 François Kooman <fkooman@tuxed.net> - 4.1.1-1
+- update to 4.1.1
+
 * Mon Mar 07 2016 François Kooman <fkooman@tuxed.net> - 4.1.0-1
 - update to 4.1.0
 
