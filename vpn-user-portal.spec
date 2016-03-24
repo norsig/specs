@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           35ba6382227ac8fe1d7e6e93ecc77c4cb842c4fc
+%global github_commit           40327fe7b534c77cc4bbffdd1d43112f9c5a6235
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    6.1.2
+Version:    6.1.3
 Release:    1%{?dist}
 Summary:    VPN User Portal
 
@@ -35,8 +35,8 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/io) >= 1.0.0
-Requires:   php-composer(fkooman/io) < 2.0.0
+Requires:   php-composer(paragonie/random_compat) >= 1.0.0
+Requires:   php-composer(paragonie/random_compat) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
@@ -121,6 +121,11 @@ fi
 %license COPYING
 
 %changelog
+* Thu Mar 24 2016 François Kooman <fkooman@tuxed.net> - 6.1.3-1
+- update to 6.1.3
+- use paragonie/random_compat instead of fkooman/io for random number
+  generation
+
 * Fri Mar 18 2016 François Kooman <fkooman@tuxed.net> - 6.1.2-1
 - update to 6.1.2
 
