@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           c9b334fc25536876d62d94ded336b8b071adee5c
+%global github_commit           ba1839da2e62f38235e43faa465b3930e0307b61
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    4.1.1
+Version:    4.1.2
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -31,8 +31,8 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/json) >= 1.0.0
-Requires:   php-composer(fkooman/json) < 2.0.0
+Requires:   php-composer(fkooman/json) >= 2.0.0
+Requires:   php-composer(fkooman/json) < 3.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
@@ -111,6 +111,9 @@ fi
 %license COPYING
 
 %changelog
+* Fri Mar 25 2016 François Kooman <fkooman@tuxed.net> - 4.1.2-1
+- update to 4.1.2
+
 * Fri Mar 18 2016 François Kooman <fkooman@tuxed.net> - 4.1.1-1
 - update to 4.1.1
 
