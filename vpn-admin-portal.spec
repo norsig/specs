@@ -9,7 +9,7 @@
 
 Name:       vpn-admin-portal
 Version:    4.1.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -91,6 +91,9 @@ mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
 restorecon -R %{_localstatedir}/lib/%{name} || :
 
+# remove template cache if it is there
+rm -rf %{_localstatedir}/lib/%{name}/tpl/* >/dev/null 2>/dev/null || :
+
 %postun
 if [ $1 -eq 0 ] ; then  # final removal
 semanage fcontext -d -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
@@ -111,6 +114,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Mar 30 2016 François Kooman <fkooman@tuxed.net> - 4.1.2-2
+- remove template cache on install/upgrade
+
 * Fri Mar 25 2016 François Kooman <fkooman@tuxed.net> - 4.1.2-1
 - update to 4.1.2
 
