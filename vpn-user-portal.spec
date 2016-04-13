@@ -9,7 +9,7 @@
 
 Name:       vpn-user-portal
 Version:    8.0.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -79,7 +79,7 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 
 # Application
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr web views src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+cp -pr web views locale src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
 (
@@ -124,11 +124,15 @@ fi
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
+%{_datadir}/%{name}/locale
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
 %doc README.md CHANGES.md composer.json config/config.yaml.example config/clients.json.example
 %license COPYING
 
 %changelog
+* Wed Apr 13 2016 François Kooman <fkooman@tuxed.net> - 8.0.0-2
+- also package locale
+
 * Wed Apr 13 2016 François Kooman <fkooman@tuxed.net> - 8.0.0-1
 - update to 8.0.0
 
