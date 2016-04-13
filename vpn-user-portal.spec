@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           6d4a48aa604376b8941ab4ebd998a174540d3d66
+%global github_commit           d4fc434ed3b6570c75ac102d97bdd76ff0ed6614
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    7.0.0
-Release:    5%{?dist}
+Version:    8.0.0
+Release:    1%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -51,7 +51,7 @@ Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 Requires:   php-composer(fkooman/tpl) >= 2.0.0
 Requires:   php-composer(fkooman/tpl) < 3.0.0
-Requires:   php-composer(fkooman/tpl-twig) >= 1.0.0
+Requires:   php-composer(fkooman/tpl-twig) >= 1.3.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0
@@ -129,6 +129,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Apr 13 2016 François Kooman <fkooman@tuxed.net> - 8.0.0-1
+- update to 8.0.0
+
 * Wed Mar 30 2016 François Kooman <fkooman@tuxed.net> - 7.0.0-5
 - install an empty OAuth client list by default, store the example in docs
 
