@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           e7d2e46b5fa954210edc7f5d7beca348e1ac10e0
+%global github_commit           463cfc08682dcfc5091f66a79b75a0a94e0841ee
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    8.1.0
+Version:    8.1.1
 Release:    1%{?dist}
 Summary:    VPN User Portal
 
@@ -130,6 +130,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Apr 20 2016 François Kooman <fkooman@tuxed.net> - 8.1.1-1
+- update to 8.1.1
+
 * Tue Apr 19 2016 François Kooman <fkooman@tuxed.net> - 8.1.0-1
 - update to 8.1.0
 
