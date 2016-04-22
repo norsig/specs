@@ -14,7 +14,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.3.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Base32 Encoder/Decoder according to RFC 4648
 
 Group:      System Environment/Libraries
@@ -29,12 +29,14 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if %{with_tests}
 BuildRequires:  php(language) >= 5.3.0
+BuildRequires:  php-pcre
 BuildRequires:  php-composer(symfony/class-loader)
 BuildRequires:  %{_bindir}/phpunit
 BuildRequires:  %{_bindir}/phpab
 %endif
 
 Requires:   php(language) >= 5.3.0
+Requires:   php-pcre
 Requires:   php-composer(symfony/class-loader)
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -72,5 +74,8 @@ rm -rf %{buildroot}
 %license LICENSE
 
 %changelog
+* Fri Apr 22 2016 François Kooman <fkooman@tuxed.net> - 1.3.0-2
+- add pecl extension as a requirement
+
 * Fri Apr 22 2016 François Kooman <fkooman@tuxed.net> - 1.3.0-1
 - initial package
