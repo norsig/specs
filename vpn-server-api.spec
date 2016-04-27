@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           9fcc7f52284331eac2f346ed331c0e4ea968b09b
+%global github_commit           cdde07a8d7520f9a8a43082fd069e21e766d07a2
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    4.0.6
+Version:    5.0.0
 Release:    1%{?dist}
 Summary:    VPN Server API
 
@@ -42,6 +42,8 @@ BuildRequires:  php-composer(fkooman/config) >= 1.0.0
 BuildRequires:  php-composer(fkooman/config) < 2.0.0
 BuildRequires:  php-composer(fkooman/http) >= 1.6.0
 BuildRequires:  php-composer(fkooman/http) < 2.0.0
+BuildRequires:  php-composer(fkooman/io) >= 1.1.0
+BuildRequires:  php-composer(fkooman/io) < 2.0.0
 BuildRequires:  php-composer(fkooman/json) >= 2.0.0
 BuildRequires:  php-composer(fkooman/json) < 3.0.0
 BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
@@ -56,6 +58,10 @@ BuildRequires:  php-composer(monolog/monolog) >= 1.17
 BuildRequires:  php-composer(monolog/monolog) < 2.0
 BuildRequires:  php-composer(psr/log) >= 1.0.0
 BuildRequires:  php-composer(psr/log) < 2.0.0
+BuildRequires:  php-composer(paragonie/random_compat) >= 1.0.0
+BuildRequires:  php-composer(paragonie/random_compat) < 2.0.0
+BuildRequires:  php-composer(christian-riesen/otp) >= 1.0
+BuildRequires:  php-composer(christian-riesen/otp) < 2.0
 BuildRequires:  php-composer(symfony/class-loader)
 %endif
 
@@ -72,6 +78,8 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.6.0
 Requires:   php-composer(fkooman/http) < 2.0.0
+Requires:   php-composer(fkooman/io) >= 1.1.0
+Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/json) >= 2.0.0
 Requires:   php-composer(fkooman/json) < 3.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
@@ -86,6 +94,10 @@ Requires:   php-composer(monolog/monolog) >= 1.17
 Requires:   php-composer(monolog/monolog) < 2.0
 Requires:   php-composer(psr/log) >= 1.0.0
 Requires:   php-composer(psr/log) < 2.0.0
+Requires:   php-composer(paragonie/random_compat) >= 1.0.0
+Requires:   php-composer(paragonie/random_compat) < 2.0.0
+Requires:   php-composer(christian-riesen/otp) >= 1.0
+Requires:   php-composer(christian-riesen/otp) < 2.0
 Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
@@ -165,6 +177,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Apr 27 2016 François Kooman <fkooman@tuxed.net> - 5.0.0-1
+- update to 5.0.0
+
 * Wed Apr 20 2016 François Kooman <fkooman@tuxed.net> - 4.0.6-1
 - update to 4.0.6
 

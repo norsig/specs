@@ -20,6 +20,7 @@ $fedoraClassLoader->addPrefixes(array(
 
 require_once $vendorDir.'/fkooman/Config/autoload.php';
 require_once $vendorDir.'/fkooman/Http/autoload.php';
+require_once $vendorDir.'/fkooman/IO/autoload.php';
 require_once $vendorDir.'/fkooman/Json/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/autoload.php';
 require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/autoload.php';
@@ -27,3 +28,5 @@ require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Bearer/autoload.php
 require_once $vendorDir.'/GuzzleHttp/autoload.php';
 require_once $vendorDir.'/Monolog/autoload.php';
 require_once $vendorDir.'/Psr/Log/autoload.php';
+require_once $vendorDir.'/random_compat/autoload.php';
+require_once $vendorDir.'/Otp/autoload.php';

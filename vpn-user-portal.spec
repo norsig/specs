@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           463cfc08682dcfc5091f66a79b75a0a94e0841ee
+%global github_commit           0cee2128703418ac5d26b455a4b0e2131e9d5a52
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    8.1.1
+Version:    8.2.0
 Release:    1%{?dist}
 Summary:    VPN User Portal
 
@@ -49,6 +49,10 @@ Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
+Requires:   php-composer(bacon/bacon-qr-code) >= 1.0
+Requires:   php-composer(bacon/bacon-qr-code) < 2.0
+Requires:   php-composer(christian-riesen/otp) >= 1.0
+Requires:   php-composer(christian-riesen/otp) < 2.0
 Requires:   php-composer(fkooman/tpl) >= 2.0.0
 Requires:   php-composer(fkooman/tpl) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.3.0
@@ -130,6 +134,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Apr 27 2016 François Kooman <fkooman@tuxed.net> - 8.2.0-1
+- update to 8.2.0
+
 * Wed Apr 20 2016 François Kooman <fkooman@tuxed.net> - 8.1.1-1
 - update to 8.1.1
 
