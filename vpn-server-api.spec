@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           cdde07a8d7520f9a8a43082fd069e21e766d07a2
+%global github_commit           f425bbe4d51d2db0d303c110a7f5455289554749
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    5.0.0
+Version:    5.0.1
 Release:    1%{?dist}
 Summary:    VPN Server API
 
@@ -42,7 +42,7 @@ BuildRequires:  php-composer(fkooman/config) >= 1.0.0
 BuildRequires:  php-composer(fkooman/config) < 2.0.0
 BuildRequires:  php-composer(fkooman/http) >= 1.6.0
 BuildRequires:  php-composer(fkooman/http) < 2.0.0
-BuildRequires:  php-composer(fkooman/io) >= 1.1.0
+BuildRequires:  php-composer(fkooman/io) >= 1.2.0
 BuildRequires:  php-composer(fkooman/io) < 2.0.0
 BuildRequires:  php-composer(fkooman/json) >= 2.0.0
 BuildRequires:  php-composer(fkooman/json) < 3.0.0
@@ -78,7 +78,7 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.6.0
 Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/io) >= 1.1.0
+Requires:   php-composer(fkooman/io) >= 1.2.0
 Requires:   php-composer(fkooman/io) < 2.0.0
 Requires:   php-composer(fkooman/json) >= 2.0.0
 Requires:   php-composer(fkooman/json) < 3.0.0
@@ -177,6 +177,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Apr 27 2016 François Kooman <fkooman@tuxed.net> - 5.0.1-1
+- update to 5.0.1
+
 * Wed Apr 27 2016 François Kooman <fkooman@tuxed.net> - 5.0.0-1
 - update to 5.0.0
 
