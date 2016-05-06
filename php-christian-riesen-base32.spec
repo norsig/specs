@@ -4,7 +4,7 @@
 
 %global github_owner            ChristianRiesen
 %global github_name             base32
-%global github_commit           fde061a370b0a97fdcd33d9d5f7b1b70ce1f79d4
+%global github_commit           0a31e50c0fa9b1692d077c86ac188eecdcbaf7fa
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,8 +13,8 @@
 %endif
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    1.3.0
-Release:    2%{?dist}
+Version:    1.3.1
+Release:    1%{?dist}
 Summary:    Base32 Encoder/Decoder according to RFC 4648
 
 Group:      System Environment/Libraries
@@ -74,6 +74,9 @@ rm -rf %{buildroot}
 %license LICENSE
 
 %changelog
+* Fri May 06 2016 François Kooman <fkooman@tuxed.net> - 1.3.1-1
+- update to 1.3.1
+
 * Fri Apr 22 2016 François Kooman <fkooman@tuxed.net> - 1.3.0-2
 - add pecl extension as a requirement
 
