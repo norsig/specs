@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           1af97fed5e2bda77046317ce9bf8211aae2d3efa
+%global github_commit           fe41cf5444905bba388e377d8c00998fb60e0359
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    6.0.3
+Version:    7.0.0
 Release:    1%{?dist}
 Summary:    VPN Server API
 
@@ -31,7 +31,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %if %{with_tests}
 BuildRequires:  %{_bindir}/phpunit
 BuildRequires:  %{_bindir}/phpab
-BuildRequires:  php(language) >= 5.4
+BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-date
 BuildRequires:  php-filter
 BuildRequires:  php-pcre
@@ -50,7 +50,7 @@ BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
 BuildRequires:  php-composer(fkooman/rest) < 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
+BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.4.0
 BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0
@@ -62,12 +62,14 @@ BuildRequires:  php-composer(paragonie/random_compat) >= 1.0.0
 BuildRequires:  php-composer(paragonie/random_compat) < 2.0.0
 BuildRequires:  php-composer(christian-riesen/otp) >= 1.0
 BuildRequires:  php-composer(christian-riesen/otp) < 2.0
+BuildRequires:  php-composer(christian-riesen/base32) >= 1.0
+BuildRequires:  php-composer(christian-riesen/base32) < 2.0
 BuildRequires:  php-composer(symfony/class-loader)
 %endif
 
 Requires:   openvpn
 Requires:   httpd
-Requires:   php(language) >= 5.4
+Requires:   php(language) >= 5.4.0
 Requires:   php-date
 Requires:   php-filter
 Requires:   php-pcre
@@ -86,7 +88,7 @@ Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
+Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.4.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0
@@ -98,6 +100,8 @@ Requires:   php-composer(paragonie/random_compat) >= 1.0.0
 Requires:   php-composer(paragonie/random_compat) < 2.0.0
 Requires:   php-composer(christian-riesen/otp) >= 1.0
 Requires:   php-composer(christian-riesen/otp) < 2.0
+Requires:   php-composer(christian-riesen/base32) >= 1.0
+Requires:   php-composer(christian-riesen/base32) < 2.0
 Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
@@ -136,7 +140,7 @@ done
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
-cp -p config/ip.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/ip.yaml
+cp -p config/pools.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/pools.yaml
 cp -p config/log.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/log.yaml
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
@@ -165,7 +169,7 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
 %config(noreplace) %attr(0440,apache,apache) %{_sysconfdir}/%{name}/config.yaml
-%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/ip.yaml
+%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/pools.yaml
 %config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/log.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
@@ -173,10 +177,13 @@ fi
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/config
 %dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.yaml.example config/ip.yaml.example config/log.yaml.example
+%doc README.md CHANGES.md composer.json config/config.yaml.example config/pools.yaml.example config/log.yaml.example
 %license COPYING
 
 %changelog
+* Wed May 18 2016 François Kooman <fkooman@tuxed.net> - 7.0.0-1
+- update to 7.0.0
+
 * Wed May 11 2016 François Kooman <fkooman@tuxed.net> - 6.0.3-1
 - update to 6.0.3
 

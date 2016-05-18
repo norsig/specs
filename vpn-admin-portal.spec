@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           8269bf777858d56b798534976559b68589c3944e
+%global github_commit           1130c25691a3e2baf939632459e37991b98be947
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    5.1.3
+Version:    6.0.0
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -24,7 +24,7 @@ BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 Requires:   httpd
-Requires:   php(language) >= 5.4
+Requires:   php(language) >= 5.4.0
 Requires:   php-date
 Requires:   php-spl
 Requires:   php-composer(fkooman/config) >= 1.0.0
@@ -114,6 +114,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed May 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-1
+- update to 6.0.0
+
 * Wed May 11 2016 François Kooman <fkooman@tuxed.net> - 5.1.3-1
 - update to 5.1.3
 

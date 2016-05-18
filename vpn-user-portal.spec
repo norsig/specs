@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           fa27d5888d8ebf97d972a9ca069a45ba5ac58c1a
+%global github_commit           ae575302b7b363659fa65ec152dae15ecd9be848
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    8.3.1
-Release:    2%{?dist}
+Version:    9.0.0
+Release:    1%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -24,10 +24,9 @@ BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 Requires:   httpd
-Requires:   php(language) >= 5.4
+Requires:   php(language) >= 5.4.0
 Requires:   php-pcre
 Requires:   php-pdo
-Requires:   php-zip
 Requires:   php-spl
 Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
@@ -134,6 +133,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed May 18 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-1
+- update to 9.0.0
+
 * Tue May 10 2016 François Kooman <fkooman@tuxed.net> - 8.3.1-2
 - point to correct commit
 

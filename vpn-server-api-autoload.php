@@ -30,3 +30,4 @@ require_once $vendorDir.'/Monolog/autoload.php';
 require_once $vendorDir.'/Psr/Log/autoload.php';
 require_once $vendorDir.'/random_compat/autoload.php';
 require_once $vendorDir.'/Otp/autoload.php';
+require_once $vendorDir.'/Base32/autoload.php';
