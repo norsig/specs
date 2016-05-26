@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           89cd96c8bd39097c9f7c2550c9672b65a318563b
+%global github_commit           b29cdbb43711ea0413ee29c905af45206bdc4086
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    7.3.0
+Version:    8.0.0
 Release:    1%{?dist}
 Summary:    VPN Server API
 
@@ -42,8 +42,8 @@ BuildRequires:  php-composer(fkooman/config) >= 1.0.0
 BuildRequires:  php-composer(fkooman/config) < 2.0.0
 BuildRequires:  php-composer(fkooman/http) >= 1.6.0
 BuildRequires:  php-composer(fkooman/http) < 2.0.0
-BuildRequires:  php-composer(fkooman/io) >= 1.2.0
-BuildRequires:  php-composer(fkooman/io) < 2.0.0
+BuildRequires:  php-composer(fkooman/io) >= 2.0.0
+BuildRequires:  php-composer(fkooman/io) < 3.0.0
 BuildRequires:  php-composer(fkooman/json) >= 2.0.0
 BuildRequires:  php-composer(fkooman/json) < 3.0.0
 BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
@@ -58,8 +58,6 @@ BuildRequires:  php-composer(monolog/monolog) >= 1.17
 BuildRequires:  php-composer(monolog/monolog) < 2.0
 BuildRequires:  php-composer(psr/log) >= 1.0.0
 BuildRequires:  php-composer(psr/log) < 2.0.0
-BuildRequires:  php-composer(paragonie/random_compat) >= 1.0.0
-BuildRequires:  php-composer(paragonie/random_compat) < 2.0.0
 BuildRequires:  php-composer(christian-riesen/otp) >= 1.0
 BuildRequires:  php-composer(christian-riesen/otp) < 2.0
 BuildRequires:  php-composer(christian-riesen/base32) >= 1.0
@@ -80,8 +78,8 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.6.0
 Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/io) >= 1.2.0
-Requires:   php-composer(fkooman/io) < 2.0.0
+Requires:   php-composer(fkooman/io) >= 2.0.0
+Requires:   php-composer(fkooman/io) < 3.0.0
 Requires:   php-composer(fkooman/json) >= 2.0.0
 Requires:   php-composer(fkooman/json) < 3.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
@@ -96,8 +94,6 @@ Requires:   php-composer(monolog/monolog) >= 1.17
 Requires:   php-composer(monolog/monolog) < 2.0
 Requires:   php-composer(psr/log) >= 1.0.0
 Requires:   php-composer(psr/log) < 2.0.0
-Requires:   php-composer(paragonie/random_compat) >= 1.0.0
-Requires:   php-composer(paragonie/random_compat) < 2.0.0
 Requires:   php-composer(christian-riesen/otp) >= 1.0
 Requires:   php-composer(christian-riesen/otp) < 2.0
 Requires:   php-composer(christian-riesen/base32) >= 1.0
@@ -142,6 +138,7 @@ mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
 cp -p config/pools.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/pools.yaml
 cp -p config/log.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/log.yaml
+cp -p config/acl.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/acl.yaml
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
@@ -171,16 +168,20 @@ fi
 %config(noreplace) %attr(0440,apache,apache) %{_sysconfdir}/%{name}/config.yaml
 %config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/pools.yaml
 %config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/log.yaml
+%config(noreplace) %attr(0440,openvpn,apache) %{_sysconfdir}/%{name}/acl.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/config
 %dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.yaml.example config/pools.yaml.example config/log.yaml.example
+%doc README.md CHANGES.md composer.json config/config.yaml.example config/pools.yaml.example config/acl.yaml.example config/log.yaml.example
 %license COPYING
 
 %changelog
+* Thu May 26 2016 François Kooman <fkooman@tuxed.net> - 8.0.0-1
+- update to 8.0.0
+
 * Mon May 23 2016 François Kooman <fkooman@tuxed.net> - 7.3.0-1
 - update to 7.3.0
 
