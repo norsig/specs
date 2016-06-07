@@ -48,6 +48,8 @@ Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
+Requires:   php-composer(fkooman/oauth2-client) >= 1.0.0
+Requires:   php-composer(fkooman/oauth2-client) < 2.0.0
 Requires:   php-composer(bacon/bacon-qr-code) >= 1.0
 Requires:   php-composer(bacon/bacon-qr-code) < 2.0
 Requires:   php-composer(christian-riesen/otp) >= 1.0

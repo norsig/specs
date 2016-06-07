@@ -33,3 +33,4 @@ require_once $vendorDir.'/GuzzleHttp/autoload.php';
 require_once $vendorDir.'/random_compat/autoload.php';
 require_once $vendorDir.'/Otp/autoload.php';
 require_once $vendorDir.'/BaconQrCode/autoload.php';
+require_once $vendorDir.'/fkooman/OAuth/Client/autoload.php';
