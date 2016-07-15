@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           e782f03352625529ea591066d424479b30b0eebe
+%global github_commit           97c60a851200f287a9e326f371c437683dfbebb4
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    8.2.0
+Version:    8.2.1
 Release:    1%{?dist}
 Summary:    VPN Server API
 
@@ -179,196 +179,5 @@ fi
 %license COPYING
 
 %changelog
-* Thu Jul 14 2016 François Kooman <fkooman@tuxed.net> - 8.2.0-1
-- update to 8.2.0
-
-* Sat Jul 09 2016 François Kooman <fkooman@tuxed.net> - 8.1.0-1
-- update to 8.1.0
-
-* Tue Jun 07 2016 François Kooman <fkooman@tuxed.net> - 8.0.5-1
-- update to 8.0.5
-
-* Tue Jun 07 2016 François Kooman <fkooman@tuxed.net> - 8.0.4-1
-- update to 8.0.4
-
-* Thu May 26 2016 François Kooman <fkooman@tuxed.net> - 8.0.3-1
-- update to 8.0.3
-
-* Thu May 26 2016 François Kooman <fkooman@tuxed.net> - 8.0.2-1
-- update to 8.0.2
-
-* Thu May 26 2016 François Kooman <fkooman@tuxed.net> - 8.0.1-1
-- update to 8.0.1
-
-* Thu May 26 2016 François Kooman <fkooman@tuxed.net> - 8.0.0-1
-- update to 8.0.0
-
-* Mon May 23 2016 François Kooman <fkooman@tuxed.net> - 7.3.0-1
-- update to 7.3.0
-
-* Fri May 20 2016 François Kooman <fkooman@tuxed.net> - 7.2.0-1
-- update to 7.2.0
-
-* Thu May 19 2016 François Kooman <fkooman@tuxed.net> - 7.1.0-1
-- update to 7.1.0
-
-* Thu May 19 2016 François Kooman <fkooman@tuxed.net> - 7.0.2-1
-- update to 7.0.2
-
-* Wed May 18 2016 François Kooman <fkooman@tuxed.net> - 7.0.1-1
-- update to 7.0.1
-
-* Wed May 18 2016 François Kooman <fkooman@tuxed.net> - 7.0.0-1
-- update to 7.0.0
-
-* Wed May 11 2016 François Kooman <fkooman@tuxed.net> - 6.0.3-1
-- update to 6.0.3
-
-* Wed May 11 2016 François Kooman <fkooman@tuxed.net> - 6.0.2-1
-- update to 6.0.2
-
-* Tue May 10 2016 François Kooman <fkooman@tuxed.net> - 6.0.1-1
-- update to 6.0.1
-
-* Fri May 06 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-1
-- update to 6.0.0
-
-* Wed Apr 27 2016 François Kooman <fkooman@tuxed.net> - 5.0.2-1
-- update to 5.0.2
-
-* Wed Apr 27 2016 François Kooman <fkooman@tuxed.net> - 5.0.1-1
-- update to 5.0.1
-
-* Wed Apr 27 2016 François Kooman <fkooman@tuxed.net> - 5.0.0-1
-- update to 5.0.0
-
-* Wed Apr 20 2016 François Kooman <fkooman@tuxed.net> - 4.0.6-1
-- update to 4.0.6
-
-* Wed Apr 20 2016 François Kooman <fkooman@tuxed.net> - 4.0.5-1
-- update to 4.0.5
-
-* Tue Apr 19 2016 François Kooman <fkooman@tuxed.net> - 4.0.4-1
-- update to 4.0.4
-
-* Fri Apr 15 2016 François Kooman <fkooman@tuxed.net> - 4.0.3-1
-- update to 4.0.3
-
-* Wed Apr 13 2016 François Kooman <fkooman@tuxed.net> - 4.0.2-1
-- update to 4.0.2
-
-* Wed Apr 13 2016 François Kooman <fkooman@tuxed.net> - 4.0.1-1
-- update to 4.0.1
-
-* Wed Apr 13 2016 François Kooman <fkooman@tuxed.net> - 4.0.0-1
-- update to 4.0.0
-
-* Fri Apr 08 2016 François Kooman <fkooman@tuxed.net> - 3.4.4-1
-- update to 3.4.4
-
-* Fri Apr 01 2016 François Kooman <fkooman@tuxed.net> - 3.4.3-1
-- update to 3.4.3
-
-* Fri Mar 25 2016 François Kooman <fkooman@tuxed.net> - 3.4.2-1
-- update to 3.4.2
-
-* Thu Mar 24 2016 François Kooman <fkooman@tuxed.net> - 3.4.1-1
-- update to 3.4.1
-- remove fkooman/io dependency
-
-* Tue Mar 15 2016 François Kooman <fkooman@tuxed.net> - 3.4.0-1
-- update to 3.4.0
-
-* Mon Mar 14 2016 François Kooman <fkooman@tuxed.net> - 3.3.0-1
-- update to 3.3.0
-
-* Mon Mar 07 2016 François Kooman <fkooman@tuxed.net> - 3.2.0-1
-- update to 3.2.0
-
-* Fri Mar 04 2016 François Kooman <fkooman@tuxed.net> - 3.1.1-1
-- update to 3.1.1
-
-* Fri Mar 04 2016 François Kooman <fkooman@tuxed.net> - 3.1.0-1
-- update to 3.1.0
-
-* Thu Mar 03 2016 François Kooman <fkooman@tuxed.net> - 3.0.0-1
-- update to 3.0.0
-
-* Mon Feb 29 2016 François Kooman <fkooman@tuxed.net> - 2.5.3-1
-- update to 2.5.3
-
-* Thu Feb 25 2016 François Kooman <fkooman@tuxed.net> - 2.5.2-1
-- update to 2.5.2
-
-* Thu Feb 25 2016 François Kooman <fkooman@tuxed.net> - 2.5.1-1
-- update to 2.5.1
-
-* Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 2.5.0-1
-- update to 2.5.0
-
-* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.2-1
-- update to 2.4.2
-
-* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.1-1
-- update to 2.4.1
-
-* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.0-3
-- add some missing dependencies
-
-* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.0-2
-- run unit tests during build
-
-* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 2.4.0-1
-- update to 2.4.0
-
-* Sat Feb 20 2016 François Kooman <fkooman@tuxed.net> - 2.3.1-1
-- update to 2.3.1
-
-* Fri Feb 19 2016 François Kooman <fkooman@tuxed.net> - 2.3.0-1
-- update to 2.3.0
-
-* Thu Feb 18 2016 François Kooman <fkooman@tuxed.net> - 2.2.1-1
-- update to 2.2.1
-
-* Thu Feb 18 2016 François Kooman <fkooman@tuxed.net> - 2.2.0-1
-- update to 2.2.0
-
-* Wed Jan 20 2016 François Kooman <fkooman@tuxed.net> - 2.1.2-2
-- fix file permissions for the client.yaml file on installation
-
-* Wed Jan 20 2016 François Kooman <fkooman@tuxed.net> - 2.1.2-1
-- update to 2.1.2
-
-* Mon Jan 18 2016 François Kooman <fkooman@tuxed.net> - 2.1.1-1
-- update to 2.1.1
-
-* Mon Jan 18 2016 François Kooman <fkooman@tuxed.net> - 2.1.0-1
-- update to 2.1.0
-
-* Mon Jan 11 2016 François Kooman <fkooman@tuxed.net> - 2.0.2-1
-- update to 2.0.2
-- add client-connect and client-disconnect scripts
-
-* Mon Jan 11 2016 François Kooman <fkooman@tuxed.net> - 2.0.1-1
-- update to 2.0.1
-
-* Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 2.0.0-1
-- update to 2.0.0
-
-* Tue Dec 22 2015 François Kooman <fkooman@tuxed.net> - 1.1.0-1
-- update to 1.1.0
-
-* Wed Dec 16 2015 François Kooman <fkooman@tuxed.net> - 1.0.1-1
-- update to 1.0.1
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-4
-- give access to libdir
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-3
-- fix autoloader
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-2
-- fix socket-raw requirement, update autoloader
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-1
-- initial release
+* Fri Jul 15 2016 François Kooman <fkooman@tuxed.net> - 8.2.1-1
+- update to 8.2.1
