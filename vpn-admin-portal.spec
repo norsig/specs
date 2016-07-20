@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           d2a7759180fcc56aa4a6be424ba4482e866a09eb
+%global github_commit           cd180b67afef19cd39394a7ee460ee2af95faef7
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    6.1.2
+Version:    6.2.0
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -31,8 +31,6 @@ Requires:   php-composer(fkooman/config) >= 1.0.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/json) >= 2.0.0
-Requires:   php-composer(fkooman/json) < 3.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
@@ -41,12 +39,12 @@ Requires:   php-composer(fkooman/rest-plugin-authentication-form) >= 3.0.1
 Requires:   php-composer(fkooman/rest-plugin-authentication-form) < 4.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
+Requires:   php-composer(fkooman/tpl) >= 2.0.0
+Requires:   php-composer(fkooman/tpl) < 3.0.0
 Requires:   php-composer(fkooman/tpl-twig) >= 1.2.0
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0
-Requires:   php-pear(pear.twig-project.org/Twig) >= 1.18
-Requires:   php-pear(pear.twig-project.org/Twig) < 2.0
 Requires:   php-composer(symfony/class-loader)
 
 %description
@@ -114,6 +112,9 @@ fi
 %license COPYING
 
 %changelog
+* Wed Jul 20 2016 François Kooman <fkooman@tuxed.net> - 6.2.0-1
+- update to 6.2.0
+
 * Tue Jul 19 2016 François Kooman <fkooman@tuxed.net> - 6.1.2-1
 - update to 6.1.2
 
