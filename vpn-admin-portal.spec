@@ -4,11 +4,11 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           cd180b67afef19cd39394a7ee460ee2af95faef7
+%global github_commit           28ed1e66e9a4a4c150ac465a137067fd38e6965f
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    6.2.0
+Version:    6.3.0
 Release:    1%{?dist}
 Summary:    VPN Admin Portal
 
@@ -112,140 +112,5 @@ fi
 %license COPYING
 
 %changelog
-* Wed Jul 20 2016 François Kooman <fkooman@tuxed.net> - 6.2.0-1
-- update to 6.2.0
-
-* Tue Jul 19 2016 François Kooman <fkooman@tuxed.net> - 6.1.2-1
-- update to 6.1.2
-
-* Tue Jul 19 2016 François Kooman <fkooman@tuxed.net> - 6.1.1-1
-- update to 6.1.1
-
-* Thu May 26 2016 François Kooman <fkooman@tuxed.net> - 6.1.0-1
-- update to 6.1.0
-
-* Mon May 23 2016 François Kooman <fkooman@tuxed.net> - 6.0.3-1
-- update to 6.0.3
-
-* Mon May 23 2016 François Kooman <fkooman@tuxed.net> - 6.0.2-1
-- update to 6.0.2
-
-* Fri May 20 2016 François Kooman <fkooman@tuxed.net> - 6.0.1-1
-- update to 6.0.1
-
-* Wed May 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-1
-- update to 6.0.0
-
-* Wed May 11 2016 François Kooman <fkooman@tuxed.net> - 5.1.3-1
-- update to 5.1.3
-
-* Fri May 06 2016 François Kooman <fkooman@tuxed.net> - 5.1.2-1
-- update to 5.1.2
-
-* Wed May 04 2016 François Kooman <fkooman@tuxed.net> - 5.1.1-1
-- update to 5.1.1
-
-* Wed Apr 27 2016 François Kooman <fkooman@tuxed.net> - 5.1.0-1
-- update to 5.1.0
-
-* Wed Apr 13 2016 François Kooman <fkooman@tuxed.net> - 5.0.0-1
-- update to 5.0.0
-
-* Wed Mar 30 2016 François Kooman <fkooman@tuxed.net> - 4.1.2-2
-- remove template cache on install/upgrade
-
-* Fri Mar 25 2016 François Kooman <fkooman@tuxed.net> - 4.1.2-1
-- update to 4.1.2
-
-* Fri Mar 18 2016 François Kooman <fkooman@tuxed.net> - 4.1.1-1
-- update to 4.1.1
-
-* Mon Mar 07 2016 François Kooman <fkooman@tuxed.net> - 4.1.0-1
-- update to 4.1.0
-
-* Fri Mar 04 2016 François Kooman <fkooman@tuxed.net> - 4.0.0-1
-- update to 4.0.0
-
-* Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 3.4.0-1
-- update to 3.4.0
-
-* Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 3.3.3-1
-- update to 3.3.3
-
-* Tue Feb 23 2016 François Kooman <fkooman@tuxed.net> - 3.3.2-1
-- update to 3.3.2
-
-* Sat Feb 20 2016 François Kooman <fkooman@tuxed.net> - 3.3.1-1
-- update to 3.3.1
-
-* Thu Feb 18 2016 François Kooman <fkooman@tuxed.net> - 3.3.0-1
-- update to 3.3.0
-
-* Mon Feb 15 2016 François Kooman <fkooman@tuxed.net> - 3.2.0-2
-- update commit
-
-* Mon Feb 15 2016 François Kooman <fkooman@tuxed.net> - 3.2.0-1
-- update to 3.2.0
-
-* Wed Feb 03 2016 François Kooman <fkooman@tuxed.net> - 3.1.3-1
-- update to 3.1.3
-
-* Wed Jan 27 2016 François Kooman <fkooman@tuxed.net> - 3.1.2-1
-- update to 3.1.2
-
-* Wed Jan 20 2016 François Kooman <fkooman@tuxed.net> - 3.1.1-1
-- update to 3.1.1
-
-* Mon Jan 18 2016 François Kooman <fkooman@tuxed.net> - 3.1.0-1
-- update to 3.1.0
-
-* Wed Jan 13 2016 François Kooman <fkooman@tuxed.net> - 3.0.5-1
-- update to 3.0.5
-
-* Wed Jan 13 2016 François Kooman <fkooman@tuxed.net> - 3.0.4-1
-- update to 3.0.4
-
-* Tue Jan 12 2016 François Kooman <fkooman@tuxed.net> - 3.0.3-1
-- update to 3.0.3
-
-* Tue Jan 12 2016 François Kooman <fkooman@tuxed.net> - 3.0.2-1
-- update to 3.0.2
-
-* Sat Jan 09 2016 François Kooman <fkooman@tuxed.net> - 3.0.1-1
-- update to 3.0.1
-
-* Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 3.0.0-1
-- update to 3.0.0
-
-* Tue Dec 22 2015 François Kooman <fkooman@tuxed.net> - 2.1.0-1
-- update to 2.1.0
-
-* Mon Dec 21 2015 François Kooman <fkooman@tuxed.net> - 2.0.4-1
-- update to 2.0.4
-
-* Thu Dec 17 2015 François Kooman <fkooman@tuxed.net> - 2.0.3-1
-- update to 2.0.3
-
-* Thu Dec 17 2015 François Kooman <fkooman@tuxed.net> - 2.0.2-1
-- update to 2.0.2
-
-* Thu Dec 17 2015 François Kooman <fkooman@tuxed.net> - 2.0.1-1
-- update to 2.0.1
-
-* Wed Dec 16 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-1
-- update to 2.0.0
-
-* Tue Dec 15 2015 François Kooman <fkooman@tuxed.net> - 1.0.3-1
-- update to 1.0.3
-
-* Mon Dec 14 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-1
-- update to 1.0.2
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.1-2
-- fix autoloader
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.1-1
-- update to 1.0.1
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-1
-- initial release
+* Tue Jul 26 2016 François Kooman <fkooman@tuxed.net> - 6.3.0-1
+- update to 6.3.0
