@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           271e550ab7f1b0d04812d8f77c4d8ab29f6c5be5
+%global github_commit           ae44029993c1d267334e34159b8ee0e72a572415
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,7 +13,7 @@
 %endif
 
 Name:       vpn-server-api
-Version:    8.4.1
+Version:    8.4.2
 Release:    1%{?dist}
 Summary:    VPN Server API
 
@@ -179,6 +179,9 @@ fi
 %license COPYING
 
 %changelog
+* Tue Aug 09 2016 François Kooman <fkooman@tuxed.net> - 8.4.2-1
+- update to 8.4.2
+
 * Mon Aug 08 2016 François Kooman <fkooman@tuxed.net> - 8.4.1-1
 - update to 8.4.1
 
