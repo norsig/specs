@@ -28,7 +28,7 @@ Requires:   php(language) >= 5.4.0
 Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
-Requires:   php-composer(fkooman/config) >= 1.0.0
+Requires:   php-composer(fkooman/config) >= 1.1.0
 Requires:   php-composer(fkooman/config) < 2.0.0
 Requires:   php-composer(fkooman/http) >= 1.0.0
 Requires:   php-composer(fkooman/http) < 2.0.0
@@ -36,7 +36,7 @@ Requires:   php-composer(paragonie/random_compat) >= 1.0.0
 Requires:   php-composer(paragonie/random_compat) < 2.0.0
 Requires:   php-composer(fkooman/rest) >= 1.0.0
 Requires:   php-composer(fkooman/rest) < 2.0.0
-Requires:   php-composer(fkooman/oauth) >= 5.1.0
+Requires:   php-composer(fkooman/oauth) >= 5.2.1
 Requires:   php-composer(fkooman/oauth) < 6.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
 Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
@@ -56,7 +56,7 @@ Requires:   php-composer(christian-riesen/otp) >= 1.0
 Requires:   php-composer(christian-riesen/otp) < 2.0
 Requires:   php-composer(fkooman/tpl) >= 2.0.0
 Requires:   php-composer(fkooman/tpl) < 3.0.0
-Requires:   php-composer(fkooman/tpl-twig) >= 1.3.0
+Requires:   php-composer(fkooman/tpl-twig) >= 1.3.3
 Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0

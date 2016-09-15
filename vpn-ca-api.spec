@@ -1,10 +1,10 @@
-%global composer_vendor         fkooman
+%global composer_vendor         SURFnet
 %global composer_project        vpn-ca-api
 %global composer_namespace      %{composer_vendor}/VPN/CA
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           e95a762474769793a2e2135a7426d84a0e69226d
+%global github_commit           a03d096a9a8960bdf56760a77657d75f885778d5
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -13,12 +13,12 @@
 %endif
 
 Name:       vpn-ca-api
-Version:    5.2.0
-Release:    1%{?dist}
-Summary:    VPN CA API
+Version:    6.0.0
+Release:    0.3%{?dist}
+Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
-License:    ASL-2.0
+License:    AGPLv3+
 
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
@@ -31,51 +31,29 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %if %{with_tests}
 BuildRequires:  %{_bindir}/phpunit
 BuildRequires:  %{_bindir}/phpab
-BuildRequires:  php(language) >= 5.4
+BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-date
+BuildRequires:  php-json
+BuildRequires:  php-openssl
 BuildRequires:  php-pcre
 BuildRequires:  php-spl
-BuildRequires:  php-openssl
-BuildRequires:  php-composer(fkooman/config) >= 1.0.0
-BuildRequires:  php-composer(fkooman/config) < 2.0.0
-BuildRequires:  php-composer(fkooman/http) >= 1.0.0
-BuildRequires:  php-composer(fkooman/http) < 2.0.0
-BuildRequires:  php-composer(fkooman/rest) >= 1.0.0
-BuildRequires:  php-composer(fkooman/rest) < 2.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
-BuildRequires:  php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-BuildRequires:  php-composer(monolog/monolog) >= 1.17
-BuildRequires:  php-composer(monolog/monolog) < 2.0
-BuildRequires:  php-composer(psr/log) >= 1.0.0
-BuildRequires:  php-composer(psr/log) < 2.0.0
+BuildRequires:  php-composer(eduvpn/common)
+BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(symfony/class-loader)
 %endif
 
 Requires:   httpd
-Requires:   easy-rsa >= 3.0.0
-Requires:   easy-rsa < 4.0.0
+Requires:   easy-rsa
 Requires:   openvpn
-Requires:   php(language) >= 5.4
+
+Requires:   php(language) >= 5.4.0
 Requires:   php-date
+Requires:   php-json
+Requires:   php-openssl
 Requires:   php-pcre
 Requires:   php-spl
-Requires:   php-openssl
-Requires:   php-composer(fkooman/config) >= 1.0.0
-Requires:   php-composer(fkooman/config) < 2.0.0
-Requires:   php-composer(fkooman/http) >= 1.0.0
-Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(fkooman/rest) >= 1.0.0
-Requires:   php-composer(fkooman/rest) < 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.2.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-Requires:   php-composer(monolog/monolog) >= 1.17
-Requires:   php-composer(monolog/monolog) < 2.0
-Requires:   php-composer(psr/log) >= 1.0.0
-Requires:   php-composer(psr/log) < 2.0.0
+Requires:   php-composer(eduvpn/common)
+Requires:   php-composer(psr/log)
 Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
@@ -88,8 +66,8 @@ VPN CA API.
 %setup -qn %{github_name}-%{github_commit} 
 cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
-sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
-sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
+sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
+sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
 sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
@@ -102,19 +80,19 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
-mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
+mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
 (
 cd bin
 for f in `ls *`
 do
-    cp -pr ${f} ${RPM_BUILD_ROOT}%{_bindir}/%{name}-${f}
+    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${f}
 done
 )
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
+ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
 
 # Data
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
@@ -140,116 +118,22 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
-%{_bindir}/*
+%{_sbindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/config
+%{_datadir}/%{name}/data
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.yaml.example
-%license COPYING
+%doc README.md composer.json config/config.yaml.example
+%license LICENSE
 
 %changelog
-* Mon Jul 11 2016 François Kooman <fkooman@tuxed.net> - 5.2.0-1
-- update to 5.2.0
+* Thu Sep 15 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.3
+- rebuilt
 
-* Fri Mar 04 2016 François Kooman <fkooman@tuxed.net> - 5.1.0-1
-- update to 5.1.0
+* Wed Sep 14 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.2
+- rebuilt
 
-* Thu Mar 03 2016 François Kooman <fkooman@tuxed.net> - 5.0.0-1
-- update to 5.0.0
-- rename to vpn-ca-api
-
-* Thu Feb 25 2016 François Kooman <fkooman@tuxed.net> - 4.4.2-1
-- update to 4.4.2
-
-* Thu Feb 25 2016 François Kooman <fkooman@tuxed.net> - 4.4.1-1
-- update to 4.4.1
-
-* Wed Feb 24 2016 François Kooman <fkooman@tuxed.net> - 4.4.0-1
-- update to 4.4.0
-
-* Mon Feb 22 2016 François Kooman <fkooman@tuxed.net> - 4.3.1-1
-- update to 4.3.1
-- run tests on build
-
-* Thu Feb 18 2016 François Kooman <fkooman@tuxed.net> - 4.3.0-1
-- update to 4.3.0
-
-* Mon Feb 15 2016 François Kooman <fkooman@tuxed.net> - 4.2.3-1
-- update to 4.2.3
-
-* Mon Feb 15 2016 François Kooman <fkooman@tuxed.net> - 4.2.2-1
-- update to 4.2.2
-
-* Sat Feb 13 2016 François Kooman <fkooman@tuxed.net> - 4.2.1-1
-- update to 4.2.1
-
-* Wed Feb 10 2016 François Kooman <fkooman@tuxed.net> - 4.2.0-1
-- update to 4.2.0
-
-* Wed Feb 03 2016 François Kooman <fkooman@tuxed.net> - 4.1.0-1
-- update to 4.1.0
-- update easy-rsa version dependency >= 3.0.0
-
-* Thu Jan 21 2016 François Kooman <fkooman@tuxed.net> - 4.0.4-1
-- update to 4.0.4
-
-* Thu Jan 14 2016 François Kooman <fkooman@tuxed.net> - 4.0.3-1
-- update to 4.0.3
-
-* Wed Jan 13 2016 François Kooman <fkooman@tuxed.net> - 4.0.2-2
-- require Monolog
-
-* Wed Jan 13 2016 François Kooman <fkooman@tuxed.net> - 4.0.2-1
-- update to 4.0.2
-
-* Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 4.0.1-1
-- update to 4.0.1
-
-* Tue Jan 05 2016 François Kooman <fkooman@tuxed.net> - 4.0.0-1
-- update to 4.0.0
-
-* Wed Dec 23 2015 François Kooman <fkooman@tuxed.net> - 3.0.4-1
-- update to 3.0.4
-
-* Mon Dec 21 2015 François Kooman <fkooman@tuxed.net> - 3.0.3-1
-- update to 3.0.3
-
-* Wed Dec 16 2015 François Kooman <fkooman@tuxed.net> - 3.0.2-1
-- update to 3.0.2
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 3.0.1-1
-- update to 3.0.1
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 3.0.0-2
-- fix autoloader
-
-* Fri Dec 11 2015 François Kooman <fkooman@tuxed.net> - 3.0.0-1
-- update to 3.0.0
-
-* Sun Nov 29 2015 François Kooman <fkooman@tuxed.net> - 2.0.0-1
-- update to 2.0.0
-
-* Tue Sep 22 2015 François Kooman <fkooman@tuxed.net> - 1.0.3-2
-- fix the path in bin scripts
-- update tag
-
-* Tue Sep 22 2015 François Kooman <fkooman@tuxed.net> - 1.0.3-1
-- update to 1.0.3
-
-* Mon Sep 21 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-3
-- fix autoloader path
-
-* Mon Sep 21 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-2
-- use new style autoloader, major rework on spec
-
-* Mon Aug 10 2015 François Kooman <fkooman@tuxed.net> - 1.0.2-1
-- update to 1.0.2
-
-* Mon Aug 10 2015 François Kooman <fkooman@tuxed.net> - 1.0.1-1
-- update to 1.0.1
-
-* Mon Jul 20 2015 François Kooman <fkooman@tuxed.net> - 1.0.0-1
-- initial release
+* Wed Sep 14 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.1
+- update to 6.0.0

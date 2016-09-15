@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Autoloader for eduvpn/vpn-ca-api.
+ * Autoloader for eduvpn/common.
  */
 $vendorDir = '/usr/share/php';
 
@@ -15,8 +15,9 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
     $fedoraClassLoader->register();
 }
 $fedoraClassLoader->addPrefixes(array(
-    'SURFnet\\VPN\\CA' => dirname(dirname(dirname(__DIR__))),
+    'SURFnet\\VPN\\Common' => dirname(dirname(dirname(__DIR__))),
 ));
 
 require_once $vendorDir.'/Psr/Log/autoload.php';
-require_once $vendorDir.'/SURFnet/VPN/Common/autoload.php';
+require_once $vendorDir.'/Symfony/Polyfill/autoload.php';
+require_once $vendorDir.'/Symfony/Component/Yaml/autoload.php';
