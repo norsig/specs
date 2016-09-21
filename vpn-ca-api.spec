@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           a03d096a9a8960bdf56760a77657d75f885778d5
+%global github_commit           4a3597038ac595ae4a92ba2d9a7bc3c28e18ff10
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.3%{?dist}
+Release:    0.7%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -129,6 +129,18 @@ fi
 %license LICENSE
 
 %changelog
+* Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.7
+- update to 4a3597038ac595ae4a92ba2d9a7bc3c28e18ff10
+
+* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.6
+- update to dce93bc4fe816383bd5db8bbb2bcababec2bbc9f
+
+* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.5
+- update to dce93bc4fe816383bd5db8bbb2bcababec2bbc9f
+
+* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.4
+- update to 34659be5921589429b53edb0e975e6412bc162b0
+
 * Thu Sep 15 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.3
 - rebuilt
 

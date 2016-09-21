@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           e4df403481a1da210c68464189b3c116dc6be0f9
+%global github_commit           8c1a576671f6ff8d20d024ed47a1c2c1dcc66a74
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.5%{?dist}
+Release:    0.7%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -43,6 +43,8 @@ BuildRequires:  php-standard
 BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(christian-riesen/otp)
+BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
+BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 BuildRequires:  php-composer(symfony/class-loader)
 %endif
 
@@ -60,6 +62,8 @@ Requires:   php-standard
 Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(psr/log)
 Requires:   php-composer(christian-riesen/otp)
+Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
+Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
@@ -139,6 +143,12 @@ fi
 %license LICENSE
 
 %changelog
+* Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.7
+- update to 8c1a576671f6ff8d20d024ed47a1c2c1dcc66a74
+
+* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.6
+- update to 1670b267f5d61e147fe6a36bcfb11c4fc5f89547
+
 * Thu Sep 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.5
 - update to e4df403481a1da210c68464189b3c116dc6be0f9
 

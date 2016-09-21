@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           d1a3e49b5d9653497bd7f479409724fdb3377f81
+%global github_commit           b4fb0626c6c6ba58d6367a7845c121916535fd1e
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.3%{?dist}
+Release:    0.9%{?dist}
 Summary:    Common VPN library
 
 Group:      System Environment/Libraries
@@ -29,8 +29,9 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if %{with_tests}
 BuildRequires:  php(language) >= 5.4.0
-BuildRequires:  php-json
 BuildRequires:  php-hash
+BuildRequires:  php-json
+BuildRequires:  php-session
 BuildRequires:  php-spl
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(symfony/polyfill)
@@ -41,8 +42,9 @@ BuildRequires:  %{_bindir}/phpab
 %endif
 
 Requires:   php(language) >= 5.4.0
-Requires:   php-json
 Requires:   php-hash
+Requires:   php-json
+Requires:   php-session
 Requires:   php-spl
 Requires:   php-composer(psr/log)
 Requires:   php-composer(symfony/polyfill)
@@ -84,6 +86,24 @@ rm -rf %{buildroot}
 %license LICENSE
 
 %changelog
+* Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.9
+- update to b4fb0626c6c6ba58d6367a7845c121916535fd1e
+
+* Tue Sep 20 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.8
+- update to 497e2d63edefdc631ad86dc89f0a30176d45032d
+
+* Mon Sep 19 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.7
+- update to e1236372a87fca49cc0f05585c0f0fe8a0a3b413
+
+* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.6
+- fix Guzzle dependency version
+
+* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.5
+- rebuilt
+
+* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.4
+- update to b50d161f7caa25c67a17b7fa3a6671447cac08e9
+
 * Thu Sep 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.3
 - update to d1a3e49b5d9653497bd7f479409724fdb3377f81
 
