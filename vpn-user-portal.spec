@@ -1,19 +1,24 @@
-%global composer_vendor         fkooman
+%global composer_vendor         eduvpn
 %global composer_project        vpn-user-portal
-%global composer_namespace      %{composer_vendor}/VPN/UserPortal
+%global composer_namespace      SURFnet/VPN/Portal
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           492561305508c6bede6aec470f31859ee13dfadd
+%global github_commit           521cf1e973842061b42d4c1dc47c0e68efcd0c1c
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
+%if 0%{?rhel} == 5
+%global with_tests              0%{?_with_tests:1}
+%else
+%global with_tests              0%{!?_without_tests:1}
+%endif
 
 Name:       vpn-user-portal
-Version:    9.4.4
-Release:    1%{?dist}
+Version:    10.0.0
+Release:    0.1%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
-License:    ASL-2.0
+License:    AGPLv3+
 
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
@@ -23,43 +28,41 @@ Source2:    %{name}-httpd.conf
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
+%if %{with_tests}
+BuildRequires:  %{_bindir}/phpunit
+BuildRequires:  %{_bindir}/phpab
+BuildRequires:  php(language) >= 5.4.0
+BuildRequires:  php-date
+BuildRequires:  php-gettext
+BuildRequires:  php-json
+BuildRequires:  php-pcre
+BuildRequires:  php-spl
+BuildRequires:  php-composer(eduvpn/common)
+BuildRequires:  php-composer(twig/twig)
+BuildRequires:  php-composer(twig/extensions)
+BuildRequires:  php-composer(bacon/bacon-qr-code)
+BuildRequires:  php-composer(christian-riesen/otp)
+BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
+BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
+BuildRequires:  php-composer(fkooman/oauth2-client)
+BuildRequires:  php-composer(symfony/class-loader)
+%endif
+
 Requires:   httpd
 Requires:   php(language) >= 5.4.0
+Requires:   php-date
+Requires:   php-gettext
+Requires:   php-json
 Requires:   php-pcre
-Requires:   php-pdo
 Requires:   php-spl
-Requires:   php-composer(fkooman/config) >= 1.1.0
-Requires:   php-composer(fkooman/config) < 2.0.0
-Requires:   php-composer(fkooman/http) >= 1.0.0
-Requires:   php-composer(fkooman/http) < 2.0.0
-Requires:   php-composer(paragonie/random_compat) >= 1.0.0
-Requires:   php-composer(paragonie/random_compat) < 2.0.0
-Requires:   php-composer(fkooman/rest) >= 1.0.0
-Requires:   php-composer(fkooman/rest) < 2.0.0
-Requires:   php-composer(fkooman/oauth) >= 5.2.1
-Requires:   php-composer(fkooman/oauth) < 6.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication) >= 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) >= 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-basic) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-form) >= 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-form) < 4.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) >= 2.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-mellon) < 3.0.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) >= 2.1.0
-Requires:   php-composer(fkooman/rest-plugin-authentication-bearer) < 3.0.0
-Requires:   php-composer(fkooman/oauth2-client) >= 1.0.0
-Requires:   php-composer(fkooman/oauth2-client) < 2.0.0
-Requires:   php-composer(bacon/bacon-qr-code) >= 1.0
-Requires:   php-composer(bacon/bacon-qr-code) < 2.0
-Requires:   php-composer(christian-riesen/otp) >= 1.0
-Requires:   php-composer(christian-riesen/otp) < 2.0
-Requires:   php-composer(fkooman/tpl) >= 2.0.0
-Requires:   php-composer(fkooman/tpl) < 3.0.0
-Requires:   php-composer(fkooman/tpl-twig) >= 1.3.3
-Requires:   php-composer(fkooman/tpl-twig) < 2.0.0
-Requires:   php-composer(guzzlehttp/guzzle) >= 5.3
-Requires:   php-composer(guzzlehttp/guzzle) < 6.0
+Requires:   php-composer(eduvpn/common)
+Requires:   php-composer(twig/twig)
+Requires:   php-composer(twig/extensions)
+Requires:   php-composer(bacon/bacon-qr-code)
+Requires:   php-composer(christian-riesen/otp)
+Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
+Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
+Requires:   php-composer(fkooman/oauth2-client)
 Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
@@ -72,8 +75,8 @@ VPN User Portal.
 %setup -qn %{github_name}-%{github_commit} 
 cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
-sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
-sed -i "s|require_once dirname(__DIR__).'/vendor/autoload.php';|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
+sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
+sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
 sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
@@ -86,24 +89,29 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 cp -pr web views locale src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
-mkdir -p ${RPM_BUILD_ROOT}%{_bindir}
+mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
 (
 cd bin
 for f in `ls *`
 do
-    cp -pr ${f} ${RPM_BUILD_ROOT}%{_bindir}/%{name}-${f}
+    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${f}
 done
 )
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-cp -p config/config.yaml.example ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/config.yaml
-echo '{}' > ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}/clients.json
-
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
+
+%if %{with_tests} 
+%check
+%{_bindir}/phpab --output tests/bootstrap.php tests
+echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
+%{_bindir}/phpunit \
+    --bootstrap tests/bootstrap.php
+%endif
 
 %post
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
@@ -121,9 +129,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/config.yaml
-%config(noreplace) %attr(0600,apache,apache) %{_sysconfdir}/%{name}/clients.json
-%{_bindir}/*
+%{_sbindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
@@ -131,10 +137,13 @@ fi
 %{_datadir}/%{name}/config
 %{_datadir}/%{name}/locale
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.yaml.example config/clients.json.example
-%license COPYING
+%doc README.md CHANGES.md composer.json config/config.yaml.example
+%license LICENSE
 
 %changelog
+* Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.1
+- update to 521cf1e973842061b42d4c1dc47c0e68efcd0c1c
+
 * Tue Aug 02 2016 François Kooman <fkooman@tuxed.net> - 9.4.4-1
 - update to 9.4.4
 

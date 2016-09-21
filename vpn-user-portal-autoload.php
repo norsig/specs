@@ -15,22 +15,13 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
     $fedoraClassLoader->register();
 }
 $fedoraClassLoader->addPrefixes(array(
-    'fkooman\\VPN\\UserPortal' => dirname(dirname(dirname(__DIR__))),
+    'SURFnet\\VPN\\Portal' => dirname(dirname(dirname(__DIR__))),
 ));
 
-require_once $vendorDir.'/fkooman/Http/autoload.php';
-require_once $vendorDir.'/fkooman/Config/autoload.php';
-require_once $vendorDir.'/fkooman/Rest/autoload.php';
-require_once $vendorDir.'/fkooman/OAuth/autoload.php';
-require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/autoload.php';
-require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Mellon/autoload.php';
-require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Basic/autoload.php';
-require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Form/autoload.php';
-require_once $vendorDir.'/fkooman/Rest/Plugin/Authentication/Bearer/autoload.php';
-require_once $vendorDir.'/fkooman/Tpl/autoload.php';
-require_once $vendorDir.'/fkooman/Tpl/Twig/autoload.php';
-require_once $vendorDir.'/GuzzleHttp/autoload.php';
-require_once $vendorDir.'/random_compat/autoload.php';
-require_once $vendorDir.'/Otp/autoload.php';
+require_once $vendorDir.'/SURFnet/VPN/Common/autoload.php';
+require_once $vendorDir.'/Twig/autoload.php';
+require_once $vendorDir.'/Twig/Extensions/autoload.php';
 require_once $vendorDir.'/BaconQrCode/autoload.php';
+require_once $vendorDir.'/Otp/autoload.php';
+require_once $vendorDir.'/GuzzleHttp/autoload.php';
 require_once $vendorDir.'/fkooman/OAuth/Client/autoload.php';
