@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           521cf1e973842061b42d4c1dc47c0e68efcd0c1c
+%global github_commit           37e1ca0b0e118d581ab52d8ac98177a0ab254b62
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.1%{?dist}
+Release:    0.4%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -36,6 +36,7 @@ BuildRequires:  php-date
 BuildRequires:  php-gettext
 BuildRequires:  php-json
 BuildRequires:  php-pcre
+BuildRequires:  php-pdo
 BuildRequires:  php-spl
 BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(twig/twig)
@@ -54,6 +55,7 @@ Requires:   php-date
 Requires:   php-gettext
 Requires:   php-json
 Requires:   php-pcre
+Requires:   php-pdo
 Requires:   php-spl
 Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(twig/twig)
@@ -104,6 +106,7 @@ ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
+ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
 
 %if %{with_tests} 
 %check
@@ -118,7 +121,7 @@ semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.
 restorecon -R %{_localstatedir}/lib/%{name} || :
 
 # remove template cache if it is there
-rm -rf %{_localstatedir}/lib/%{name}/tpl/* >/dev/null 2>/dev/null || :
+rm -rf %{_localstatedir}/lib/%{name}/*/tpl/* >/dev/null 2>/dev/null || :
 
 %postun
 if [ $1 -eq 0 ] ; then  # final removal
@@ -132,6 +135,7 @@ fi
 %{_sbindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
+%{_datadir}/%{name}/data
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
@@ -141,6 +145,15 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.4
+- fix data dir
+
+* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.3
+- update to 37e1ca0b0e118d581ab52d8ac98177a0ab254b62
+
+* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.2
+- update to e0e145f88c96003eb15a6ef75f9e5b84e370b81c
+
 * Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.1
 - update to 521cf1e973842061b42d4c1dc47c0e68efcd0c1c
 

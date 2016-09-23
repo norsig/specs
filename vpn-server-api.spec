@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           8c1a576671f6ff8d20d024ed47a1c2c1dcc66a74
+%global github_commit           08075c98880e5a24c01b3a8e1891aebbd3d21904
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.7%{?dist}
+Release:    0.9%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -103,11 +103,11 @@ done
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 ln -s ../../../etc/openvpn ${RPM_BUILD_ROOT}%{_datadir}/%{name}/openvpn-config
-ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
-ln -s ../../../var/lib/openvpn ${RPM_BUILD_ROOT}%{_datadir}/%{name}/openvpn-data
 
 # Data
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
+ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
+ln -s ../../../var/lib/openvpn ${RPM_BUILD_ROOT}%{_datadir}/%{name}/openvpn-data
 
 %if %{with_tests} 
 %check
@@ -143,6 +143,12 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.9
+- update to 08075c98880e5a24c01b3a8e1891aebbd3d21904
+
+* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.8
+- update to c30bd06f5becb8b416a95bad13baeb67ffc077c7
+
 * Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.7
 - update to 8c1a576671f6ff8d20d024ed47a1c2c1dcc66a74
 

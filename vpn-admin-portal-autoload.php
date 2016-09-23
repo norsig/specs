@@ -15,7 +15,7 @@ if (!isset($fedoraClassLoader) || !($fedoraClassLoader instanceof \Symfony\Compo
     $fedoraClassLoader->register();
 }
 $fedoraClassLoader->addPrefixes(array(
-    'SURFnet\\VPN\\Portal' => dirname(dirname(dirname(__DIR__))),
+    'SURFnet\\VPN\\Admin' => dirname(dirname(dirname(__DIR__))),
 ));
 
 require_once $vendorDir.'/SURFnet/VPN/Common/autoload.php';

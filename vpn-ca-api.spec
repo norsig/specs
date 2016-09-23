@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           4a3597038ac595ae4a92ba2d9a7bc3c28e18ff10
+%global github_commit           d5767e5b639ac9a4e8acc4a64d05a180957b6389
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.7%{?dist}
+Release:    0.8%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -92,10 +92,10 @@ done
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
-ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
 
 # Data
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
+ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
 
 %if %{with_tests} 
 %check
@@ -129,6 +129,9 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.8
+- update to d5767e5b639ac9a4e8acc4a64d05a180957b6389
+
 * Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.7
 - update to 4a3597038ac595ae4a92ba2d9a7bc3c28e18ff10
 

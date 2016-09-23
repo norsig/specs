@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           13503b2477dea9d21356d77adfbe248b3482b214
+%global github_commit           19674d0fd23277d3705e8373fa90e16743ac4b0a
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
 Version:    10.0.0
-Release:    0.2%{?dist}
+Release:    0.4%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -69,6 +69,7 @@ ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 
 # Data
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
+ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
 
 %post
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
@@ -89,6 +90,7 @@ fi
 %{_sbindir}/*
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
+%{_datadir}/%{name}/data
 %{_datadir}/%{name}/views
 %{_datadir}/%{name}/config
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
@@ -96,6 +98,12 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.4
+- fix data dir
+
+* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.3
+- update to 19674d0fd23277d3705e8373fa90e16743ac4b0a
+
 * Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.2
 - update to 13503b2477dea9d21356d77adfbe248b3482b214
 
