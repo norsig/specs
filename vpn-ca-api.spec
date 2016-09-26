@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           d5767e5b639ac9a4e8acc4a64d05a180957b6389
+%global github_commit           41d6789a94a8b0309fbdc7cc4e7aa00864eb041a
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.8%{?dist}
+Release:    0.9%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -35,6 +35,7 @@ BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-date
 BuildRequires:  php-json
 BuildRequires:  php-openssl
+BuildRequires:  php-mbstring
 BuildRequires:  php-pcre
 BuildRequires:  php-spl
 BuildRequires:  php-composer(eduvpn/common)
@@ -49,6 +50,7 @@ Requires:   openvpn
 Requires:   php(language) >= 5.4.0
 Requires:   php-date
 Requires:   php-json
+Requires:   php-mbstring
 Requires:   php-openssl
 Requires:   php-pcre
 Requires:   php-spl
@@ -129,6 +131,9 @@ fi
 %license LICENSE
 
 %changelog
+* Mon Sep 26 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.9
+- update to 41d6789a94a8b0309fbdc7cc4e7aa00864eb041a
+
 * Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.8
 - update to d5767e5b639ac9a4e8acc4a64d05a180957b6389
 

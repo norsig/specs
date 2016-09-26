@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           37e1ca0b0e118d581ab52d8ac98177a0ab254b62
+%global github_commit           1ed11c976fa60ab94ee6547e3a387fa04df4c22f
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.4%{?dist}
+Release:    0.5%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -54,6 +54,7 @@ Requires:   php(language) >= 5.4.0
 Requires:   php-date
 Requires:   php-gettext
 Requires:   php-json
+Requires:   php-mbstring
 Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
@@ -145,6 +146,9 @@ fi
 %license LICENSE
 
 %changelog
+* Mon Sep 26 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.5
+- update to 1ed11c976fa60ab94ee6547e3a387fa04df4c22f
+
 * Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.4
 - fix data dir
 

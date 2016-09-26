@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           a866037c195822a215770d48850247c67a96b882
+%global github_commit           f587768996cf921e9bf10e982a8169f37a46a25e
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.10%{?dist}
+Release:    0.11%{?dist}
 Summary:    Common VPN library
 
 Group:      System Environment/Libraries
@@ -29,8 +29,10 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if %{with_tests}
 BuildRequires:  php(language) >= 5.4.0
+BuildRequires:  php-filter
 BuildRequires:  php-hash
 BuildRequires:  php-json
+BuildRequires:  php-mbstring
 BuildRequires:  php-session
 BuildRequires:  php-spl
 BuildRequires:  php-composer(psr/log)
@@ -42,8 +44,10 @@ BuildRequires:  %{_bindir}/phpab
 %endif
 
 Requires:   php(language) >= 5.4.0
+Requires:   php-filter
 Requires:   php-hash
 Requires:   php-json
+Requires:   php-mbstring
 Requires:   php-session
 Requires:   php-spl
 Requires:   php-composer(psr/log)
@@ -86,6 +90,9 @@ rm -rf %{buildroot}
 %license LICENSE
 
 %changelog
+* Mon Sep 26 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.11
+- update to f587768996cf921e9bf10e982a8169f37a46a25e
+
 * Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.10
 - update to a866037c195822a215770d48850247c67a96b882
 

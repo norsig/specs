@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           08075c98880e5a24c01b3a8e1891aebbd3d21904
+%global github_commit           27271f288683e33d5c4491567250e52df7441b1a
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.9%{?dist}
+Release:    0.10%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -35,6 +35,7 @@ BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-curl
 BuildRequires:  php-date
 BuildRequires:  php-filter
+BuildRequires:  php-mbstring
 BuildRequires:  php-json
 BuildRequires:  php-pcre
 BuildRequires:  php-pdo
@@ -54,6 +55,7 @@ Requires:   php(language) >= 5.4.0
 Requires:   php-curl
 Requires:   php-date
 Requires:   php-filter
+Requires:   php-mbstring
 Requires:   php-json
 Requires:   php-pcre
 Requires:   php-pdo
@@ -138,11 +140,14 @@ fi
 %{_datadir}/%{name}/openvpn-config
 %{_datadir}/%{name}/data
 %{_datadir}/%{name}/openvpn-data
-%dir %attr(0710,apache,openvpn) %{_localstatedir}/lib/%{name}
+%dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
 %doc README.md composer.json config/config.yaml.example
 %license LICENSE
 
 %changelog
+* Mon Sep 26 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.10
+- update to 27271f288683e33d5c4491567250e52df7441b1a
+
 * Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.9
 - update to 08075c98880e5a24c01b3a8e1891aebbd3d21904
 
