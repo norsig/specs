@@ -4,12 +4,17 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           d57cd7168584c2932a6007af1299797b34ff638f
+%global github_commit           9bc13f6ca3fe235095ebe5f7ca78d220ed9e42a4
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
+%if 0%{?rhel} == 5
+%global with_tests              0%{?_with_tests:1}
+%else
+%global with_tests              0%{!?_without_tests:1}
+%endif
 
 Name:       vpn-admin-portal
 Version:    10.0.0
-Release:    0.5%{?dist}
+Release:    0.6%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -22,6 +27,19 @@ Source2:    %{name}-httpd.conf
 
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
+
+%if %{with_tests}
+BuildRequires:  %{_bindir}/phpunit
+BuildRequires:  %{_bindir}/phpab
+BuildRequires:  php(language) >= 5.4.0
+BuildRequires:  php-date
+BuildRequires:  php-spl
+BuildRequires:  php-composer(eduvpn/common)
+BuildRequires:  php-composer(twig/twig)
+BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
+BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
+BuildRequires:  php-composer(symfony/class-loader)
+%endif
 
 Requires:   httpd
 Requires:   php(language) >= 5.4.0
@@ -71,6 +89,14 @@ ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
 ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
 
+%if %{with_tests} 
+%check
+%{_bindir}/phpab --output tests/bootstrap.php tests
+echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
+%{_bindir}/phpunit \
+    --bootstrap tests/bootstrap.php
+%endif
+
 %post
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
 restorecon -R %{_localstatedir}/lib/%{name} || :
@@ -98,6 +124,10 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Sep 27 2016 François <fkooman@tuxed.net> - 10.0.0-0.6
+- update to 9bc13f6ca3fe235095ebe5f7ca78d220ed9e42a4
+- enable tests
+
 * Mon Sep 26 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.5
 - update to d57cd7168584c2932a6007af1299797b34ff638f
 
