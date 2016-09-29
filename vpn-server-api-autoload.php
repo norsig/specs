@@ -20,4 +20,5 @@ $fedoraClassLoader->addPrefixes(array(
 
 require_once $vendorDir.'/Otp/autoload.php';
 require_once $vendorDir.'/Psr/Log/autoload.php';
+require_once $vendorDir.'/GuzzleHttp/autoload.php';
 require_once $vendorDir.'/SURFnet/VPN/Common/autoload.php';

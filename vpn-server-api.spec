@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           27271f288683e33d5c4491567250e52df7441b1a
+%global github_commit           bdda5d5bc78ab5050a076c98d80a276c1a4563e3
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.10%{?dist}
+Release:    0.12%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -145,6 +145,12 @@ fi
 %license LICENSE
 
 %changelog
+* Thu Sep 29 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.12
+- forgot Guzzle in autoloader
+
+* Thu Sep 29 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.11
+- update to bdda5d5bc78ab5050a076c98d80a276c1a4563e3
+
 * Mon Sep 26 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.10
 - update to 27271f288683e33d5c4491567250e52df7441b1a
 
