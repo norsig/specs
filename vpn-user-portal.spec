@@ -14,7 +14,7 @@
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.13%{?dist}
+Release:    0.14%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -99,6 +99,7 @@ for f in `ls *`
 do
     bf=`basename ${f} .php`
     cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
+    chmod 0755 ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
 done
 )
 
@@ -147,6 +148,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Oct 02 2016 François <fkooman@tuxed.net> - 10.0.0-0.14
+- rebuilt
+
 * Fri Sep 30 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.13
 - update to 3e4fd2be3a2e8dad0041da0c5c11b869e7dccc38
 - fix bin scripts

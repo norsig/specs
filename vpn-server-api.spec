@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.15%{?dist}
+Release:    0.16%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -99,6 +99,7 @@ for f in `ls *`
 do
     bf=`basename ${f} .php`
     cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
+    chmod 0755 ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
 done
 )
 
@@ -146,6 +147,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Oct 02 2016 François <fkooman@tuxed.net> - 9.0.0-0.16
+- rebuilt
+
 * Sun Oct 02 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.15
 - update to 747ec8eb18787c5bab904b7941c0558d53e7b75a
 

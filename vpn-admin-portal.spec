@@ -14,7 +14,7 @@
 
 Name:       vpn-admin-portal
 Version:    10.0.0
-Release:    0.9%{?dist}
+Release:    0.10%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -79,6 +79,7 @@ for f in `ls *`
 do
     bf=`basename ${f} .php`
     cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
+    chmod 0755 ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
 done
 )
 
@@ -125,6 +126,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Oct 02 2016 François <fkooman@tuxed.net> - 10.0.0-0.10
+- rebuilt
+
 * Fri Sep 30 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.9
 - update to bd436f545217b773659866b0f00be070b8125ed8
 - fix bin scripts

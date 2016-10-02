@@ -14,7 +14,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.10%{?dist}
+Release:    0.11%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -89,6 +89,7 @@ for f in `ls *`
 do
     bf=`basename ${f} .php`
     cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
+    chmod 0755 ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
 done
 )
 
@@ -132,6 +133,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Oct 02 2016 François <fkooman@tuxed.net> - 6.0.0-0.11
+- rebuilt
+
 * Fri Sep 30 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.10
 - update to 36b474de57ac390dee670dd33357d2876e136bbe
 - fix bin scripts
