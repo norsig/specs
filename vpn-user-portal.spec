@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           0608dae0525527071a844db57d03bdf19523aacd
+%global github_commit           3e4fd2be3a2e8dad0041da0c5c11b869e7dccc38
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.12%{?dist}
+Release:    0.13%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -97,7 +97,8 @@ mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
 cd bin
 for f in `ls *`
 do
-    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${f}
+    bf=`basename ${f} .php`
+    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
 done
 )
 
@@ -146,6 +147,10 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Sep 30 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.13
+- update to 3e4fd2be3a2e8dad0041da0c5c11b869e7dccc38
+- fix bin scripts
+
 * Fri Sep 30 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.12
 - update to 0608dae0525527071a844db57d03bdf19523aacd
 

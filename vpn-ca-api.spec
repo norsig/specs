@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           41d6789a94a8b0309fbdc7cc4e7aa00864eb041a
+%global github_commit           36b474de57ac390dee670dd33357d2876e136bbe
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.9%{?dist}
+Release:    0.10%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -87,7 +87,8 @@ mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
 cd bin
 for f in `ls *`
 do
-    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${f}
+    bf=`basename ${f} .php`
+    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
 done
 )
 
@@ -131,6 +132,10 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Sep 30 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.10
+- update to 36b474de57ac390dee670dd33357d2876e136bbe
+- fix bin scripts
+
 * Mon Sep 26 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.9
 - update to 41d6789a94a8b0309fbdc7cc4e7aa00864eb041a
 
