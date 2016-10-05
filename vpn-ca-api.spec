@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           cf082a803914941e529f821cb959bb07a2760f51
+%global github_commit           0ad07a4e25f018bc560f51165b43c44a622d02d6
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.12%{?dist}
+Release:    0.13%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -44,7 +44,6 @@ BuildRequires:  php-composer(symfony/class-loader)
 %endif
 
 Requires:   httpd
-Requires:   easy-rsa
 Requires:   openvpn
 
 Requires:   php(language) >= 5.4.0
@@ -80,7 +79,7 @@ install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{
 
 # Application
 mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+cp -pr web easy-rsa src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
 
 mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
 (
@@ -126,6 +125,7 @@ fi
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
+%{_datadir}/%{name}/easy-rsa
 %{_datadir}/%{name}/config
 %{_datadir}/%{name}/data
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
@@ -133,6 +133,10 @@ fi
 %license LICENSE
 
 %changelog
+* Wed Oct 05 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.13
+- add embedded easy-rsa folder
+- update to 0ad07a4e25f018bc560f51165b43c44a622d02d6
+
 * Tue Oct 04 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.12
 - update to cf082a803914941e529f821cb959bb07a2760f51
 
