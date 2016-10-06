@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           36ab70a53d52da51bcd687a57750d188f454759c
+%global github_commit           622a44de85f8051ca1cf9d94acfe657891bd13b5
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.15%{?dist}
+Release:    0.16%{?dist}
 Summary:    Common VPN library
 
 Group:      System Environment/Libraries
@@ -35,6 +35,8 @@ BuildRequires:  php-json
 BuildRequires:  php-mbstring
 BuildRequires:  php-session
 BuildRequires:  php-spl
+BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
+BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(symfony/polyfill)
 BuildRequires:  php-composer(symfony/yaml)
@@ -50,6 +52,8 @@ Requires:   php-json
 Requires:   php-mbstring
 Requires:   php-session
 Requires:   php-spl
+Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
+Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 Requires:   php-composer(psr/log)
 Requires:   php-composer(symfony/polyfill)
 Requires:   php-composer(symfony/yaml)
@@ -90,6 +94,9 @@ rm -rf %{buildroot}
 %license LICENSE
 
 %changelog
+* Thu Oct 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.16
+- update to 622a44de85f8051ca1cf9d94acfe657891bd13b5
+
 * Thu Oct 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.15
 - update to 36ab70a53d52da51bcd687a57750d188f454759c
 
