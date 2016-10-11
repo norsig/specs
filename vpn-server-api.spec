@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           8dada941f9aa5f9840e788d5171107f978b559c4
+%global github_commit           a301354cfe2ce5de42c9f86bc24aad5e9dc5c25f
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.27%{?dist}
+Release:    0.28%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -105,6 +105,7 @@ done
 
 # Config
 mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
+cp config/dh.pem ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
 ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
 ln -s ../../../etc/openvpn ${RPM_BUILD_ROOT}%{_datadir}/%{name}/openvpn-config
 
@@ -133,7 +134,8 @@ fi
 %files
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
-%dir %attr(-,apache,openvpn) %{_sysconfdir}/%{name}
+%config(noreplace) %{_sysconfdir}/%{name}/dh.pem
+%dir %attr(-,root,apache) %{_sysconfdir}/%{name}
 %{_sbindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
@@ -142,11 +144,14 @@ fi
 %{_datadir}/%{name}/openvpn-config
 %{_datadir}/%{name}/data
 %{_datadir}/%{name}/openvpn-data
-%dir %attr(0711,apache,apache) %{_localstatedir}/lib/%{name}
+%dir %attr(0710,apache,apache) %{_localstatedir}/lib/%{name}
 %doc README.md composer.json config/config.yaml.example
 %license LICENSE
 
 %changelog
+* Tue Oct 11 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.28
+- rebuilt
+
 * Tue Oct 11 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.27
 - rebuilt
 
