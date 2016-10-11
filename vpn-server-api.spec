@@ -14,7 +14,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.29%{?dist}
+Release:    0.30%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -135,7 +135,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %config(noreplace) %{_sysconfdir}/%{name}/dh.pem
-%dir %attr(0710,root,apache) %{_sysconfdir}/%{name}
+%dir %attr(-,apache,openvpn) %{_sysconfdir}/%{name}
 %{_sbindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
@@ -149,6 +149,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Oct 11 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.30
+- rebuilt
+
 * Tue Oct 11 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.29
 - rebuilt
 
