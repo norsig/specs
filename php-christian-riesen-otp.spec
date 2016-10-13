@@ -14,7 +14,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    2.2.0
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    One Time Passwords
 
 Group:      System Environment/Libraries
@@ -33,7 +33,6 @@ BuildRequires:  php-date
 BuildRequires:  php-hash
 BuildRequires:  php-openssl
 BuildRequires:  php-spl
-BuildRequires:  php-libsodium
 BuildRequires:  php-composer(christian-riesen/base32)
 BuildRequires:  php-composer(paragonie/random_compat)
 BuildRequires:  php-composer(symfony/class-loader)
@@ -46,9 +45,8 @@ Requires:   php-date
 Requires:   php-hash
 Requires:   php-openssl
 Requires:   php-spl
-Requires:   php-libsodium
-Requires:   php-composer(paragonie/random_compat)
 Requires:   php-composer(christian-riesen/base32)
+Requires:   php-composer(paragonie/random_compat)
 Requires:   php-composer(symfony/class-loader)
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -87,6 +85,9 @@ rm -rf %{buildroot}
 %license LICENSE
 
 %changelog
+* Thu Oct 13 2016 François Kooman <fkooman@tuxed.net> - 2.2.0-2
+- do not depend on libsodium any longer
+
 * Wed Sep 14 2016 François Kooman <fkooman@tuxed.net> - 2.2.0-1
 - update to 2.2.0
 
