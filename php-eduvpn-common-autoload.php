@@ -18,7 +18,7 @@ $fedoraClassLoader->addPrefixes(array(
     'SURFnet\\VPN\\Common' => dirname(dirname(dirname(__DIR__))),
 ));
 
-require_once $vendorDir.'/GuzzleHttp/autoload.php';
 require_once $vendorDir.'/Psr/Log/autoload.php';
+require_once $vendorDir.'/GuzzleHttp/autoload.php';
 require_once $vendorDir.'/Symfony/Polyfill/autoload.php';
 require_once $vendorDir.'/Symfony/Component/Yaml/autoload.php';

@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           38a77ef55db11630785cea055ae0d7cc40f74f3d
+%global github_commit           b27ab7cef60ec6f3ff3fb60e1c6557caa32b1ce8
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.23%{?dist}
+Release:    0.25%{?dist}
 Summary:    Common VPN library
 
 Group:      System Environment/Libraries
@@ -29,34 +29,38 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if %{with_tests}
 BuildRequires:  php(language) >= 5.4.0
+BuildRequires:  php-curl
 BuildRequires:  php-filter
 BuildRequires:  php-hash
 BuildRequires:  php-json
 BuildRequires:  php-mbstring
+BuildRequires:  php-pcre
 BuildRequires:  php-session
 BuildRequires:  php-spl
-BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
-BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(symfony/polyfill)
 BuildRequires:  php-composer(symfony/yaml)
+BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
+BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 BuildRequires:  php-composer(symfony/class-loader)
 BuildRequires:  %{_bindir}/phpunit
 BuildRequires:  %{_bindir}/phpab
 %endif
 
 Requires:   php(language) >= 5.4.0
+Requires:   php-curl
 Requires:   php-filter
 Requires:   php-hash
 Requires:   php-json
 Requires:   php-mbstring
+Requires:   php-pcre
 Requires:   php-session
 Requires:   php-spl
-Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
-Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 Requires:   php-composer(psr/log)
 Requires:   php-composer(symfony/polyfill)
 Requires:   php-composer(symfony/yaml)
+Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
+Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 Requires:   php-composer(symfony/class-loader)
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -94,6 +98,12 @@ rm -rf %{buildroot}
 %license LICENSE
 
 %changelog
+* Fri Oct 14 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.25
+- rebuilt
+
+* Fri Oct 14 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.24
+- rebuilt
+
 * Wed Oct 12 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.23
 - rebuilt
 
