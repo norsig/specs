@@ -114,7 +114,7 @@ fi
 %files
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
-%dir %attr(-,apache,apache) %{_sysconfdir}/%{name}
+%dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
 %{_sbindir}/*
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
