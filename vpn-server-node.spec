@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-node
-%global github_commit           777cc7253e44f63eadcf28f0f539c33deb1f3a78
+%global github_commit           6ad172fd4828bfbb8e9490826dd1d14949a6110c
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.5%{?dist}
+Release:    0.8%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -119,6 +119,15 @@ echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoloa
 %license LICENSE
 
 %changelog
+* Fri Oct 21 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.8
+- rebuilt
+
+* Fri Oct 21 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.7
+- rebuilt
+
+* Fri Oct 21 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.6
+- rebuilt
+
 * Thu Oct 20 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.5
 - rebuilt
 
