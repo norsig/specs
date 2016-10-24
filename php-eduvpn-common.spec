@@ -4,7 +4,7 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           a48534a76669e6928dc0bd65db4ae947eff38206
+%global github_commit           98fc98886f524b8dc8428eab3d6f72664c3b45c3
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 %if 0%{?rhel} == 5
 %global with_tests              0%{?_with_tests:1}
@@ -14,7 +14,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.30%{?dist}
+Release:    0.31%{?dist}
 Summary:    Common VPN library
 
 Group:      System Environment/Libraries
@@ -98,6 +98,9 @@ rm -rf %{buildroot}
 %license LICENSE
 
 %changelog
+* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.31
+- rebuilt
+
 * Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.30
 - rebuilt
 
