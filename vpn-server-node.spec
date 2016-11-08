@@ -14,7 +14,7 @@
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.14%{?dist}
+Release:    0.15%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -115,10 +115,13 @@ echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoloa
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/config
 %{_datadir}/%{name}/openvpn-config
-%doc README.md composer.json config/config.yaml.example config/firewall.yaml.example
+%doc README.md composer.json config/config.yaml.example config/firewall.yaml.example config/dh.pem
 %license LICENSE
 
 %changelog
+* Tue Nov 08 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.15
+- rebuilt
+
 * Tue Oct 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.14
 - rebuilt
 
