@@ -9,7 +9,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.59%{?dist}
+Release:    0.60%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -33,6 +33,7 @@ BuildRequires:  php-pdo
 BuildRequires:  php-spl
 BuildRequires:  php-standard
 BuildRequires:  %{_bindir}/phpunit
+BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(christian-riesen/otp)
@@ -51,6 +52,7 @@ Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
 Requires:   php-standard
+Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(psr/log)
 Requires:   php-composer(christian-riesen/otp)
@@ -140,5 +142,8 @@ fi
 %license LICENSE
 
 %changelog
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.60
+- rebuilt
+
 * Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.59
 - rebuilt

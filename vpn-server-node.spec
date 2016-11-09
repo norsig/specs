@@ -4,17 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-node
-%global github_commit           32a2330376aa0db004c38ef7d65a87dfcfac8c70
+%global github_commit           f19e95a2e82d5fc514490c8fccf051fb877532f8
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
-%if 0%{?rhel} == 5
-%global with_tests              0%{?_with_tests:1}
-%else
-%global with_tests              0%{!?_without_tests:1}
-%endif
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.15%{?dist}
+Release:    0.16%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -22,14 +17,11 @@ License:    AGPLv3+
 
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
-Source1:    %{name}-autoload.php
 
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
-%if %{with_tests}
 BuildRequires:  %{_bindir}/phpunit
-BuildRequires:  %{_bindir}/phpab
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-curl
 BuildRequires:  php-date
@@ -40,10 +32,9 @@ BuildRequires:  php-pcre
 BuildRequires:  php-pdo
 BuildRequires:  php-spl
 BuildRequires:  php-standard
+BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(psr/log)
-BuildRequires:  php-composer(symfony/class-loader)
-%endif
 
 Requires:   openvpn
 Requires:   php(language) >= 5.4.0
@@ -56,9 +47,9 @@ Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
 Requires:   php-standard
+Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(psr/log)
-Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
@@ -68,43 +59,46 @@ OpenVPN node controller.
 
 %prep
 %setup -qn %{github_name}-%{github_commit} 
-cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
+cat <<'AUTOLOAD' | tee src/autoload.php
+<?php
+require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 
+\Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Node\\', __DIR__);
+\Fedora\Autoloader\Dependencies::required(array(
+    '%{_datadir}/php/Psr/Log/autoload.php',
+    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
+));
+AUTOLOAD
 %install
 
 # Application
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
+cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
-mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
+mkdir -p %{buildroot}%{_sbindir}
 (
 cd bin
 for f in `ls *`
 do
     bf=`basename ${f} .php`
-    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
-    chmod 0755 ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
+    cp -pr ${f} %{buildroot}%{_sbindir}/%{name}-${bf}
+    chmod 0755 %{buildroot}%{_sbindir}/%{name}-${bf}
 done
 )
 
 # Config
-mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-cp config/dh.pem ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
-ln -s ../../../etc/openvpn ${RPM_BUILD_ROOT}%{_datadir}/%{name}/openvpn-config
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+cp config/dh.pem %{buildroot}%{_sysconfdir}/%{name}
+ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
+ln -s ../../../etc/openvpn %{buildroot}%{_datadir}/%{name}/openvpn-config
 
-%if %{with_tests} 
 %check
-%{_bindir}/phpab --output tests/bootstrap.php tests
-echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
-%{_bindir}/phpunit \
-    --bootstrap tests/bootstrap.php
-%endif
+phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php
 
 %files
 %defattr(-,root,root,-)
@@ -119,47 +113,5 @@ echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoloa
 %license LICENSE
 
 %changelog
-* Tue Nov 08 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.15
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.16
 - rebuilt
-
-* Tue Oct 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.14
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.13
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.12
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.11
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.10
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.9
-- rebuilt
-
-* Fri Oct 21 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.8
-- rebuilt
-
-* Fri Oct 21 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.7
-- rebuilt
-
-* Fri Oct 21 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.6
-- rebuilt
-
-* Thu Oct 20 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.5
-- rebuilt
-
-* Wed Oct 19 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.4
-- rebuilt
-
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.3
-- rebuilt
-
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
-- rebuilt
-
-* Mon Oct 17 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
-- initial package
