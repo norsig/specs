@@ -4,17 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           d2119a05e7ea56020dc58d9bcdc6eb5e504b2b1b
+%global github_commit           8c81cafbb9d2ee078d49123dfdea85a77e1ed95a
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
-%if 0%{?rhel} == 5
-%global with_tests              0%{?_with_tests:1}
-%else
-%global with_tests              0%{!?_without_tests:1}
-%endif
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.17%{?dist}
+Release:    0.18%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -22,15 +17,11 @@ License:    AGPLv3+
 
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
-Source1:    %{name}-autoload.php
-Source2:    %{name}-httpd.conf
+Source1:    %{name}-httpd.conf
 
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
-%if %{with_tests}
-BuildRequires:  %{_bindir}/phpunit
-BuildRequires:  %{_bindir}/phpab
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-date
 BuildRequires:  php-json
@@ -40,12 +31,11 @@ BuildRequires:  php-pcre
 BuildRequires:  php-spl
 BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(psr/log)
-BuildRequires:  php-composer(symfony/class-loader)
-%endif
+BuildRequires:  php-composer(fedora/autoloader)
+BuildRequires:  %{_bindir}/phpunit
 
 Requires:   httpd
 Requires:   openvpn
-
 Requires:   php(language) >= 5.4.0
 Requires:   php-date
 Requires:   php-json
@@ -53,9 +43,9 @@ Requires:   php-mbstring
 Requires:   php-openssl
 Requires:   php-pcre
 Requires:   php-spl
+Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(psr/log)
-Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
@@ -65,48 +55,55 @@ VPN CA API.
 
 %prep
 %setup -qn %{github_name}-%{github_commit} 
-cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
 sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
+cat <<'AUTOLOAD' | tee src/autoload.php
+<?php
+require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
+
+\Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\CA\\', __DIR__);
+\Fedora\Autoloader\Dependencies::required(array(
+    '%{_datadir}/php/Psr/Log/autoload.php',
+    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
+));
+AUTOLOAD
 
 %install
 # Apache configuration
-install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+install -m 0644 -D -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 # Application
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr web easy-rsa src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -pr web easy-rsa %{buildroot}%{_datadir}/%{name}
+mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
+cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
-mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
+mkdir -p %{buildroot}%{_sbindir}
 (
 cd bin
 for f in `ls *`
 do
     bf=`basename ${f} .php`
-    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
-    chmod 0755 ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
+    cp -pr ${f} %{buildroot}%{_sbindir}/%{name}-${bf}
+    chmod 0755 %{buildroot}%{_sbindir}/%{name}-${bf}
 done
 )
 
 # Config
-mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
 # Data
-mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
-ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
+mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
+ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
 
-%if %{with_tests} 
+
 %check
-%{_bindir}/phpab --output tests/bootstrap.php tests
-echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
-%{_bindir}/phpunit \
-    --bootstrap tests/bootstrap.php
-%endif
+phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php
 
 %post
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
@@ -133,55 +130,5 @@ fi
 %license LICENSE
 
 %changelog
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.17
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.18
 - rebuilt
-
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.16
-- rebuilt
-
-* Fri Oct 14 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.15
-- rebuilt
-
-* Thu Oct 06 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.14
-- update to 6eb2fa733b875de4a3ef78736aa429de4c391ee1
-
-* Wed Oct 05 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.13
-- add embedded easy-rsa folder
-- update to 0ad07a4e25f018bc560f51165b43c44a622d02d6
-
-* Tue Oct 04 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.12
-- update to cf082a803914941e529f821cb959bb07a2760f51
-
-* Sun Oct 02 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.11
-- rebuilt
-
-* Fri Sep 30 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.10
-- update to 36b474de57ac390dee670dd33357d2876e136bbe
-- fix bin scripts
-
-* Mon Sep 26 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.9
-- update to 41d6789a94a8b0309fbdc7cc4e7aa00864eb041a
-
-* Fri Sep 23 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.8
-- update to d5767e5b639ac9a4e8acc4a64d05a180957b6389
-
-* Wed Sep 21 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.7
-- update to 4a3597038ac595ae4a92ba2d9a7bc3c28e18ff10
-
-* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.6
-- update to dce93bc4fe816383bd5db8bbb2bcababec2bbc9f
-
-* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.5
-- update to dce93bc4fe816383bd5db8bbb2bcababec2bbc9f
-
-* Sun Sep 18 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.4
-- update to 34659be5921589429b53edb0e975e6412bc162b0
-
-* Thu Sep 15 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.3
-- rebuilt
-
-* Wed Sep 14 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.2
-- rebuilt
-
-* Wed Sep 14 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.1
-- update to 6.0.0

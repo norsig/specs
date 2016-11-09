@@ -71,10 +71,6 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
     '%{_datadir}/php/Symfony/Polyfill/autoload.php',
     '%{_datadir}/php/Symfony/Component/Yaml/autoload.php',
 ));
-
-\Fedora\Autoloader\Dependencies::optional(array(
-   // no optional dependencies
-));
 AUTOLOAD
 
 %install

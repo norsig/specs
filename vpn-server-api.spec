@@ -4,17 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           1e858d900c4463c1959506c5ca45b3eae75efc09
+%global github_commit           ba476654d0e2874b43caf595a948c789eaf856bc
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
-%if 0%{?rhel} == 5
-%global with_tests              0%{?_with_tests:1}
-%else
-%global with_tests              0%{!?_without_tests:1}
-%endif
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.58%{?dist}
+Release:    0.59%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -22,15 +17,11 @@ License:    AGPLv3+
 
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
-Source1:    %{name}-autoload.php
-Source2:    %{name}-httpd.conf
+Source1:    %{name}-httpd.conf
 
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
-%if %{with_tests}
-BuildRequires:  %{_bindir}/phpunit
-BuildRequires:  %{_bindir}/phpab
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-curl
 BuildRequires:  php-date
@@ -41,13 +32,12 @@ BuildRequires:  php-pcre
 BuildRequires:  php-pdo
 BuildRequires:  php-spl
 BuildRequires:  php-standard
+BuildRequires:  %{_bindir}/phpunit
 BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(christian-riesen/otp)
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
-BuildRequires:  php-composer(symfony/class-loader)
-%endif
 
 Requires:   openvpn
 Requires:   httpd
@@ -66,7 +56,6 @@ Requires:   php-composer(psr/log)
 Requires:   php-composer(christian-riesen/otp)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
-Requires:   php-composer(symfony/class-loader)
 
 Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
@@ -76,48 +65,56 @@ VPN Server API.
 
 %prep
 %setup -qn %{github_name}-%{github_commit} 
-cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
 sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
+cat <<'AUTOLOAD' | tee src/autoload.php
+<?php
+require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
+
+\Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Server\\', __DIR__);
+\Fedora\Autoloader\Dependencies::required(array(
+    '%{_datadir}/php/Otp/autoload.php',
+    '%{_datadir}/php/Psr/Log/autoload.php',
+    '%{_datadir}/php/GuzzleHttp/autoload.php',
+    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
+));
+AUTOLOAD
 
 %install
 # Apache configuration
-install -m 0644 -D -p %{SOURCE2} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+install -m 0644 -D -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 # Application
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr web src ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -pr web %{buildroot}%{_datadir}/%{name}
+mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
+cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
-mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
+mkdir -p %{buildroot}%{_sbindir}
 (
 cd bin
 for f in `ls *`
 do
     bf=`basename ${f} .php`
-    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
-    chmod 0755 ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
+    cp -pr ${f} %{buildroot}%{_sbindir}/%{name}-${bf}
+    chmod 0755 %{buildroot}%{_sbindir}/%{name}-${bf}
 done
 )
 
 # Config
-mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
 # Data
-mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
-ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
+mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
+ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
 
-%if %{with_tests} 
 %check
-%{_bindir}/phpab --output tests/bootstrap.php tests
-echo 'require "%{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
-%{_bindir}/phpunit \
-    --bootstrap tests/bootstrap.php
-%endif
+phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php
 
 %post
 semanage fcontext -a -t httpd_sys_rw_content_t '%{_localstatedir}/lib/%{name}(/.*)?' 2>/dev/null || :
@@ -143,65 +140,5 @@ fi
 %license LICENSE
 
 %changelog
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.58
-- rebuilt
-
-* Tue Nov 08 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.57
-- rebuilt
-
-* Tue Nov 08 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.56
-- rebuilt
-
-* Wed Oct 26 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.55
-- rebuilt
-
-* Tue Oct 25 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.54
-- rebuilt
-
-* Tue Oct 25 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.53
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.52
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.51
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.50
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.49
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.48
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.47
-- rebuilt
-
-* Mon Oct 24 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.46
-- rebuilt
-
-* Fri Oct 21 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.45
-- rebuilt
-
-* Thu Oct 20 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.44
-- rebuilt
-
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.43
-- rebuilt
-
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.42
-- rebuilt
-
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.41
-- rebuilt
-
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.40
-- rebuilt
-
-* Tue Oct 18 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.39
-- rebuilt
-
-* Mon Oct 17 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.38
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.59
 - rebuilt
