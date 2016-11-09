@@ -4,30 +4,20 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           73649ee100aa589164ba0330ccbb64ef76dffc65
+%global github_commit           d17a5a9af8a63eff7ce628a204e1c952d5f6fde6
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
-%if 0%{?rhel} == 5
-%global with_tests              0%{?_with_tests:1}
-%else
-%global with_tests              0%{!?_without_tests:1}
-%endif
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    1.0.0
+Version:    1.0.2
 Release:    1%{?dist}
 Summary:    Common VPN library
-
 Group:      System Environment/Libraries
 License:    AGPLv3+
-
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
-Source1:    %{name}-autoload.php
-
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
-%if %{with_tests}
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-curl
 BuildRequires:  php-filter
@@ -37,15 +27,13 @@ BuildRequires:  php-mbstring
 BuildRequires:  php-pcre
 BuildRequires:  php-session
 BuildRequires:  php-spl
+BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(symfony/polyfill)
 BuildRequires:  php-composer(symfony/yaml)
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
-BuildRequires:  php-composer(symfony/class-loader)
 BuildRequires:  %{_bindir}/phpunit
-BuildRequires:  %{_bindir}/phpab
-%endif
 
 Requires:   php(language) >= 5.4.0
 Requires:   php-curl
@@ -56,12 +44,12 @@ Requires:   php-mbstring
 Requires:   php-pcre
 Requires:   php-session
 Requires:   php-spl
+Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(psr/log)
 Requires:   php-composer(symfony/polyfill)
 Requires:   php-composer(symfony/yaml)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
-Requires:   php-composer(symfony/class-loader)
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
@@ -70,22 +58,32 @@ Common VPN library.
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
-cp %{SOURCE1} src/%{composer_namespace}/autoload.php
 
 %build
+cat <<'AUTOLOAD' | tee src/autoload.php
+<?php
+require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
+
+\Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Common\\', __DIR__);
+\Fedora\Autoloader\Dependencies::required(array(
+    '%{_datadir}/php/Psr/Log/autoload.php',
+    '%{_datadir}/php/GuzzleHttp/autoload.php',
+    '%{_datadir}/php/Symfony/Polyfill/autoload.php',
+    '%{_datadir}/php/Symfony/Component/Yaml/autoload.php',
+));
+
+\Fedora\Autoloader\Dependencies::optional(array(
+   // no optional dependencies
+));
+AUTOLOAD
 
 %install
 rm -rf %{buildroot} 
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/php
-cp -pr src/* ${RPM_BUILD_ROOT}%{_datadir}/php
+mkdir -p %{buildroot}%{_datadir}/php/%{composer_namespace}
+cp -pr src/* %{buildroot}%{_datadir}/php/%{composer_namespace}
 
-%if %{with_tests} 
 %check
-%{_bindir}/phpab --output tests/bootstrap.php tests
-echo 'require "%{buildroot}%{_datadir}/php/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
-%{_bindir}/phpunit \
-    --bootstrap tests/bootstrap.php
-%endif
+phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.php
 
 %clean
 rm -rf %{buildroot}
@@ -93,10 +91,24 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_datadir}/php/%{composer_namespace}
-%doc README.md composer.json
-%{!?_licensedir:%global license %%doc} 
+%doc README.md composer.json CHANGES.md
 %license LICENSE
 
 %changelog
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.2-1
+- update to 1.0.2
+
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.1-1
+- update to 1.0.1
+- using PSR-4 now
+- include CHANGES.md in docs
+
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-3
+- some fedora autoloader fixes
+
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-2
+- use new fedora autoloader
+- spec cleanup
+
 * Tue Nov 08 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-1
 - initial release
