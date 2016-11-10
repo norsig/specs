@@ -9,7 +9,7 @@
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.16%{?dist}
+Release:    0.17%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -113,5 +113,8 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %license LICENSE
 
 %changelog
+* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.17
+- rebuilt
+
 * Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.16
 - rebuilt
