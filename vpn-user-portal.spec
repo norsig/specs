@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           236f6eda59c4442ea691748def2b1d2705f30dd5
+%global github_commit           b56a9c536e1c88a3f4892fd324663ea76a6dc9cd
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.40%{?dist}
+Release:    0.41%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -99,16 +99,8 @@ cp -pr web views locale %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
-mkdir -p %{buildroot}%{_sbindir}
-(
-cd bin
-for f in `ls *`
-do
-    bf=`basename ${f} .php`
-    cp -pr ${f} %{buildroot}%{_sbindir}/%{name}-${bf}
-    chmod 0755 %{buildroot}%{_sbindir}/%{name}-${bf}
-done
-)
+mkdir -p %{buildroot}%{_bindir}
+cp -pr bin/* %{buildroot}%{_bindir}
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
@@ -137,7 +129,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
-%{_sbindir}/*
+%{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/data
@@ -150,6 +142,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.41
+- rebuilt
+
 * Thu Nov 10 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.40
 - rebuilt
 

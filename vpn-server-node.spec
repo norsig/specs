@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-node
-%global github_commit           f19e95a2e82d5fc514490c8fccf051fb877532f8
+%global github_commit           bb54a285dbbb7321fe8ddda9507adb4f59776b93
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.17%{?dist}
+Release:    0.19%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -60,8 +60,8 @@ OpenVPN node controller.
 %prep
 %setup -qn %{github_name}-%{github_commit} 
 
-sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
-sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
+sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/* libexec/*
+sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/* libexec/*
 
 %build
 cat <<'AUTOLOAD' | tee src/autoload.php
@@ -74,22 +74,17 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
     '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
-%install
 
+%install
 # Application
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
-mkdir -p %{buildroot}%{_sbindir}
-(
-cd bin
-for f in `ls *`
-do
-    bf=`basename ${f} .php`
-    cp -pr ${f} %{buildroot}%{_sbindir}/%{name}-${bf}
-    chmod 0755 %{buildroot}%{_sbindir}/%{name}-${bf}
-done
-)
+mkdir -p %{buildroot}%{_bindir}
+cp -pr bin/* %{buildroot}%{_bindir}
+
+mkdir -p %{buildroot}%{_libexecdir}
+cp -pr libexec/* %{buildroot}%{_libexecdir}
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
@@ -104,7 +99,8 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/%{name}/dh.pem
 %dir %attr(0750,root,openvpn) %{_sysconfdir}/%{name}
-%{_sbindir}/*
+%{_bindir}/*
+%{_libexecdir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/config
@@ -113,6 +109,12 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %license LICENSE
 
 %changelog
+* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.19
+- rebuilt
+
+* Fri Nov 11 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.18
+- rebuilt
+
 * Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.17
 - rebuilt
 

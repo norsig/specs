@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           3cdaac4f250a50d40a627697a57a68b3b82a0dfc
+%global github_commit           f7ce37279202a0951bd79bd27e9deb73c3837763
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
 Version:    10.0.0
-Release:    0.29%{?dist}
+Release:    0.31%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -67,32 +67,24 @@ AUTOLOAD
 
 %install
 # Apache configuration
-install -m 0644 -D -p %{SOURCE1} ${RPM_BUILD_ROOT}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+install -m 0644 -D -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 # Application
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/%{name}
-cp -pr web views ${RPM_BUILD_ROOT}%{_datadir}/%{name}
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -pr web views %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
-mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
-(
-cd bin
-for f in `ls *`
-do
-    bf=`basename ${f} .php`
-    cp -pr ${f} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
-    chmod 0755 ${RPM_BUILD_ROOT}%{_sbindir}/%{name}-${bf}
-done
-)
+mkdir -p %{buildroot}%{_bindir}
+cp -pr bin/* %{buildroot}%{_bindir}
 
 # Config
-mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/%{name}
-ln -s ../../../etc/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/config
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
 # Data
-mkdir -p ${RPM_BUILD_ROOT}%{_localstatedir}/lib/%{name}
-ln -s ../../../var/lib/%{name} ${RPM_BUILD_ROOT}%{_datadir}/%{name}/data
+mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
+ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
 
 %check
 phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php
@@ -113,7 +105,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
-%{_sbindir}/*
+%{_bindir}/*
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
 %{_datadir}/%{name}/data
@@ -124,6 +116,12 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.31
+- rebuilt
+
+* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.30
+- rebuilt
+
 * Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.29
 - rebuilt
 

@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           8c81cafbb9d2ee078d49123dfdea85a77e1ed95a
+%global github_commit           32ad7c7269d4e2ad08147477ca09d0328c0adc3e
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.19%{?dist}
+Release:    0.20%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -82,16 +82,8 @@ cp -pr web easy-rsa %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
-mkdir -p %{buildroot}%{_sbindir}
-(
-cd bin
-for f in `ls *`
-do
-    bf=`basename ${f} .php`
-    cp -pr ${f} %{buildroot}%{_sbindir}/%{name}-${bf}
-    chmod 0755 %{buildroot}%{_sbindir}/%{name}-${bf}
-done
-)
+mkdir -p %{buildroot}%{_bindir}
+cp -pr bin/* %{buildroot}%{_bindir}
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
@@ -118,7 +110,7 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
-%{_sbindir}/*
+%{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
@@ -130,6 +122,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.20
+- rebuilt
+
 * Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.19
 - rebuilt
 
