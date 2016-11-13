@@ -9,7 +9,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.20%{?dist}
+Release:    0.21%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -122,6 +122,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.21
+- rebuilt
+
 * Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.20
 - rebuilt
 

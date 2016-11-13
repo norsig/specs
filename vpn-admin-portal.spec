@@ -9,7 +9,7 @@
 
 Name:       vpn-admin-portal
 Version:    10.0.0
-Release:    0.31%{?dist}
+Release:    0.32%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -116,6 +116,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.32
+- rebuilt
+
 * Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.31
 - rebuilt
 
