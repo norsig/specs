@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-node
-%global github_commit           7e1a6bca960036425d0197713c981928182799da
+%global github_commit           1a28b41a64dd1ad18af7d3edd731ebe64d8e6267
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.21%{?dist}
+Release:    0.22%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -88,7 +88,11 @@ cp -pr libexec/* %{buildroot}%{_libexecdir}
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
-cp config/dh.pem %{buildroot}%{_sysconfdir}/%{name}
+cp -pr config/dh.pem %{buildroot}%{_sysconfdir}/%{name}
+cp -pr config/firewall.yaml.example %{buildroot}%{_sysconfdir}/%{name}/firewall.yaml
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
+cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
+
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 ln -s ../../../etc/openvpn %{buildroot}%{_datadir}/%{name}/openvpn-config
 
@@ -97,8 +101,11 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 
 %files
 %defattr(-,root,root,-)
-%config(noreplace) %{_sysconfdir}/%{name}/dh.pem
 %dir %attr(0750,root,openvpn) %{_sysconfdir}/%{name}
+%config(noreplace) %{_sysconfdir}/%{name}/dh.pem
+%config(noreplace) %{_sysconfdir}/%{name}/firewall.yaml
+%dir %attr(0750,root,openvpn) %{_sysconfdir}/%{name}/default
+%config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
 %{_bindir}/*
 %{_libexecdir}/*
 %dir %{_datadir}/%{name}
@@ -109,6 +116,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %license LICENSE
 
 %changelog
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.22
+- rebuilt
+
 * Mon Nov 14 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.21
 - rebuilt
 

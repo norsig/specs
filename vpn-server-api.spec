@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           3679da34fec725ad898e1660f8e2b8a77200a0e8
+%global github_commit           f2b7708fd563fbe33d2391666f10aac9d3ccccbb
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.62%{?dist}
+Release:    0.65%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -101,7 +101,8 @@ mkdir -p %{buildroot}%{_bindir}
 cp -pr bin/* %{buildroot}%{_bindir}
 
 # Config
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
+cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
 # Data
@@ -124,6 +125,8 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
+%dir %attr(0750,root,apache) %{_sysconfdir}/%{name}/default
+%config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
@@ -135,6 +138,15 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.65
+- rebuilt
+
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.64
+- rebuilt
+
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.63
+- rebuilt
+
 * Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.62
 - rebuilt
 

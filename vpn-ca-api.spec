@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           32ad7c7269d4e2ad08147477ca09d0328c0adc3e
+%global github_commit           f3b4497a889a358329a77278d20a16d65e994201
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.21%{?dist}
+Release:    0.24%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -36,6 +36,8 @@ BuildRequires:  %{_bindir}/phpunit
 
 Requires:   httpd
 Requires:   openvpn
+Requires:   openssl
+
 Requires:   php(language) >= 5.4.0
 Requires:   php-date
 Requires:   php-json
@@ -56,9 +58,7 @@ VPN CA API.
 %prep
 %setup -qn %{github_name}-%{github_commit} 
 
-sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
-sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
 cat <<'AUTOLOAD' | tee src/autoload.php
@@ -82,17 +82,14 @@ cp -pr web easy-rsa %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
-mkdir -p %{buildroot}%{_bindir}
-cp -pr bin/* %{buildroot}%{_bindir}
-
 # Config
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
+cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
 # Data
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
 ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
-
 
 %check
 phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php
@@ -110,7 +107,8 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
-%{_bindir}/*
+%dir %attr(0750,root,apache) %{_sysconfdir}/%{name}/default
+%config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
@@ -122,6 +120,15 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.24
+- rebuilt
+
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.23
+- rebuilt
+
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.22
+- rebuilt
+
 * Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.21
 - rebuilt
 

@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           457acf64899f877b01622ccfe099de6c68e45c76
+%global github_commit           cc17aee7d09bc81481c9f8cdb0be6c4ca4496b5e
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.42%{?dist}
+Release:    0.46%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -103,7 +103,8 @@ mkdir -p %{buildroot}%{_bindir}
 cp -pr bin/* %{buildroot}%{_bindir}
 
 # Config
-mkdir -p %{buildroot}%{_sysconfdir}/%{name}
+mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
+cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
 # Data
@@ -129,6 +130,8 @@ fi
 %defattr(-,root,root,-)
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
+%dir %attr(0750,root,apache) %{_sysconfdir}/%{name}/default
+%config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
@@ -142,6 +145,18 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.46
+- rebuilt
+
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.45
+- rebuilt
+
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.44
+- rebuilt
+
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.43
+- rebuilt
+
 * Mon Nov 14 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.42
 - rebuilt
 
