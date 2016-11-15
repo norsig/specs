@@ -9,7 +9,7 @@
 
 Name:       vpn-admin-portal
 Version:    10.0.0
-Release:    0.35%{?dist}
+Release:    0.36%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -41,6 +41,9 @@ Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(twig/twig)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
+
+Requires(post): /usr/sbin/semanage
+Requires(postun): /usr/sbin/semanage
 
 %description
 VPN Admin Portal.
@@ -119,6 +122,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.36
+- rebuilt
+
 * Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.35
 - rebuilt
 

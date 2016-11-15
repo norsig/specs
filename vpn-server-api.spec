@@ -9,7 +9,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.67%{?dist}
+Release:    0.68%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -59,8 +59,8 @@ Requires:   php-composer(christian-riesen/otp)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 
-Requires(post): policycoreutils-python
-Requires(postun): policycoreutils-python
+Requires(post): /usr/sbin/semanage
+Requires(postun): /usr/sbin/semanage
 
 %description
 VPN Server API.
@@ -138,6 +138,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.68
+- rebuilt
+
 * Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.67
 - rebuilt
 
