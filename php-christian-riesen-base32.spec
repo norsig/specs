@@ -6,15 +6,10 @@
 %global github_name             base32
 %global github_commit           0a31e50c0fa9b1692d077c86ac188eecdcbaf7fa
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
-%if 0%{?rhel} == 5
-%global with_tests              0%{?_with_tests:1}
-%else
-%global with_tests              0%{!?_without_tests:1}
-%endif
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.3.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Base32 Encoder/Decoder according to RFC 4648
 
 Group:      System Environment/Libraries
@@ -22,22 +17,18 @@ License:    MIT
 
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
-Source1:    %{name}-autoload.php
 
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
-%if %{with_tests}
 BuildRequires:  php(language) >= 5.3.0
 BuildRequires:  php-pcre
-BuildRequires:  php-composer(symfony/class-loader)
+BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  %{_bindir}/phpunit
-BuildRequires:  %{_bindir}/phpab
-%endif
 
 Requires:   php(language) >= 5.3.0
 Requires:   php-pcre
-Requires:   php-composer(symfony/class-loader)
+Requires:   php-composer(fedora/autoloader)
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
@@ -46,22 +37,22 @@ Base32 Encoder/Decoder for PHP according to RFC 4648.
 
 %prep
 %setup -qn %{github_name}-%{github_commit}
-cp %{SOURCE1} src/autoload.php
 
 %build
+cat <<'AUTOLOAD' | tee src/autoload.php
+<?php
+require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
+
+\Fedora\Autoloader\Autoload::addPsr4('Base32\\', __DIR__);
+AUTOLOAD
 
 %install
 rm -rf %{buildroot} 
-mkdir -p ${RPM_BUILD_ROOT}%{_datadir}/php/%{composer_namespace}
-cp -pr src/* ${RPM_BUILD_ROOT}%{_datadir}/php/%{composer_namespace}
+mkdir -p %{buildroot}%{_datadir}/php/%{composer_namespace}
+cp -pr src/* %{buildroot}%{_datadir}/php/%{composer_namespace}
 
-%if %{with_tests} 
 %check
-%{_bindir}/phpab --output tests/bootstrap.php tests
-echo 'require "%{buildroot}%{_datadir}/php/%{composer_namespace}/autoload.php";' >> tests/bootstrap.php
-%{_bindir}/phpunit \
-    --bootstrap tests/bootstrap.php
-%endif
+phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.php
 
 %clean
 rm -rf %{buildroot}
@@ -70,10 +61,13 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_datadir}/php/%{composer_namespace}
 %doc README.md composer.json
-%{!?_licensedir:%global license %%doc} 
 %license LICENSE
 
 %changelog
+* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 1.3.1-2
+- update autoloader
+- spec cleanup
+
 * Fri May 06 2016 François Kooman <fkooman@tuxed.net> - 1.3.1-1
 - update to 1.3.1
 
