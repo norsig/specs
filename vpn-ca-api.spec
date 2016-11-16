@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-ca-api
-%global github_commit           f3b4497a889a358329a77278d20a16d65e994201
+%global github_commit           02fd750ee734fc4e1082bd094d426ff31c06030a
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.25%{?dist}
+Release:    0.26%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -58,7 +58,8 @@ VPN CA API.
 %prep
 %setup -qn %{github_name}-%{github_commit} 
 
-sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
+sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/* web/*.php
+sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
 %build
 cat <<'AUTOLOAD' | tee src/autoload.php
@@ -81,6 +82,9 @@ mkdir -p %{buildroot}%{_datadir}/%{name}
 cp -pr web easy-rsa %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
+
+mkdir -p %{buildroot}%{_bindir}
+cp -pr bin/* %{buildroot}%{_bindir}
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
@@ -109,6 +113,7 @@ fi
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}/default
 %config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
+%{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
@@ -120,6 +125,9 @@ fi
 %license LICENSE
 
 %changelog
+* Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.26
+- rebuilt
+
 * Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.25
 - rebuilt
 
