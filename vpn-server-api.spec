@@ -9,7 +9,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.74%{?dist}
+Release:    0.75%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -18,7 +18,7 @@ License:    AGPLv3+
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
 Source1:    %{name}-httpd.conf
-
+Source2:    %{name}.cron
 BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
@@ -40,6 +40,7 @@ BuildRequires:  php-composer(christian-riesen/otp)
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 
+Requires:   crontabs
 Requires:   openvpn
 Requires:   httpd
 Requires:   php(language) >= 5.4.0
@@ -109,6 +110,10 @@ ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
 ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
 
+# Cron
+mkdir -p %{buildroot}%{_sysconfdir}/cron.d
+%{__install} -p -D -m 0640 %{SOURCE2} %{buildroot}%{_sysconfdir}/cron.d/%{name}
+
 %check
 phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php
 
@@ -127,6 +132,7 @@ fi
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}/default
 %config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
+%config(noreplace) %{_sysconfdir}/cron.d/%{name}
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
@@ -138,6 +144,9 @@ fi
 %license LICENSE
 
 %changelog
+* Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.75
+- rebuilt
+
 * Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.74
 - rebuilt
 
