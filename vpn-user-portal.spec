@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           af93d53820793e6023082e11d28d58417e044816
+%global github_commit           f20d9489322a946fc1b5a3c8e4ca3f8dba95aae0
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.48%{?dist}
+Release:    0.49%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -145,6 +145,9 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Nov 18 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.49
+- rebuilt
+
 * Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.48
 - rebuilt
 
