@@ -9,7 +9,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.77%{?dist}
+Release:    0.78%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -33,8 +33,8 @@ BuildRequires:  php-pdo
 BuildRequires:  php-spl
 BuildRequires:  php-standard
 BuildRequires:  %{_bindir}/phpunit
+BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
-BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(christian-riesen/otp)
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
@@ -53,8 +53,8 @@ Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
 Requires:   php-standard
+Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
-Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(psr/log)
 Requires:   php-composer(christian-riesen/otp)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
@@ -83,7 +83,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
     '%{_datadir}/php/Otp/autoload.php',
     '%{_datadir}/php/Psr/Log/autoload.php',
     '%{_datadir}/php/GuzzleHttp/autoload.php',
-    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
 
@@ -144,6 +144,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.78
+- rebuilt
+
 * Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.77
 - rebuilt
 

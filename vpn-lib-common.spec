@@ -1,5 +1,3 @@
-%global composer_vendor         eduvpn
-%global composer_project        common
 %global composer_namespace      SURFnet/VPN/Common
 
 %global github_owner            eduvpn
@@ -7,7 +5,7 @@
 %global github_commit           f1c4d0e453b75613a942cd6711e2ee8a097b518a
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
-Name:       php-%{composer_vendor}-%{composer_project}
+Name:       vpn-lib-common
 Version:    1.0.7
 Release:    1%{?dist}
 Summary:    Common VPN library
@@ -51,8 +49,6 @@ Requires:   php-composer(symfony/yaml)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 
-Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
-
 %description
 Common VPN library.
 
@@ -74,19 +70,18 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 AUTOLOAD
 
 %install
-rm -rf %{buildroot} 
-mkdir -p %{buildroot}%{_datadir}/php/%{composer_namespace}
-cp -pr src/* %{buildroot}%{_datadir}/php/%{composer_namespace}
+mkdir -p %{buildroot}%{_datadir}/%{name}/%{composer_namespace}
+cp -pr src/* %{buildroot}%{_datadir}/%{name}/%{composer_namespace}
 
 %check
-phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.php
+phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/%{composer_namespace}/autoload.php
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{_datadir}/php/%{composer_namespace}
+%{_datadir}/%{name}/%{composer_namespace}
 %doc README.md composer.json CHANGES.md
 %license LICENSE
 

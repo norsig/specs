@@ -9,7 +9,7 @@
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.28%{?dist}
+Release:    0.29%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -32,8 +32,8 @@ BuildRequires:  php-pcre
 BuildRequires:  php-pdo
 BuildRequires:  php-spl
 BuildRequires:  php-standard
+BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
-BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(psr/log)
 
 Requires:   openvpn
@@ -47,8 +47,8 @@ Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
 Requires:   php-standard
+Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
-Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(psr/log)
 
 Requires(post): policycoreutils-python
@@ -71,7 +71,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Node\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Psr/Log/autoload.php',
-    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
 
@@ -116,6 +116,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %license LICENSE
 
 %changelog
+* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.29
+- rebuilt
+
 * Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.28
 - rebuilt
 

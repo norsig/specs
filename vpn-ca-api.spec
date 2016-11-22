@@ -9,7 +9,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.26%{?dist}
+Release:    0.27%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -29,7 +29,7 @@ BuildRequires:  php-openssl
 BuildRequires:  php-mbstring
 BuildRequires:  php-pcre
 BuildRequires:  php-spl
-BuildRequires:  php-composer(eduvpn/common)
+BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  %{_bindir}/phpunit
@@ -45,8 +45,8 @@ Requires:   php-mbstring
 Requires:   php-openssl
 Requires:   php-pcre
 Requires:   php-spl
+Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
-Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(psr/log)
 
 Requires(post): /usr/sbin/semanage
@@ -69,7 +69,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\CA\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Psr/Log/autoload.php',
-    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
 
@@ -125,6 +125,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.27
+- rebuilt
+
 * Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.26
 - rebuilt
 

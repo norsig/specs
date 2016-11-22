@@ -9,7 +9,7 @@
 
 Name:       vpn-admin-portal
 Version:    10.0.0
-Release:    0.44%{?dist}
+Release:    0.45%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -26,8 +26,8 @@ BuildRequires:  %{_bindir}/phpunit
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-date
 BuildRequires:  php-spl
+BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
-BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(twig/twig)
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
@@ -36,8 +36,8 @@ Requires:   httpd
 Requires:   php(language) >= 5.4.0
 Requires:   php-date
 Requires:   php-spl
+Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
-Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(twig/twig)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
@@ -63,7 +63,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Admin\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/GuzzleHttp/autoload.php',
-    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
     '%{_datadir}/php/Twig/autoload.php',
 ));
 AUTOLOAD
@@ -122,53 +122,8 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.45
+- rebuilt
+
 * Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.44
-- rebuilt
-
-* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.43
-- rebuilt
-
-* Mon Nov 21 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.42
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.41
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.40
-- rebuilt
-
-* Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.39
-- rebuilt
-
-* Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.38
-- rebuilt
-
-* Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.37
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.36
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.35
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.34
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.33
-- rebuilt
-
-* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.32
-- rebuilt
-
-* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.31
-- rebuilt
-
-* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.30
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.29
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.28
 - rebuilt

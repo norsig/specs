@@ -9,7 +9,7 @@
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.62%{?dist}
+Release:    0.63%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -30,8 +30,8 @@ BuildRequires:  php-json
 BuildRequires:  php-pcre
 BuildRequires:  php-pdo
 BuildRequires:  php-spl
+BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
-BuildRequires:  php-composer(eduvpn/common)
 BuildRequires:  php-composer(twig/twig)
 BuildRequires:  php-composer(twig/extensions)
 BuildRequires:  php-composer(bacon/bacon-qr-code)
@@ -49,8 +49,8 @@ Requires:   php-mbstring
 Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
+Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
-Requires:   php-composer(eduvpn/common)
 Requires:   php-composer(twig/twig)
 Requires:   php-composer(twig/extensions)
 Requires:   php-composer(bacon/bacon-qr-code)
@@ -81,7 +81,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Otp/autoload.php',
     '%{_datadir}/php/GuzzleHttp/autoload.php',
-    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
     '%{_datadir}/php/Twig/autoload.php',
     '%{_datadir}/php/Twig/Extensions/autoload.php',
     '%{_datadir}/php/BaconQrCode/autoload.php',
@@ -145,6 +145,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.63
+- rebuilt
+
 * Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.62
 - rebuilt
 
