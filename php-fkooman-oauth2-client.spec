@@ -9,7 +9,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    2.0.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Very simple OAuth 2.0 client
 
 Group:      System Environment/Libraries
@@ -19,7 +19,6 @@ URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
 
 BuildArch:  noarch
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-curl
@@ -44,7 +43,7 @@ Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
 
 %description
 This is a very simple OAuth 2.0 client for integration in your own 
-application. It has minimal depedencies, but still tries to be secure. 
+application. It has minimal dependencies, but still tries to be secure. 
 The main purpose is to be compatible with PHP 5.4.
 
 %prep
@@ -62,23 +61,26 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 AUTOLOAD
 
 %install
-rm -rf %{buildroot} 
 mkdir -p %{buildroot}%{_datadir}/php/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/php/%{composer_namespace}
 
 %check
 phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.php
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root,-)
+%dir %{_datadir}/php/fkooman
+%dir %{_datadir}/php/fkooman/OAuth
 %{_datadir}/php/%{composer_namespace}
 %doc README.md CHANGES.md composer.json
 %license COPYING
 
 %changelog
+* Thu Nov 24 2016 François Kooman <fkooman@tuxed.net> - 2.0.2-2
+- fix typo in description
+- remove BuildRoot
+- remove clean section
+- fix directory ownership
+
 * Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 2.0.2-1
 - update to 2.0.2
 
