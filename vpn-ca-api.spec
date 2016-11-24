@@ -9,7 +9,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.28%{?dist}
+Release:    0.29%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -52,7 +52,11 @@ Requires:   php-composer(psr/log)
 Requires(post): /usr/sbin/semanage
 Requires(postun): /usr/sbin/semanage
 
-Provides: bundled(easy-rsa) = 3.0.1
+%if 0%{?fedora} >= 24
+Requires:   easy-rsa
+%else
+Provides:   bundled(easy-rsa) = 3.0.1
+%endif
 
 %description
 VPN CA API.
@@ -62,6 +66,10 @@ VPN CA API.
 
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/* web/*.php
 sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
+
+%if 0%{?fedora} >= 24
+rm -rf easy-rsa
+%endif
 
 %build
 cat <<'AUTOLOAD' | tee src/autoload.php
@@ -81,7 +89,7 @@ install -m 0644 -D -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}
 
 # Application
 mkdir -p %{buildroot}%{_datadir}/%{name}
-cp -pr web easy-rsa %{buildroot}%{_datadir}/%{name}
+cp -pr web %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
@@ -96,6 +104,13 @@ ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 # Data
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
 ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
+
+# Easy RSA
+%if 0%{?fedora} >= 24
+ln -s ../../../usr/share/easy-rsa/3 %{buildroot}%{_datadir}/%{name}/easy-rsa
+%else 
+cp -pr easy-rsa %{buildroot}%{_datadir}/%{name}
+%endif 
 
 %check
 phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php
@@ -127,6 +142,9 @@ fi
 %license LICENSE
 
 %changelog
+* Thu Nov 24 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.29
+- rebuilt
+
 * Thu Nov 24 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.28
 - rebuilt
 
