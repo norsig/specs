@@ -9,7 +9,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.27%{?dist}
+Release:    0.28%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -51,6 +51,8 @@ Requires:   php-composer(psr/log)
 
 Requires(post): /usr/sbin/semanage
 Requires(postun): /usr/sbin/semanage
+
+Provides: bundled(easy-rsa) = 3.0.1
 
 %description
 VPN CA API.
@@ -125,6 +127,9 @@ fi
 %license LICENSE
 
 %changelog
+* Thu Nov 24 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.28
+- rebuilt
+
 * Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.27
 - rebuilt
 
