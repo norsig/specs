@@ -7,14 +7,13 @@
 
 Name:       vpn-lib-common
 Version:    1.0.7
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Common VPN library
 Group:      System Environment/Libraries
 License:    AGPLv3+
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
 BuildArch:  noarch
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-curl
@@ -76,16 +75,17 @@ cp -pr src/* %{buildroot}%{_datadir}/%{name}/%{composer_namespace}
 %check
 phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/%{composer_namespace}/autoload.php
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root,-)
+%dir %{_datadir}/%{name}/SURFnet
+%dir %{_datadir}/%{name}/SURFnet/VPN
 %{_datadir}/%{name}/%{composer_namespace}
 %doc README.md composer.json CHANGES.md
 %license LICENSE
 
 %changelog
+* Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.7-2
+- spec cleanups
+
 * Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 1.0.7-1
 - update to 1.0.7
 
