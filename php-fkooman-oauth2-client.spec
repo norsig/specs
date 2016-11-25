@@ -4,12 +4,12 @@
 
 %global github_owner            fkooman
 %global github_name             php-oauth2-client
-%global github_commit           7a8854921275d3072fd77ec8f837d23ce277c4f1
+%global github_commit           00cc53bb3dbe125d9803646016efd1befcf80c3a
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    2.0.2
-Release:    2%{?dist}
+Version:    3.0.0
+Release:    1%{?dist}
 Summary:    Very simple OAuth 2.0 client
 
 Group:      System Environment/Libraries
@@ -75,6 +75,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license COPYING
 
 %changelog
+* Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 3.0.0-1
+- update to 3.0.0
+
 * Thu Nov 24 2016 François Kooman <fkooman@tuxed.net> - 2.0.2-2
 - fix typo in description
 - remove BuildRoot
