@@ -9,7 +9,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.1
-Release:    2%{?dist}
+Release:    4%{?dist}
 Summary:    QR Code Generator for PHP 
 
 Group:      System Environment/Libraries
@@ -19,7 +19,6 @@ URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
 
 BuildArch:  noarch
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 BuildRequires:  php(language) >= 5.3.3
 BuildRequires:  php-gd
@@ -49,23 +48,24 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 AUTOLOAD
 
 %install
-rm -rf %{buildroot} 
 mkdir -p %{buildroot}%{_datadir}/php
 cp -pr src/* %{buildroot}%{_datadir}/php
 
 %check
 phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.php tests
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root,-)
 %{_datadir}/php/%{composer_namespace}
 %doc README.md composer.json
 %license LICENSE
 
 %changelog
+* Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.1-4
+- remove defattr
+
+* Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.1-3
+- cleanup spec file
+
 * Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.1-2
 - update spec
 

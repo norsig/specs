@@ -9,7 +9,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    2.2.0
-Release:    3%{?dist}
+Release:    4%{?dist}
 Summary:    One Time Passwords
 
 Group:      System Environment/Libraries
@@ -19,7 +19,6 @@ URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
 
 BuildArch:  noarch
-BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-date
@@ -62,23 +61,21 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 AUTOLOAD
 
 %install
-rm -rf %{buildroot} 
 mkdir -p %{buildroot}%{_datadir}/php/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/php/%{composer_namespace}/
 
 %check
 phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.php
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root,-)
 %{_datadir}/php/%{composer_namespace}
 %doc README.md composer.json
 %license LICENSE
 
 %changelog
+* Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 2.2.0-4
+- more spec cleanup
+
 * Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 2.2.0-3
 - cleanup spec
 
