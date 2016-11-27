@@ -7,7 +7,7 @@
 
 Name:       vpn-lib-common
 Version:    1.0.7
-Release:    2%{?dist}
+Release:    3%{?dist}
 Summary:    Common VPN library
 Group:      System Environment/Libraries
 License:    AGPLv3+
@@ -69,20 +69,23 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 AUTOLOAD
 
 %install
-mkdir -p %{buildroot}%{_datadir}/%{name}/%{composer_namespace}
-cp -pr src/* %{buildroot}%{_datadir}/%{name}/%{composer_namespace}
+mkdir -p %{buildroot}%{_datadir}/php/%{composer_namespace}
+cp -pr src/* %{buildroot}%{_datadir}/php/%{composer_namespace}
 
 %check
-phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/%{composer_namespace}/autoload.php
+phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.php
 
 %files
-%dir %{_datadir}/%{name}/SURFnet
-%dir %{_datadir}/%{name}/SURFnet/VPN
-%{_datadir}/%{name}/%{composer_namespace}
+%dir %{_datadir}/php/SURFnet
+%dir %{_datadir}/php/SURFnet/VPN
+%{_datadir}/php/%{composer_namespace}
 %doc README.md composer.json CHANGES.md
 %license LICENSE
 
 %changelog
+* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 1.0.7-3
+- change directory where files are stored
+
 * Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.7-2
 - spec cleanups
 

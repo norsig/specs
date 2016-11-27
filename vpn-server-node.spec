@@ -9,7 +9,7 @@
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.30%{?dist}
+Release:    0.31%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -71,7 +71,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Node\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Psr/Log/autoload.php',
-    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
 
@@ -116,6 +116,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %license LICENSE
 
 %changelog
+* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.31
+- rebuilt
+
 * Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.30
 - rebuilt
 

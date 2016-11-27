@@ -9,7 +9,7 @@
 
 Name:       vpn-ca-api
 Version:    6.0.0
-Release:    0.29%{?dist}
+Release:    0.31%{?dist}
 Summary:    Web service to manage VPN CAs
 
 Group:      Applications/Internet
@@ -79,7 +79,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\CA\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Psr/Log/autoload.php',
-    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
 
@@ -142,6 +142,12 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.31
+- rebuilt
+
+* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.30
+- rebuilt
+
 * Thu Nov 24 2016 François Kooman <fkooman@tuxed.net> - 6.0.0-0.29
 - rebuilt
 

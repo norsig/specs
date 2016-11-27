@@ -9,7 +9,7 @@
 
 Name:       vpn-user-portal
 Version:    10.0.0
-Release:    0.65%{?dist}
+Release:    0.66%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -81,7 +81,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Otp/autoload.php',
     '%{_datadir}/php/GuzzleHttp/autoload.php',
-    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
     '%{_datadir}/php/Twig/autoload.php',
     '%{_datadir}/php/Twig/Extensions/autoload.php',
     '%{_datadir}/php/BaconQrCode/autoload.php',
@@ -145,6 +145,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.66
+- rebuilt
+
 * Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.65
 - rebuilt
 

@@ -9,7 +9,7 @@
 
 Name:       vpn-server-api
 Version:    9.0.0
-Release:    0.78%{?dist}
+Release:    0.79%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -83,7 +83,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
     '%{_datadir}/php/Otp/autoload.php',
     '%{_datadir}/php/Psr/Log/autoload.php',
     '%{_datadir}/php/GuzzleHttp/autoload.php',
-    '%{_datadir}/vpn-lib-common/SURFnet/VPN/Common/autoload.php',
+    '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
 
@@ -144,6 +144,9 @@ fi
 %license LICENSE
 
 %changelog
+* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.79
+- rebuilt
+
 * Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.78
 - rebuilt
 
