@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           554b44db7a25ec44e76f3981a51c890bb937308d
+%global github_commit           04f9e8551863ff1f220a89d514ec58a941de5fdb
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
-Version:    9.0.0
-Release:    0.79%{?dist}
+Version:    1.0.0
+Release:    0.1%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -43,6 +43,8 @@ BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 Requires:   crontabs
 Requires:   openvpn
 Requires:   httpd
+Requires:   openssl
+
 Requires:   php(language) >= 5.4.0
 Requires:   php-curl
 Requires:   php-date
@@ -63,6 +65,12 @@ Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 Requires(post): /usr/sbin/semanage
 Requires(postun): /usr/sbin/semanage
 
+%if 0%{?fedora} >= 24
+Requires:   easy-rsa
+%else
+Provides:   bundled(easy-rsa) = 3.0.1
+%endif
+
 %description
 VPN Server API.
 
@@ -72,6 +80,10 @@ VPN Server API.
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" bin/*
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
 sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
+
+%if 0%{?fedora} >= 24
+rm -rf easy-rsa
+%endif
 
 %build
 cat <<'AUTOLOAD' | tee src/autoload.php
@@ -99,7 +111,15 @@ mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
 mkdir -p %{buildroot}%{_bindir}
-cp -pr bin/* %{buildroot}%{_bindir}
+(
+cd bin
+for phpFileName in $(ls *)
+do
+    binFileName=$(basename ${phpFileName} .php)
+    cp -pr ${phpFileName} %{buildroot}%{_bindir}/%{name}-${binFileName}
+    chmod 0755 %{buildroot}%{_bindir}/%{name}-${binFileName}
+done
+)
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
@@ -109,6 +129,13 @@ ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 # Data
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
 ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
+
+# Easy RSA
+%if 0%{?fedora} >= 24
+ln -s ../../../usr/share/easy-rsa/3 %{buildroot}%{_datadir}/%{name}/easy-rsa
+%else 
+cp -pr easy-rsa %{buildroot}%{_datadir}/%{name}
+%endif 
 
 # Cron
 mkdir -p %{buildroot}%{_sysconfdir}/cron.d
@@ -137,72 +164,13 @@ fi
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/web
+%{_datadir}/%{name}/easy-rsa
 %{_datadir}/%{name}/config
 %{_datadir}/%{name}/data
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md composer.json config/config.yaml.example
+%doc README.md composer.json config/config.yaml.example CHANGES.md
 %license LICENSE
 
 %changelog
-* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.79
-- rebuilt
-
-* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.78
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.77
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.76
-- rebuilt
-
-* Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.75
-- rebuilt
-
-* Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.74
-- rebuilt
-
-* Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.73
-- rebuilt
-
-* Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.72
-- rebuilt
-
-* Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.71
-- rebuilt
-
-* Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.70
-- rebuilt
-
-* Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.69
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.68
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.67
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.66
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.65
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.64
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.63
-- rebuilt
-
-* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.62
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.61
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.60
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 9.0.0-0.59
+* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
 - rebuilt

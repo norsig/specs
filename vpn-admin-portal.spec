@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           d559855a128a1af63080b2ebbc33157b26f395b6
+%global github_commit           e2afc288514274b5c657cbba30b781328b8ece30
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
-Version:    10.0.0
-Release:    0.47%{?dist}
+Version:    1.0.0
+Release:    0.2%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -79,7 +79,15 @@ mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
 mkdir -p %{buildroot}%{_bindir}
-cp -pr bin/* %{buildroot}%{_bindir}
+(
+cd bin
+for phpFileName in $(ls *)
+do
+    binFileName=$(basename ${phpFileName} .php)
+    cp -pr ${phpFileName} %{buildroot}%{_bindir}/%{name}-${binFileName}
+    chmod 0755 %{buildroot}%{_bindir}/%{name}-${binFileName}
+done
+)
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
@@ -122,14 +130,8 @@ fi
 %license LICENSE
 
 %changelog
-* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.47
+* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
 - rebuilt
 
-* Wed Nov 23 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.46
-- rebuilt
-
-* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.45
-- rebuilt
-
-* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.44
+* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
 - rebuilt

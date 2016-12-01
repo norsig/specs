@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           1e18f623a43e98d0510ad2050696533c371b7530
+%global github_commit           edceaf905120494badf267e9fa1d4fe3424a0c87
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
-Version:    10.0.0
-Release:    0.67%{?dist}
+Version:    1.0.0
+Release:    0.2%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -100,7 +100,15 @@ mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
 mkdir -p %{buildroot}%{_bindir}
-cp -pr bin/* %{buildroot}%{_bindir}
+(
+cd bin
+for phpFileName in $(ls *)
+do
+    binFileName=$(basename ${phpFileName} .php)
+    cp -pr ${phpFileName} %{buildroot}%{_bindir}/%{name}-${binFileName}
+    chmod 0755 %{buildroot}%{_bindir}/%{name}-${binFileName}
+done
+)
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
@@ -145,98 +153,8 @@ fi
 %license LICENSE
 
 %changelog
-* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.67
+* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
 - rebuilt
 
-* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.66
-- rebuilt
-
-* Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.65
-- rebuilt
-
-* Wed Nov 23 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.64
-- rebuilt
-
-* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.63
-- rebuilt
-
-* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.62
-- rebuilt
-
-* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.61
-- rebuilt
-
-* Mon Nov 21 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.60
-- rebuilt
-
-* Mon Nov 21 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.59
-- rebuilt
-
-* Mon Nov 21 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.58
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.57
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.56
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.55
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.54
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.53
-- rebuilt
-
-* Fri Nov 18 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.52
-- rebuilt
-
-* Fri Nov 18 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.51
-- rebuilt
-
-* Fri Nov 18 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.50
-- rebuilt
-
-* Fri Nov 18 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.49
-- rebuilt
-
-* Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.48
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.47
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.46
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.45
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.44
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.43
-- rebuilt
-
-* Mon Nov 14 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.42
-- rebuilt
-
-* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.41
-- rebuilt
-
-* Thu Nov 10 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.40
-- rebuilt
-
-* Thu Nov 10 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.39
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.38
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.37
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 10.0.0-0.36
+* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
 - rebuilt

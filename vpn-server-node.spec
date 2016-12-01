@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-node
-%global github_commit           4daf00ecd921ebaeb0513fb3ba7e5d5f995a76b5
+%global github_commit           e6c834d93da22bb4f3bb503d91809915ee6793c4
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.31%{?dist}
+Release:    0.2%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -81,10 +81,26 @@ mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
 mkdir -p %{buildroot}%{_bindir}
-cp -pr bin/* %{buildroot}%{_bindir}
+(
+cd bin
+for phpFileName in $(ls *)
+do
+    binFileName=$(basename ${phpFileName} .php)
+    cp -pr ${phpFileName} %{buildroot}%{_bindir}/%{name}-${binFileName}
+    chmod 0755 %{buildroot}%{_bindir}/%{name}-${binFileName}
+done
+)
 
 mkdir -p %{buildroot}%{_libexecdir}
-cp -pr libexec/* %{buildroot}%{_libexecdir}
+(
+cd libexec
+for phpFileName in $(ls *)
+do
+    binFileName=$(basename ${phpFileName} .php)
+    cp -pr ${phpFileName} %{buildroot}%{_libexecdir}/%{name}-${binFileName}
+    chmod 0755 %{buildroot}%{_libexecdir}/%{name}-${binFileName}
+done
+)
 
 # Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
@@ -112,54 +128,12 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/config
 %{_datadir}/%{name}/openvpn-config
-%doc README.md composer.json config/config.yaml.example config/firewall.yaml.example config/dh.pem
+%doc README.md CHANGES.md composer.json config/config.yaml.example config/firewall.yaml.example config/dh.pem
 %license LICENSE
 
 %changelog
-* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.31
+* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
 - rebuilt
 
-* Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.30
-- rebuilt
-
-* Tue Nov 22 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.29
-- rebuilt
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.28
-- rebuilt
-
-* Fri Nov 18 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.27
-- rebuilt
-
-* Fri Nov 18 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.26
-- rebuilt
-
-* Thu Nov 17 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.25
-- rebuilt
-
-* Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.24
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.23
-- rebuilt
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.22
-- rebuilt
-
-* Mon Nov 14 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.21
-- rebuilt
-
-* Mon Nov 14 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.20
-- rebuilt
-
-* Sun Nov 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.19
-- rebuilt
-
-* Fri Nov 11 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.18
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.17
-- rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.16
+* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
 - rebuilt

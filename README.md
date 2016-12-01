@@ -10,7 +10,7 @@ The repository contains three additional scripts:
 * `copr.sh` to build it on COPR.
 
 The resulting packages are available in the COPR repository at 
-[https://copr.fedorainfracloud.org/coprs/fkooman/eduvpn-dev/](https://copr.fedorainfracloud.org/coprs/fkooman/eduvpn-dev/).
+[https://copr.fedorainfracloud.org/coprs/fkooman/eduvpn-testing/](https://copr.fedorainfracloud.org/coprs/fkooman/eduvpn-testing/).
 
 ## Building
 

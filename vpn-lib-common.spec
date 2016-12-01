@@ -2,12 +2,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           f1c4d0e453b75613a942cd6711e2ee8a097b518a
+%global github_commit           8de0a04d4a2ea51c72e56a9c1262ce7fdce35920
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-lib-common
-Version:    1.0.7
-Release:    3%{?dist}
+Version:    1.0.0
+Release:    0.1%{?dist}
 Summary:    Common VPN library
 Group:      System Environment/Libraries
 License:    AGPLv3+
@@ -83,44 +83,5 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
-* Sun Nov 27 2016 François Kooman <fkooman@tuxed.net> - 1.0.7-3
-- change directory where files are stored
-
-* Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 1.0.7-2
-- spec cleanups
-
-* Sun Nov 20 2016 François Kooman <fkooman@tuxed.net> - 1.0.7-1
-- update to 1.0.7
-
-* Wed Nov 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.6-1
-- update to 1.0.6
-
-* Tue Nov 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.5-1
-- update to 1.0.5
-
-* Mon Nov 14 2016 François Kooman <fkooman@tuxed.net> - 1.0.4-1
-- update to 1.0.4
-
-* Thu Nov 10 2016 François Kooman <fkooman@tuxed.net> - 1.0.3-1
-- update to 1.0.3
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.2-2
+* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
 - rebuilt
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.2-1
-- update to 1.0.2
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.1-1
-- update to 1.0.1
-- using PSR-4 now
-- include CHANGES.md in docs
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-3
-- some fedora autoloader fixes
-
-* Wed Nov 09 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-2
-- use new fedora autoloader
-- spec cleanup
-
-* Tue Nov 08 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-1
-- initial release
