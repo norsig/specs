@@ -4,16 +4,16 @@
 
 %global github_owner            fkooman
 %global github_name             php-oauth2-client
-%global github_commit           00cc53bb3dbe125d9803646016efd1befcf80c3a
+%global github_commit           a8930a476fb43e197e39f6e19e729882e34f3c8c
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    3.0.0
+Version:    3.0.1
 Release:    1%{?dist}
 Summary:    Very simple OAuth 2.0 client
 
 Group:      System Environment/Libraries
-License:    ASL 2.0
+License:    AGPLv3+
 
 URL:        https://github.com/%{github_owner}/%{github_name}
 Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.tar.gz
@@ -72,9 +72,13 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %dir %{_datadir}/php/fkooman/OAuth
 %{_datadir}/php/%{composer_namespace}
 %doc README.md CHANGES.md composer.json
-%license COPYING
+%license LICENSE
 
 %changelog
+* Mon Dec 12 2016 François Kooman <fkooman@tuxed.net> - 3.0.1-1
+- update to 3.0.1
+- license changed to AGPLv3+
+
 * Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 3.0.0-1
 - update to 3.0.0
 
