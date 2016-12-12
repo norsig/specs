@@ -9,7 +9,7 @@
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    3.0.1
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    Very simple OAuth 2.0 client
 
 Group:      System Environment/Libraries
@@ -21,8 +21,6 @@ Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.t
 BuildArch:  noarch
 
 BuildRequires:  php(language) >= 5.4.0
-BuildRequires:  php-curl
-BuildRequires:  php-json
 BuildRequires:  php-spl
 BuildRequires:  php-standard
 BuildRequires:  php-composer(paragonie/random_compat) >= 1.0.0
@@ -31,8 +29,6 @@ BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  %{_bindir}/phpunit
 
 Requires:   php(language) >= 5.4.0
-Requires:   php-curl
-Requires:   php-json
 Requires:   php-spl
 Requires:   php-standard
 Requires:   php-composer(paragonie/random_compat) >= 1.0.0
@@ -75,6 +71,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Mon Dec 12 2016 François Kooman <fkooman@tuxed.net> - 3.0.1-2
+- remove dependencies no longer used
+
 * Mon Dec 12 2016 François Kooman <fkooman@tuxed.net> - 3.0.1-1
 - update to 3.0.1
 - license changed to AGPLv3+
