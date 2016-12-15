@@ -9,7 +9,7 @@
 
 Name:       vpn-user-portal
 Version:    1.0.0
-Release:    0.37%{?dist}
+Release:    0.38%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -153,6 +153,9 @@ fi
 %license LICENSE
 
 %changelog
+* Thu Dec 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.38
+- rebuilt
+
 * Thu Dec 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.37
 - rebuilt
 
