@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           2b11e840608a1ace86e0d6c3e690a7857caefd54
+%global github_commit           f8434fe85ed48e10422c5a5084ab79fae57829b8
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    0.35%{?dist}
+Release:    0.36%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -23,11 +23,10 @@ BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 BuildRequires:  php(language) >= 5.4.0
-BuildRequires:  php-curl
 BuildRequires:  php-date
-BuildRequires:  php-filter
-BuildRequires:  php-mbstring
 BuildRequires:  php-json
+BuildRequires:  php-mbstring
+BuildRequires:  php-openssl
 BuildRequires:  php-pcre
 BuildRequires:  php-pdo
 BuildRequires:  php-spl
@@ -42,15 +41,18 @@ BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 
 Requires:   crontabs
 Requires:   openvpn
+%if 0%{?fedora} >= 24
+Requires:   httpd-filesystem
+%else
+# EL7 does not have httpd-filesystem
 Requires:   httpd
-Requires:   openssl
+%endif
 
 Requires:   php(language) >= 5.4.0
-Requires:   php-curl
 Requires:   php-date
-Requires:   php-filter
-Requires:   php-mbstring
 Requires:   php-json
+Requires:   php-mbstring
+Requires:   php-openssl
 Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-spl
@@ -68,6 +70,8 @@ Requires(postun): /usr/sbin/semanage
 %if 0%{?fedora} >= 24
 Requires:   easy-rsa
 %else
+# EL7 has Easy RSA 2.x
+Requires:   openssl
 Provides:   bundled(easy-rsa) = 3.0.1
 %endif
 
@@ -81,6 +85,7 @@ sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|requ
 sed -i "s|require_once sprintf('%s/vendor/autoload.php', dirname(__DIR__));|require_once '%{_datadir}/%{name}/src/%{composer_namespace}/autoload.php';|" web/*.php
 sed -i "s|dirname(__DIR__)|'%{_datadir}/%{name}'|" bin/*
 
+# remove bundled Easy RSA 3.x
 %if 0%{?fedora} >= 24
 rm -rf easy-rsa
 %endif
@@ -100,16 +105,12 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 AUTOLOAD
 
 %install
-# Apache configuration
 install -m 0644 -D -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
-# Application
 mkdir -p %{buildroot}%{_datadir}/%{name}
 cp -pr web %{buildroot}%{_datadir}/%{name}
-
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
-
 mkdir -p %{buildroot}%{_bindir}
 (
 cd bin
@@ -121,12 +122,10 @@ do
 done
 )
 
-# Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
 cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
-# Data
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
 ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
 
@@ -137,7 +136,7 @@ ln -s ../../../usr/share/easy-rsa/3 %{buildroot}%{_datadir}/%{name}/easy-rsa
 cp -pr easy-rsa %{buildroot}%{_datadir}/%{name}
 %endif 
 
-# Cron
+# cron
 mkdir -p %{buildroot}%{_sysconfdir}/cron.d
 %{__install} -p -D -m 0640 %{SOURCE2} %{buildroot}%{_sysconfdir}/cron.d/%{name}
 
@@ -172,107 +171,5 @@ fi
 %license LICENSE
 
 %changelog
-* Thu Dec 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.35
-- rebuilt
-
-* Thu Dec 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.34
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.33
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.32
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.31
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.30
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.29
-- rebuilt
-
-* Mon Dec 12 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.28
-- rebuilt
-
-* Mon Dec 12 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.27
-- rebuilt
-
-* Wed Dec 07 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.26
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.25
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.24
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.23
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.22
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.21
-- rebuilt
-
-* Mon Dec 05 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.20
-- rebuilt
-
-* Mon Dec 05 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.19
-- rebuilt
-
-* Mon Dec 05 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.18
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.17
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.16
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.15
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.14
-- rebuilt
-
-* Sat Dec 03 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.13
-- rebuilt
-
-* Sat Dec 03 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.12
-- rebuilt
-
-* Sat Dec 03 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.11
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.10
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.9
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.8
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.7
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.6
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.5
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.4
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.3
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
+* Fri Dec 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.36
 - rebuilt
