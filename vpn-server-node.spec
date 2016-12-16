@@ -9,7 +9,7 @@
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.12%{?dist}
+Release:    0.13%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -36,8 +36,9 @@ BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(psr/log)
 
-Requires:   openvpn
 Requires:   php(language) >= 5.4.0
+# the scripts in libexec/ and bin/ require the PHP CLI
+Requires:   php-cli
 Requires:   php-curl
 Requires:   php-date
 Requires:   php-filter
@@ -50,6 +51,8 @@ Requires:   php-standard
 Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(psr/log)
+
+Requires:   openvpn
 
 Requires(post): policycoreutils-python
 Requires(postun): policycoreutils-python
@@ -76,7 +79,6 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 AUTOLOAD
 
 %install
-# Application
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 
@@ -102,7 +104,6 @@ do
 done
 )
 
-# Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 cp -pr config/dh.pem %{buildroot}%{_sysconfdir}/%{name}
 cp -pr config/firewall.yaml.example %{buildroot}%{_sysconfdir}/%{name}/firewall.yaml
@@ -132,38 +133,8 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %license LICENSE
 
 %changelog
+* Fri Dec 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.13
+- rebuilt
+
 * Thu Dec 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.12
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.11
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.10
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.9
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.8
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.7
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.6
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.5
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.4
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.3
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
 - rebuilt

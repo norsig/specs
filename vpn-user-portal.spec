@@ -9,7 +9,7 @@
 
 Name:       vpn-user-portal
 Version:    1.0.0
-Release:    0.38%{?dist}
+Release:    0.40%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -40,8 +40,9 @@ BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 BuildRequires:  php-composer(fkooman/oauth2-client)
 
-Requires:   httpd
 Requires:   php(language) >= 5.4.0
+# the scripts in bin/ require the PHP CLI
+Requires:   php-cli
 Requires:   php-date
 Requires:   php-gettext
 Requires:   php-json
@@ -58,6 +59,13 @@ Requires:   php-composer(christian-riesen/otp)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 Requires:   php-composer(fkooman/oauth2-client)
+
+%if 0%{?fedora} >= 24
+Requires:   httpd-filesystem
+%else
+# EL7 does not have httpd-filesystem
+Requires:   httpd
+%endif
 
 Requires(post): /usr/sbin/semanage
 Requires(postun): /usr/sbin/semanage
@@ -90,15 +98,12 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 AUTOLOAD
 
 %install
-# Apache configuration
 install -m 0644 -D -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
-# Application
 mkdir -p %{buildroot}%{_datadir}/%{name}
 cp -pr web views locale %{buildroot}%{_datadir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
 cp -pr src/* %{buildroot}%{_datadir}/%{name}/src/%{composer_namespace}
-
 mkdir -p %{buildroot}%{_bindir}
 (
 cd bin
@@ -110,12 +115,10 @@ do
 done
 )
 
-# Config
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
 cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
-# Data
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
 ln -s ../../../var/lib/%{name} %{buildroot}%{_datadir}/%{name}/data
 
@@ -153,116 +156,11 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Dec 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.40
+- rebuilt
+
+* Fri Dec 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.39
+- rebuilt
+
 * Thu Dec 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.38
-- rebuilt
-
-* Thu Dec 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.37
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.36
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.35
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.34
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.33
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.32
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.31
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.30
-- rebuilt
-
-* Tue Dec 13 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.29
-- rebuilt
-
-* Mon Dec 12 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.28
-- rebuilt
-
-* Mon Dec 12 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.27
-- rebuilt
-
-* Wed Dec 07 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.26
-- rebuilt
-
-* Wed Dec 07 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.25
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.24
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.23
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.22
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.21
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.20
-- rebuilt
-
-* Tue Dec 06 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.19
-- rebuilt
-
-* Mon Dec 05 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.18
-- rebuilt
-
-* Mon Dec 05 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.17
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.16
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.15
-- rebuilt
-
-* Sun Dec 04 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.14
-- rebuilt
-
-* Sat Dec 03 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.13
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.12
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.11
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.10
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.9
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.8
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.7
-- rebuilt
-
-* Fri Dec 02 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.6
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.5
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.4
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.3
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
-- rebuilt
-
-* Thu Dec 01 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
 - rebuilt

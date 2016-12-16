@@ -9,7 +9,7 @@
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    0.36%{?dist}
+Release:    0.37%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -49,6 +49,8 @@ Requires:   httpd
 %endif
 
 Requires:   php(language) >= 5.4.0
+# the scripts in bin/ require the PHP CLI
+Requires:   php-cli
 Requires:   php-date
 Requires:   php-json
 Requires:   php-mbstring
@@ -171,5 +173,8 @@ fi
 %license LICENSE
 
 %changelog
+* Fri Dec 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.37
+- rebuilt
+
 * Fri Dec 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.36
 - rebuilt
