@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-node
-%global github_commit           e2a17c74b18bb1d76ea8dd0143763a28abb8293c
+%global github_commit           9aa1c7f7a285eb17cb1f2696119e055977e29314
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.15%{?dist}
+Release:    0.16%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -133,6 +133,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %license LICENSE
 
 %changelog
+* Wed Dec 28 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.16
+- rebuilt
+
 * Fri Dec 16 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.15
 - rebuilt
 
