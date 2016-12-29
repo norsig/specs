@@ -1,3 +1,5 @@
+%global composer_vendor         enygma
+%global composer_project        yubikey
 %global composer_namespace      Yubikey
 
 %global github_owner            enygma
@@ -7,7 +9,7 @@
 
 Name:       php-enygma-yubikey
 Version:    3.2
-Release:    1%{?dist}
+Release:    2%{?dist}
 Summary:    PHP library to interface with the Yubikey REST API
 Group:      System Environment/Libraries
 License:    MIT
@@ -69,5 +71,8 @@ phpunit tests --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/aut
 #%%license LICENSE
 
 %changelog
+* Thu Dec 29 2016 François Kooman <fkooman@tuxed.net> - 3.2-2
+- fix Provides
+
 * Thu Dec 29 2016 François Kooman <fkooman@tuxed.net> - 3.2-1
 - initial build

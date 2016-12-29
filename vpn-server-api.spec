@@ -9,7 +9,7 @@
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    0.41%{?dist}
+Release:    0.42%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -36,6 +36,7 @@ BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(christian-riesen/otp)
+BuildRequires:  php-composer(enygma/yubikey)
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 
@@ -63,6 +64,7 @@ Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(psr/log)
 Requires:   php-composer(christian-riesen/otp)
+Requires:   php-composer(enygma/yubikey)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 
@@ -102,6 +104,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
     '%{_datadir}/php/Otp/autoload.php',
     '%{_datadir}/php/Psr/Log/autoload.php',
     '%{_datadir}/php/GuzzleHttp/autoload.php',
+    '%{_datadir}/php/Yubikey/autoload.php',
     '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
@@ -173,6 +176,9 @@ fi
 %license LICENSE
 
 %changelog
+* Thu Dec 29 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.42
+- rebuilt
+
 * Wed Dec 28 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.41
 - rebuilt
 
