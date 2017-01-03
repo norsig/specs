@@ -4,12 +4,12 @@
 
 %global github_owner            fkooman
 %global github_name             php-oauth2-client
-%global github_commit           a8930a476fb43e197e39f6e19e729882e34f3c8c
+%global github_commit           52e30588ac481bce8572231438b905beb1c3c021
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    3.0.1
-Release:    2%{?dist}
+Version:    3.0.2
+Release:    1%{?dist}
 Summary:    Very simple OAuth 2.0 client
 
 Group:      System Environment/Libraries
@@ -23,16 +23,14 @@ BuildArch:  noarch
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-spl
 BuildRequires:  php-standard
-BuildRequires:  php-composer(paragonie/random_compat) >= 1.0.0
-BuildRequires:  php-composer(paragonie/random_compat) < 2.0.0
+BuildRequires:  php-composer(paragonie/random_compat)
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  %{_bindir}/phpunit
 
 Requires:   php(language) >= 5.4.0
 Requires:   php-spl
 Requires:   php-standard
-Requires:   php-composer(paragonie/random_compat) >= 1.0.0
-Requires:   php-composer(paragonie/random_compat) < 2.0.0
+Requires:   php-composer(paragonie/random_compat)
 Requires:   php-composer(fedora/autoloader)
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -71,6 +69,10 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 3.0.2-1
+- update to 3.0.2
+- fix dependency version constraint
+
 * Mon Dec 12 2016 François Kooman <fkooman@tuxed.net> - 3.0.1-2
 - remove dependencies no longer used
 
