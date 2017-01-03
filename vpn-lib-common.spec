@@ -7,7 +7,7 @@
 
 Name:       vpn-lib-common
 Version:    1.0.0
-Release:    0.20%{?dist}
+Release:    0.21%{?dist}
 Summary:    Common VPN library
 Group:      System Environment/Libraries
 License:    AGPLv3+
@@ -17,6 +17,7 @@ BuildArch:  noarch
 
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-curl
+BuildRequires:  php-date
 BuildRequires:  php-filter
 BuildRequires:  php-hash
 BuildRequires:  php-json
@@ -26,13 +27,14 @@ BuildRequires:  php-session
 BuildRequires:  php-spl
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(psr/log)
-BuildRequires:  php-composer(symfony/polyfill)
-BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
-BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
+BuildRequires:  php-composer(symfony/polyfill-php55)
+BuildRequires:  php-composer(symfony/polyfill-php56)
+BuildRequires:  php-composer(symfony/polyfill-php70)
 BuildRequires:  %{_bindir}/phpunit
 
 Requires:   php(language) >= 5.4.0
 Requires:   php-curl
+Requires:   php-date
 Requires:   php-filter
 Requires:   php-hash
 Requires:   php-json
@@ -42,9 +44,9 @@ Requires:   php-session
 Requires:   php-spl
 Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(psr/log)
-Requires:   php-composer(symfony/polyfill)
-Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
-Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
+Requires:   php-composer(symfony/polyfill-php55)
+Requires:   php-composer(symfony/polyfill-php56)
+Requires:   php-composer(symfony/polyfill-php70)
 
 %description
 Common VPN library.
@@ -60,7 +62,6 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Common\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Psr/Log/autoload.php',
-    '%{_datadir}/php/GuzzleHttp/autoload.php',
     '%{_datadir}/php/Symfony/Polyfill/autoload.php',
 ));
 AUTOLOAD
@@ -80,6 +81,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.21
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.20
 - rebuilt
 
