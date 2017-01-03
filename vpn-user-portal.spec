@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           6e105e32b22d3271feab4f5ca910059bb6eabf18
+%global github_commit           cc4e2e743febae3783f2327e52ae00342b0b735e
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
 Version:    1.0.0
-Release:    0.45%{?dist}
+Release:    0.46%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -116,7 +116,7 @@ done
 )
 
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
-cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
+cp -pr config/config.php.example %{buildroot}%{_sysconfdir}/%{name}/default/config.php
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
@@ -142,7 +142,7 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}/default
-%config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
+%config(noreplace) %{_sysconfdir}/%{name}/default/config.php
 %{_bindir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
@@ -152,10 +152,13 @@ fi
 %{_datadir}/%{name}/config
 %{_datadir}/%{name}/locale
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md CHANGES.md composer.json config/config.yaml.example
+%doc README.md CHANGES.md composer.json config/config.php.example
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.46
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.45
 - rebuilt
 

@@ -2,12 +2,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           7b27a5135979c7be2ad05680b52a1e3bd7d8cf35
+%global github_commit           ec485f019b92209f6b3e288e4009388e6121fc51
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-lib-common
 Version:    1.0.0
-Release:    0.19%{?dist}
+Release:    0.20%{?dist}
 Summary:    Common VPN library
 Group:      System Environment/Libraries
 License:    AGPLv3+
@@ -27,7 +27,6 @@ BuildRequires:  php-spl
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(symfony/polyfill)
-BuildRequires:  php-composer(symfony/yaml)
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 BuildRequires:  %{_bindir}/phpunit
@@ -44,7 +43,6 @@ Requires:   php-spl
 Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(psr/log)
 Requires:   php-composer(symfony/polyfill)
-Requires:   php-composer(symfony/yaml)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 
@@ -64,7 +62,6 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
     '%{_datadir}/php/Psr/Log/autoload.php',
     '%{_datadir}/php/GuzzleHttp/autoload.php',
     '%{_datadir}/php/Symfony/Polyfill/autoload.php',
-    '%{_datadir}/php/Symfony/Component/Yaml/autoload.php',
 ));
 AUTOLOAD
 
@@ -83,6 +80,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.20
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.19
 - rebuilt
 

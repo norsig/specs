@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           2c00504f486ff332e05aca8ac7efb315232469f1
+%global github_commit           e19b37b643021f836dca12d2c124a81b77d8e597
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    0.43%{?dist}
+Release:    0.44%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -128,7 +128,7 @@ done
 )
 
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
-cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
+cp -pr config/config.php.example %{buildroot}%{_sysconfdir}/%{name}/default/config.php
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 
 mkdir -p %{buildroot}%{_localstatedir}/lib/%{name}
@@ -162,7 +162,7 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}
 %dir %attr(0750,root,apache) %{_sysconfdir}/%{name}/default
-%config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
+%config(noreplace) %{_sysconfdir}/%{name}/default/config.php
 %config(noreplace) %{_sysconfdir}/cron.d/%{name}
 %{_bindir}/*
 %dir %{_datadir}/%{name}
@@ -172,10 +172,13 @@ fi
 %{_datadir}/%{name}/config
 %{_datadir}/%{name}/data
 %dir %attr(0700,apache,apache) %{_localstatedir}/lib/%{name}
-%doc README.md composer.json config/config.yaml.example CHANGES.md
+%doc README.md composer.json config/config.php.example CHANGES.md
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.44
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.43
 - rebuilt
 

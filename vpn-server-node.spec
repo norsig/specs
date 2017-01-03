@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-node
-%global github_commit           10e3d2df2d917d20e1c2478b8d1f05d99d731430
+%global github_commit           6d6cbeeb96ef8af4859fd02f93f02453eebaf668
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.17%{?dist}
+Release:    0.18%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -106,9 +106,9 @@ done
 
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}
 cp -pr config/dh.pem %{buildroot}%{_sysconfdir}/%{name}
-cp -pr config/firewall.yaml.example %{buildroot}%{_sysconfdir}/%{name}/firewall.yaml
+cp -pr config/firewall.php.example %{buildroot}%{_sysconfdir}/%{name}/firewall.php
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/default
-cp -pr config/config.yaml.example %{buildroot}%{_sysconfdir}/%{name}/default/config.yaml
+cp -pr config/config.php.example %{buildroot}%{_sysconfdir}/%{name}/default/config.php
 
 ln -s ../../../etc/%{name} %{buildroot}%{_datadir}/%{name}/config
 ln -s ../../../etc/openvpn %{buildroot}%{_datadir}/%{name}/openvpn-config
@@ -120,19 +120,22 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %defattr(-,root,root,-)
 %dir %attr(0750,root,openvpn) %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/dh.pem
-%config(noreplace) %{_sysconfdir}/%{name}/firewall.yaml
+%config(noreplace) %{_sysconfdir}/%{name}/firewall.php
 %dir %attr(0750,root,openvpn) %{_sysconfdir}/%{name}/default
-%config(noreplace) %{_sysconfdir}/%{name}/default/config.yaml
+%config(noreplace) %{_sysconfdir}/%{name}/default/config.php
 %{_bindir}/*
 %{_libexecdir}/*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/src
 %{_datadir}/%{name}/config
 %{_datadir}/%{name}/openvpn-config
-%doc README.md CHANGES.md composer.json config/config.yaml.example config/firewall.yaml.example config/dh.pem
+%doc README.md CHANGES.md composer.json config/config.php.example config/firewall.php.example config/dh.pem
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.18
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.17
 - rebuilt
 
