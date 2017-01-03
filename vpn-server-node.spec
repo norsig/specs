@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-node
-%global github_commit           ca05e42a856f81950b3c9828c95ed5d302699fa7
+%global github_commit           22f010bd02d9210aa80bc0b3dc273c2b7ad103e1
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-node
 Version:    1.0.0
-Release:    0.19%{?dist}
+Release:    0.21%{?dist}
 Summary:    OpenVPN node controller
 
 Group:      Applications/Internet
@@ -23,15 +23,11 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  %{_bindir}/phpunit
 BuildRequires:  php(language) >= 5.4.0
-BuildRequires:  php-curl
-BuildRequires:  php-date
 BuildRequires:  php-filter
-BuildRequires:  php-mbstring
 BuildRequires:  php-json
+BuildRequires:  php-mbstring
 BuildRequires:  php-pcre
-BuildRequires:  php-pdo
 BuildRequires:  php-spl
-BuildRequires:  php-standard
 BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(psr/log)
@@ -39,13 +35,10 @@ BuildRequires:  php-composer(psr/log)
 Requires:   php(language) >= 5.4.0
 # the scripts in libexec/ and bin/ require the PHP CLI
 Requires:   php-cli
-Requires:   php-curl
-Requires:   php-date
 Requires:   php-filter
-Requires:   php-mbstring
 Requires:   php-json
+Requires:   php-mbstring
 Requires:   php-pcre
-Requires:   php-pdo
 Requires:   php-spl
 Requires:   php-standard
 Requires:   vpn-lib-common
@@ -133,6 +126,12 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/%{name}/src/%{composer_namespace}/a
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.21
+- rebuilt
+
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.20
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.19
 - rebuilt
 

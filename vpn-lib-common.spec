@@ -2,12 +2,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-lib-common
-%global github_commit           ec485f019b92209f6b3e288e4009388e6121fc51
+%global github_commit           3058625c2070a0e4f98980d3ae9e190a3f183e76
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-lib-common
 Version:    1.0.0
-Release:    0.21%{?dist}
+Release:    0.22%{?dist}
 Summary:    Common VPN library
 Group:      System Environment/Libraries
 License:    AGPLv3+
@@ -81,6 +81,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.22
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.21
 - rebuilt
 
