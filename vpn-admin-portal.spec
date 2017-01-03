@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-admin-portal
-%global github_commit           8868ca694c83d671c6498b340efc8c645f8aa05d
+%global github_commit           4652cb2d29ff2541b2b74be72ae7d165bd9e5332
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-admin-portal
 Version:    1.0.0
-Release:    0.25%{?dist}
+Release:    0.26%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -29,8 +29,6 @@ BuildRequires:  php-spl
 BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(twig/twig)
-BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
-BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 
 Requires:   php(language) >= 5.4.0
 # the scripts in bin/ require the PHP CLI
@@ -40,8 +38,6 @@ Requires:   php-spl
 Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(twig/twig)
-Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
-Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 %if 0%{?fedora} >= 24
 Requires:   httpd-filesystem
 %else
@@ -69,7 +65,6 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 
 \Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Admin\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
-    '%{_datadir}/php/GuzzleHttp/autoload.php',
     '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
     '%{_datadir}/php/Twig/autoload.php',
 ));
@@ -132,6 +127,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.26
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.25
 - rebuilt
 
