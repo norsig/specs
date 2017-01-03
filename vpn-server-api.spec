@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           dfa865db3bef9659bfdbf3d22b6ee95914f9ed4d
+%global github_commit           2c00504f486ff332e05aca8ac7efb315232469f1
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    0.42%{?dist}
+Release:    0.43%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -36,7 +36,7 @@ BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(christian-riesen/otp)
-BuildRequires:  php-composer(enygma/yubikey)
+BuildRequires:  php-composer(fkooman/yubitwee)
 BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
 BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 
@@ -64,7 +64,7 @@ Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(psr/log)
 Requires:   php-composer(christian-riesen/otp)
-Requires:   php-composer(enygma/yubikey)
+Requires:   php-composer(fkooman/yubitwee)
 Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
 Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 
@@ -104,7 +104,7 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
     '%{_datadir}/php/Otp/autoload.php',
     '%{_datadir}/php/Psr/Log/autoload.php',
     '%{_datadir}/php/GuzzleHttp/autoload.php',
-    '%{_datadir}/php/Yubikey/autoload.php',
+    '%{_datadir}/php/fkooman/YubiTwee/autoload.php',
     '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
 ));
 AUTOLOAD
@@ -176,6 +176,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.43
+- rebuilt
+
 * Thu Dec 29 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.42
 - rebuilt
 
