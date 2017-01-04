@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           297cb95f2bf7bb0917c085d98a5fde4b86ba830c
+%global github_commit           69b3731bd117ee63f987ba15991507a30176463e
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    0.46%{?dist}
+Release:    0.48%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -23,6 +23,7 @@ BuildArch:  noarch
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n) 
 
 BuildRequires:  php(language) >= 5.4.0
+BuildRequires:  php-curl
 BuildRequires:  php-date
 BuildRequires:  php-json
 BuildRequires:  php-mbstring
@@ -37,8 +38,6 @@ BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(psr/log)
 BuildRequires:  php-composer(christian-riesen/otp)
 BuildRequires:  php-composer(fkooman/yubitwee)
-BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
-BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 
 Requires:   crontabs
 Requires:   openvpn
@@ -52,6 +51,7 @@ Requires:   httpd
 Requires:   php(language) >= 5.4.0
 # the scripts in bin/ require the PHP CLI
 Requires:   php-cli
+Requires:   php-curl
 Requires:   php-date
 Requires:   php-json
 Requires:   php-mbstring
@@ -65,8 +65,6 @@ Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(psr/log)
 Requires:   php-composer(christian-riesen/otp)
 Requires:   php-composer(fkooman/yubitwee)
-Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
-Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 
 Requires(post): /usr/sbin/semanage
 Requires(postun): /usr/sbin/semanage
@@ -103,7 +101,6 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 \Fedora\Autoloader\Dependencies::required(array(
     '%{_datadir}/php/Otp/autoload.php',
     '%{_datadir}/php/Psr/Log/autoload.php',
-    '%{_datadir}/php/GuzzleHttp/autoload.php',
     '%{_datadir}/php/fkooman/YubiTwee/autoload.php',
     '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
 ));
@@ -176,6 +173,12 @@ fi
 %license LICENSE
 
 %changelog
+* Wed Jan 04 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.48
+- rebuilt
+
+* Wed Jan 04 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.47
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.46
 - rebuilt
 
