@@ -4,11 +4,11 @@
 
 %global github_owner            fkooman
 %global github_name             php-oauth2-client
-%global github_commit           52e30588ac481bce8572231438b905beb1c3c021
+%global github_commit           855fd565d297fc5c06070877dcc0039f4ee075d9
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    3.0.2
+Version:    4.0.0
 Release:    1%{?dist}
 Summary:    Very simple OAuth 2.0 client
 
@@ -21,6 +21,8 @@ Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.t
 BuildArch:  noarch
 
 BuildRequires:  php(language) >= 5.4.0
+BuildRequires:  php-curl
+BuildRequires:  php-json
 BuildRequires:  php-spl
 BuildRequires:  php-standard
 BuildRequires:  php-composer(paragonie/random_compat)
@@ -28,6 +30,8 @@ BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  %{_bindir}/phpunit
 
 Requires:   php(language) >= 5.4.0
+Requires:   php-curl
+Requires:   php-json
 Requires:   php-spl
 Requires:   php-standard
 Requires:   php-composer(paragonie/random_compat)
@@ -69,6 +73,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Wed Jan 04 2017 François Kooman <fkooman@tuxed.net> - 4.0.0-1
+- update to 4.0.0
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 3.0.2-1
 - update to 3.0.2
 - fix dependency version constraint

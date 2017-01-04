@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-user-portal
-%global github_commit           e60087fc9d11a9fe78210a93de8f0d1cbb39edc0
+%global github_commit           af37db69acd7670dc2cd21a2af39e8f306da3ca5
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-user-portal
 Version:    1.0.0
-Release:    0.48%{?dist}
+Release:    0.50%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -25,8 +25,11 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:  %{_bindir}/phpunit
 BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-date
+BuildRequires:  php-filter
 BuildRequires:  php-gettext
+BuildRequires:  php-hash
 BuildRequires:  php-json
+BuildRequires:  php-mbstring
 BuildRequires:  php-pcre
 BuildRequires:  php-pdo
 BuildRequires:  php-spl
@@ -35,16 +38,17 @@ BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  php-composer(twig/twig)
 BuildRequires:  php-composer(twig/extensions)
 BuildRequires:  php-composer(bacon/bacon-qr-code)
-BuildRequires:  php-composer(christian-riesen/otp)
-BuildRequires:  php-composer(guzzlehttp/guzzle) >= 5.3.0
-BuildRequires:  php-composer(guzzlehttp/guzzle) < 6.0.0
 BuildRequires:  php-composer(fkooman/oauth2-client)
+BuildRequires:  php-composer(symfony/polyfill-php56)
+BuildRequires:  php-composer(symfony/polyfill-php70)
 
 Requires:   php(language) >= 5.4.0
 # the scripts in bin/ require the PHP CLI
 Requires:   php-cli
 Requires:   php-date
+Requires:   php-filter
 Requires:   php-gettext
+Requires:   php-hash
 Requires:   php-json
 Requires:   php-mbstring
 Requires:   php-pcre
@@ -55,10 +59,9 @@ Requires:   php-composer(fedora/autoloader)
 Requires:   php-composer(twig/twig)
 Requires:   php-composer(twig/extensions)
 Requires:   php-composer(bacon/bacon-qr-code)
-Requires:   php-composer(christian-riesen/otp)
-Requires:   php-composer(guzzlehttp/guzzle) >= 5.3.0
-Requires:   php-composer(guzzlehttp/guzzle) < 6.0.0
 Requires:   php-composer(fkooman/oauth2-client)
+Requires:   php-composer(symfony/polyfill-php56)
+Requires:   php-composer(symfony/polyfill-php70)
 
 %if 0%{?fedora} >= 24
 Requires:   httpd-filesystem
@@ -87,11 +90,10 @@ require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 
 \Fedora\Autoloader\Autoload::addPsr4('SURFnet\\VPN\\Portal\\', __DIR__);
 \Fedora\Autoloader\Dependencies::required(array(
-    '%{_datadir}/php/Otp/autoload.php',
-    '%{_datadir}/php/GuzzleHttp/autoload.php',
     '%{_datadir}/php/SURFnet/VPN/Common/autoload.php',
     '%{_datadir}/php/Twig/autoload.php',
     '%{_datadir}/php/Twig/Extensions/autoload.php',
+    '%{_datadir}/php/Symfony/Polyfill/autoload.php',
     '%{_datadir}/php/BaconQrCode/autoload.php',
     '%{_datadir}/php/fkooman/OAuth/Client/autoload.php',
 ));
@@ -156,6 +158,12 @@ fi
 %license LICENSE
 
 %changelog
+* Wed Jan 04 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.50
+- rebuilt
+
+* Wed Jan 04 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.49
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.48
 - rebuilt
 
