@@ -9,7 +9,7 @@
 
 Name:       vpn-user-portal
 Version:    1.0.0
-Release:    0.55%{?dist}
+Release:    0.56%{?dist}
 Summary:    VPN User Portal
 
 Group:      Applications/Internet
@@ -35,7 +35,7 @@ BuildRequires:  php-pdo
 BuildRequires:  php-spl
 BuildRequires:  vpn-lib-common
 BuildRequires:  php-composer(fedora/autoloader)
-BuildRequires:  php-composer(twig/twig)
+BuildRequires:  php-composer(twig/twig) < 2
 BuildRequires:  php-composer(twig/extensions)
 BuildRequires:  php-composer(bacon/bacon-qr-code)
 BuildRequires:  php-composer(fkooman/oauth2-client)
@@ -56,7 +56,7 @@ Requires:   php-pdo
 Requires:   php-spl
 Requires:   vpn-lib-common
 Requires:   php-composer(fedora/autoloader)
-Requires:   php-composer(twig/twig)
+Requires:   php-composer(twig/twig) < 2
 Requires:   php-composer(twig/extensions)
 Requires:   php-composer(bacon/bacon-qr-code)
 Requires:   php-composer(fkooman/oauth2-client)
@@ -158,6 +158,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Jan 17 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.56
+- rebuilt
+
 * Tue Jan 17 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.55
 - rebuilt
 

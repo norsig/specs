@@ -9,7 +9,7 @@
 
 Name:       vpn-admin-portal
 Version:    1.0.0
-Release:    0.30%{?dist}
+Release:    0.31%{?dist}
 Summary:    VPN Admin Portal
 
 Group:      Applications/Internet
@@ -27,8 +27,8 @@ BuildRequires:  php(language) >= 5.4.0
 BuildRequires:  php-date
 BuildRequires:  php-spl
 BuildRequires:  vpn-lib-common
+BuildRequires:  php-composer(twig/twig) < 2
 BuildRequires:  php-composer(fedora/autoloader)
-BuildRequires:  php-composer(twig/twig)
 
 Requires:   php(language) >= 5.4.0
 # the scripts in bin/ require the PHP CLI
@@ -36,8 +36,8 @@ Requires:   php-cli
 Requires:   php-date
 Requires:   php-spl
 Requires:   vpn-lib-common
+Requires:   php-composer(twig/twig) < 2
 Requires:   php-composer(fedora/autoloader)
-Requires:   php-composer(twig/twig)
 %if 0%{?fedora} >= 24
 Requires:   httpd-filesystem
 %else
@@ -127,6 +127,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Jan 17 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.31
+- rebuilt
+
 * Tue Jan 17 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.30
 - rebuilt
 
