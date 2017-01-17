@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-server-api
-%global github_commit           a23bfd360cc1d74925ede73c5feb0dd7df2a2c79
+%global github_commit           7f719c8366e132bd60c677376ed18a61908cdb33
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-server-api
 Version:    1.0.0
-Release:    0.50%{?dist}
+Release:    0.51%{?dist}
 Summary:    Web service to control OpenVPN processes
 
 Group:      Applications/Internet
@@ -173,6 +173,9 @@ fi
 %license LICENSE
 
 %changelog
+* Tue Jan 17 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.51
+- rebuilt
+
 * Thu Jan 05 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.50
 - rebuilt
 

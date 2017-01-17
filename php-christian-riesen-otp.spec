@@ -4,12 +4,12 @@
 
 %global github_owner            ChristianRiesen
 %global github_name             otp
-%global github_commit           b441f8338c0375df3e288225acefb943c0b3cb05
+%global github_commit           83f941e1ad6f7a2ff318e30cbf5b3219e63a9a62
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    2.2.0
-Release:    4%{?dist}
+Version:    2.3.0
+Release:    1%{?dist}
 Summary:    One Time Passwords
 
 Group:      System Environment/Libraries
@@ -73,6 +73,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Tue Jan 17 2017 François Kooman <fkooman@tuxed.net> - 2.3.0-1
+- update to 2.3.0
+
 * Fri Nov 25 2016 François Kooman <fkooman@tuxed.net> - 2.2.0-4
 - more spec cleanup
 
