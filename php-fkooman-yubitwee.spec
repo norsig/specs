@@ -4,12 +4,12 @@
 
 %global github_owner            fkooman
 %global github_name             php-yubitwee
-%global github_commit           4654fa8739b979555198ee60caba8558d00ba560
+%global github_commit           0586b91cc8469f7b6bdf4aa1744c6d202bb5c86d
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.1%{?dist}
+Release:    0.2%{?dist}
 Summary:    YubiKey Validator
 
 Group:      System Environment/Libraries
@@ -76,5 +76,8 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Tue Jan 17 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
+- rebuilt
+
 * Tue Jan 03 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
 - initial package
