@@ -4,11 +4,11 @@
 
 %global github_owner            fkooman
 %global github_name             php-oauth2-client
-%global github_commit           855fd565d297fc5c06070877dcc0039f4ee075d9
+%global github_commit           e2e651a9bad3a92949d149953baeddc3f4113a25
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
-Version:    4.0.0
+Version:    4.0.1
 Release:    1%{?dist}
 Summary:    Very simple OAuth 2.0 client
 
@@ -73,6 +73,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Thu Jan 19 2017 François Kooman <fkooman@tuxed.net> - 4.0.1-1
+- update to 4.0.1
+
 * Wed Jan 04 2017 François Kooman <fkooman@tuxed.net> - 4.0.0-1
 - update to 4.0.0
 
