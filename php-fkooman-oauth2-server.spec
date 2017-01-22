@@ -4,12 +4,12 @@
 
 %global github_owner            fkooman
 %global github_name             php-oauth2-server
-%global github_commit           c5497c1145f35e121b7f7272f9d1a19ec8dafd6a
+%global github_commit           5cef7dc282e2203755ad8febcf36189309070e9d
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.2%{?dist}
+Release:    0.4%{?dist}
 Summary:    Very simple OAuth 2.0 server
 
 Group:      System Environment/Libraries
@@ -82,6 +82,12 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Sun Jan 22 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.4
+- rebuilt
+
+* Fri Jan 20 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.3
+- rebuilt
+
 * Fri Jan 20 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
 - rebuilt
 
