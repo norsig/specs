@@ -4,12 +4,12 @@
 
 %global github_owner            fkooman
 %global github_name             php-oauth2-server
-%global github_commit           804ad67a4a64e3e3b993c263c4634e02613d7072
+%global github_commit           27458ec96d283709db1e88ce62b42d03c9b580b2
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.12%{?dist}
+Release:    0.13%{?dist}
 Summary:    Very simple OAuth 2.0 server
 
 Group:      System Environment/Libraries
@@ -28,8 +28,6 @@ BuildRequires:  php-json
 BuildRequires:  php-pcre
 BuildRequires:  php-pdo
 BuildRequires:  php-standard
-BuildRequires:  php-composer(paragonie/random_compat)
-BuildRequires:  php-composer(symfony/polyfill-php56)
 BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  %{_bindir}/phpunit
 
@@ -41,8 +39,6 @@ Requires:   php-json
 Requires:   php-pcre
 Requires:   php-pdo
 Requires:   php-standard
-Requires:   php-composer(paragonie/random_compat)
-Requires:   php-composer(symfony/polyfill-php56)
 Requires:   php-composer(fedora/autoloader)
 
 Provides:   php-composer(%{composer_vendor}/%{composer_project}) = %{version}
@@ -61,10 +57,6 @@ cat <<'AUTOLOAD' | tee src/autoload.php
 require_once '%{_datadir}/php/Fedora/Autoloader/autoload.php';
 
 \Fedora\Autoloader\Autoload::addPsr4('fkooman\\OAuth\\Server\\', __DIR__);
-\Fedora\Autoloader\Dependencies::required(array(
-    '%{_datadir}/php/random_compat/autoload.php',
-    '%{_datadir}/php/Symfony/Polyfill/autoload.php',
-));
 AUTOLOAD
 
 %install
@@ -82,6 +74,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Wed Jan 25 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.13
+- rebuilt
+
 * Wed Jan 25 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.12
 - rebuilt
 
