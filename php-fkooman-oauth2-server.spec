@@ -4,12 +4,12 @@
 
 %global github_owner            fkooman
 %global github_name             php-oauth2-server
-%global github_commit           dabdaf7288841c406c2ff25f78b6e8757a010e33
+%global github_commit           804ad67a4a64e3e3b993c263c4634e02613d7072
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       php-%{composer_vendor}-%{composer_project}
 Version:    1.0.0
-Release:    0.11%{?dist}
+Release:    0.12%{?dist}
 Summary:    Very simple OAuth 2.0 server
 
 Group:      System Environment/Libraries
@@ -21,6 +21,7 @@ Source0:    %{url}/archive/%{github_commit}/%{name}-%{version}-%{github_short}.t
 BuildArch:  noarch
 
 BuildRequires:  php(language) >= 5.4.0
+BuildRequires:  php-libsodium
 BuildRequires:  php-date
 BuildRequires:  php-hash
 BuildRequires:  php-json
@@ -33,6 +34,7 @@ BuildRequires:  php-composer(fedora/autoloader)
 BuildRequires:  %{_bindir}/phpunit
 
 Requires:   php(language) >= 5.4.0
+Requires:   php-libsodium
 Requires:   php-date
 Requires:   php-hash
 Requires:   php-json
@@ -80,6 +82,9 @@ phpunit --bootstrap=%{buildroot}/%{_datadir}/php/%{composer_namespace}/autoload.
 %license LICENSE
 
 %changelog
+* Wed Jan 25 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.12
+- rebuilt
+
 * Wed Jan 25 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.11
 - rebuilt
 
