@@ -9,7 +9,7 @@
 
 Name:       vpn-token-server
 Version:    1.0.0
-Release:    0.1%{?dist}
+Release:    0.2%{?dist}
 Summary:    VPN Token Server
 
 Group:      Applications/Internet
@@ -124,5 +124,5 @@ fi
 %license LICENSE
 
 %changelog
-* Thu Dec 15 2016 François Kooman <fkooman@tuxed.net> - 1.0.0-0.1
-- rebuilt
+* Wed Jan 25 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.2
+- initial package
