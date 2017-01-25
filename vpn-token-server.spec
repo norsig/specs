@@ -4,12 +4,12 @@
 
 %global github_owner            eduvpn
 %global github_name             vpn-token-server
-%global github_commit           288169c0553963ab309aeb123ab91a2ad19ba2b6
+%global github_commit           be22ee68d78e82df336e05fef0f6a923574680d3
 %global github_short            %(c=%{github_commit}; echo ${c:0:7})
 
 Name:       vpn-token-server
 Version:    1.0.0
-Release:    0.3%{?dist}
+Release:    0.4%{?dist}
 Summary:    VPN Token Server
 
 Group:      Applications/Internet
@@ -124,6 +124,9 @@ fi
 %license LICENSE
 
 %changelog
+* Wed Jan 25 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.4
+- rebuilt
+
 * Wed Jan 25 2017 François Kooman <fkooman@tuxed.net> - 1.0.0-0.3
 - rebuilt
 
